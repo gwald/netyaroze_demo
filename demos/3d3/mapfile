@@ -1,0 +1,862 @@
+symusr.o needed due to GetPadBuf
+startup.o needed due to exit
+stdef1.o needed due to _sys_ramsize
+stdef2.o needed due to _sys_init_stacksize
+stdef3.o needed due to _sys_init_sp
+stdef4.o needed due to _sys_init_fp
+stdef5.o needed due to _sys_init_gp
+stdef6.o needed due to _sys_init_heapbase
+stdef7.o needed due to _sys_init_heapsize
+stdef8.o needed due to _sys_init_bss_flag
+Allocating common WaveSprite: 24 at 0 main.o
+Allocating common ViewDistanceFromOrigin: 4 at 0 main.o
+Allocating common TheLights: 30 at 30 main.o
+Allocating common ViewMoveTime: 4 at 4 main.o
+Allocating common AllStrings: 5a0 at 0 text_str.o
+Allocating common NumberOfStrings: 4 at 0 text_str.o
+Allocating common PurpleNoiseTextureInfo: 1c at 60 main.o
+Allocating common ViewCoords: 50 at 80 main.o
+Allocating common FireSprite: 24 at d0 main.o
+Allocating common CurrentTMDStackAddress: 4 at 8 main.o
+Allocating common MultipleSprite: 24 at 100 main.o
+Allocating common bb0: 4 at 0 pad.o
+Allocating common NumberOfCreatedTMDs: 4 at c main.o
+Allocating common GreenCircleTextureInfo: 1c at 130 main.o
+Allocating common MascotsTextureInfo: 1c at 150 main.o
+Allocating common TheView: 20 at 170 main.o
+Allocating common OrangeTileTextureInfo: 1c at 190 main.o
+Allocating common ThePolygons: 1b000 at 1b0 main.o
+Allocating common onlyNthBitOffMask: 4 at 0 object.o
+Allocating common StarsTextureInfo: 1c at 1b1b0 main.o
+Allocating common GreenCircleSprite: 24 at 1b1d0 main.o
+Allocating common bb1: 4 at 4 pad.o
+Allocating common onlyNthBitOn: 4 at 4 object.o
+Allocating common OrangeTileSprite: 24 at 1b200 main.o
+Allocating common StarsSprite: 24 at 1b230 main.o
+Allocating common ViewMoveStartFrame: 4 at 10 main.o
+Allocating common NumberSprites: 168 at 5a0 text_str.o
+Allocating common ViewMoveFlag: 4 at 14 main.o
+Allocating common MascotsSprite: 24 at 1b260 main.o
+Allocating common OverallLightMode: 4 at 18 main.o
+Allocating common ProjectionDistance: 4 at 1c main.o
+Allocating common MiniObjectArray: 2000 at 0 object.o
+Allocating common AsciiTextureInfo: 1c at 710 text_str.o
+Allocating common TheCubes: 1590 at 1b290 main.o
+Allocating common TheFogging: c at 1c820 main.o
+Allocating common OutsideCube: 548 at 1c830 main.o
+Allocating common ObjectArray: 400 at 2000 object.o
+Allocating common MultipleTextureInfo: 1c at 1cd80 main.o
+Allocating common PreviousViewCoords: 50 at 1cda0 main.o
+Allocating common WaveTextureInfo: 1c at 1cdf0 main.o
+Allocating common InsideCube: 548 at 1ce10 main.o
+Allocating common LetterSprites: 3a8 at 730 text_str.o
+Allocating common PurpleNoiseSprite: 24 at 1d360 main.o
+Allocating common FireTextureInfo: 1c at 1d390 main.o
+**FILES**
+
+  pad.o
+00000000 00000060 2** 4d .text
+00000000 00000000 2** 4d .data
+00000000 00000000 2** 4d .bss
+00000010 00000008 2** 4d .scommon
+
+  rand.o
+00000060 00000050 2** 4d .text
+00000000 00000010 2** 4d .rdata
+00000000 00000000 2** 4d .data
+00000000 00000000 2** 4d .bss
+
+  2d1.o
+000000b0 00000530 2** 4d .text
+00000010 00000160 2** 4d .rdata
+00000000 00000000 2** 4d .data
+00000000 00000010 2** 4d .sdata
+00000000 00000000 2** 4d .bss
+
+  text_str.o
+000005e0 000004e0 2** 4d .text
+00000170 00000130 2** 4d .rdata
+00000000 00000000 2** 4d .data
+00000000 00000000 2** 4d .bss
+00019390 00000ad8 2** 4d COMMON
+00000020 00000004 2** 4d .scommon
+
+  sound.o
+00000ac0 00000020 2** 4d .text
+00000000 00000000 2** 4d .data
+00000000 00000010 2** 4d .sbss
+00000000 00000360 2** 4d .bss
+
+  tmd.o
+00000ae0 00000660 2** 4d .text
+000002a0 000000f0 2** 4d .rdata
+00000000 00000000 2** 4d .data
+00000010 00000010 2** 4d .sdata
+00000360 00000000 2** 4d .bss
+
+  object.o
+00001140 00000a70 2** 4d .text
+00000390 000002f0 2** 4d .rdata
+00000000 00000000 2** 4d .data
+00000360 00000000 2** 4d .bss
+00019e70 00002400 2** 4d COMMON
+00000030 00000008 2** 4d .scommon
+
+  sincos.o
+00001bb0 00000200 2** 4d .text
+00000680 00000010 2** 4d .rdata
+00000000 00000810 2** 4d .data
+00000360 00000000 2** 4d .bss
+
+  main.o
+00001db0 00003450 2** 4d .text
+00000690 00000850 2** 4d .rdata
+00000810 00000000 2** 4d .data
+00000020 00000030 2** 4d .sdata
+00000360 00019030 2** 4d .bss
+0001c270 0001d3ac 2** 4d COMMON
+00000040 00000020 2** 4d .scommon
+
+  symusr.o
+00005200 00000000 2** 4d .text
+00000810 00000000 2** 4d .data
+00019390 00000000 2** 4d .bss
+
+  startup.o
+00005200 000001c0 2** 4d .text
+00000810 00000150 2** 4d .data
+00019390 00000000 2** 4d .bss
+
+  stdef1.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+00000050 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef2.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+00000060 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef3.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+00000070 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef4.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+00000080 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef5.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+00000090 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef6.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+000000a0 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef7.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+000000b0 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+  stdef8.o
+000053c0 00000000 2** 4d .text
+00000960 00000000 2** 4d .data
+000000c0 00000010 2** 4d .sdata
+00019390 00000000 2** 4d .bss
+
+**GLOBAL SYMBOLS**
+
+offset    section    offset   symbol
+80045548  *ABS*      80045548 longjmp
+000000c4  .text      000000c4 CountNumberOfObjectsInTmdFile
+80043790  *ABS*      80043790 putchar
+80022524  *ABS*      80022524 GsSetLightMode
+80023bcc  *ABS*      80023bcc GsScaleScreen
+80015124  *ABS*      80015124 SsSeqSetRitardando
+80043cb0  *ABS*      80043cb0 strcpy
+000001ac  .text      000001ac __main
+00000000  .text      00000000 rsin_sub
+8002632c  *ABS*      8002632c KanjiFntOpen
+8001b0f4  *ABS*      8001b0f4 SsUtGetVVol
+00000000  .data      00000210 SinCosTable
+80040274  *ABS*      80040274 log
+80043314  *ABS*      80043314 bcmp
+800411cc  *ABS*      800411cc sqrt
+00000018  .text      00000018 CleanUpSound
+8004550c  *ABS*      8004550c setjmp
+8004100c  *ABS*      8004100c cosh
+8002663c  *ABS*      8002663c KanjiFntClose
+8003e854  *ABS*      8003e854 __eqdf2
+80027cb0  *ABS*      80027cb0 ResetGraph
+80027404  *ABS*      80027404 GetTPage
+80021920  *ABS*      80021920 GsSwapDispBuff
+00000330  .text      00000330 KillAnObject
+80042fe8  *ABS*      80042fe8 delete
+8001ad88  *ABS*      8001ad88 SsUtPitchBend
+80044518  *ABS*      80044518 printf
+801462a0  *ABS*      801462a0 _fdata
+80042df8  *ABS*      80042df8 LoadTest
+8004133c  *ABS*      8004133c sprintf2
+80042e18  *ABS*      80042e18 Exec
+80043120  *ABS*      80043120 StartRCnt
+8003fb64  *ABS*      8003fb64 __divsf3
+8002d718  *ABS*      8002d718 SetLightMatrix
+80043008  *ABS*      80043008 _get_errno
+800225b0  *ABS*      800225b0 GsSetFogParam
+00002dec  .text      00002dec PrintCubeInfo
+800137e8  *ABS*      800137e8 SsIsEos
+80021ac0  *ABS*      80021ac0 GsSetLightMatrix
+000001e4  .text      000001e4 DisplayTextStrings
+00000674  .text      00000674 SortObjectSize
+800436cc  *ABS*      800436cc memmove
+00000000  COMMON     00000000 WaveSprite
+00000000  .scommon   00000000 ViewDistanceFromOrigin
+00000000  .text      00000000 InitialiseSound
+00000030  COMMON     00000030 TheLights
+00000000  .text      80140000 eprol
+80022600  *ABS*      80022600 GsSetAmbient
+8001a33c  *ABS*      8001a33c SsUtKeyOn
+000000d0  .text      000000d0 rcos
+8003ea84  *ABS*      8003ea84 __gtdf2
+800432f4  *ABS*      800432f4 atol
+800133fc  *ABS*      800133fc SsSeqSetNext
+8004ea28  *ABS*      8004ea28 math_errno
+8003f5c0  *ABS*      8003f5c0 ceil
+8003bf60  *ABS*      8003bf60 CdRead
+8003f4e8  *ABS*      8003f4e8 floor
+000006c8  .text      000006c8 InitialiseView
+000053c0  .text      801453c0 _etext
+80043484  *ABS*      80043484 gets
+8004543c  *ABS*      8004543c bsearch
+8014ec00  *ABS*      8014ec00 _gp
+00002bec  .text      00002bec GetNextFreePolygon
+00000004  .scommon   00000004 ViewMoveTime
+8002a9fc  *ABS*      8002a9fc Krom2RawAdd2
+000002d0  .text      000002d0 GetSpriteForCharacter
+80043ab4  *ABS*      80043ab4 qsort
+8002154c  *ABS*      8002154c GsSetDrawBuffOffset
+000004c4  .text      000004c4 GetTexturePageOfRectangle
+80042fa8  *ABS*      80042fa8 format
+000007c4  .text      000007c4 InitialiseMiniObjectClass
+800412fc  *ABS*      800412fc printf2
+800235d8  *ABS*      800235d8 GsGetLs
+80043420  *ABS*      80043420 getc
+8002d528  *ABS*      8002d528 ApplyMatrixSV
+80043698  *ABS*      80043698 memcpy
+00000eb0  .text      00000eb0 HandleAllObjects
+00000024  .text      00000024 FindNextLowestObjectID
+00000000  COMMON     00000000 AllStrings
+80063e30  *ABS*      80063e30 GsLIGHTWSMATRIX
+8003e8a4  *ABS*      8003e8a4 __floatsidf
+8003eb60  *ABS*      8003eb60 __ltdf2
+00000fa0  .text      00000fa0 HandleACube
+00000000  .scommon   00000000 NumberOfStrings
+00000910  .text      00000910 FindNextUnusedMiniObjectID
+80014f3c  *ABS*      80014f3c SsSeqReplay
+8001a6e0  *ABS*      8001a6e0 SsUtKeyOff
+80042860  *ABS*      80042860 _err_math
+800433f0  *ABS*      800433f0 tolower
+8002d134  *ABS*      8002d134 PopMatrix
+00000098  .text      00000098 ProperInitialiseTexture
+80010754  *ABS*      80010754 malloc
+80040088  *ABS*      80040088 ldexp
+80020f3c  *ABS*      80020f3c GsInitGraph
+80146cd0  *ABS*      80146cd0 edata
+800153c4  *ABS*      800153c4 SsSeqStop
+80010ea0  *ABS*      80010ea0 SsSetMute
+00002180  .text      00002180 SortVertices
+000006b0  .text      000006b0 SetObjectSubdivision
+00001d90  .text      00001d90 CreateTheCubesPolygons
+800203b4  *ABS*      800203b4 GsSortLine
+80044368  *ABS*      80044368 strtoul
+80042fc8  *ABS*      80042fc8 nextfile
+80028724  *ABS*      80028724 PutDrawEnv
+80028374  *ABS*      80028374 LoadImage
+000000e0  .text      000000e0 FindNextUnusedObjectID
+00000000  .sdata     00000000 _sys_init_stacksize
+8003c388  *ABS*      8003c388 CdPlay
+80010cb4  *ABS*      80010cb4 SsGetMVol
+00000060  COMMON     00000060 PurpleNoiseTextureInfo
+00000010  .text      00000010 TurnOnSound
+80010ee0  *ABS*      80010ee0 SsSetMVol
+80016310  *ABS*      80016310 SsUtGetReverbType
+0000031c  .text      0000031c Get32TPageNumber
+80063f0c  *ABS*      80063f0c GsIDMATRIX
+8003fcb0  *ABS*      8003fcb0 __extendsfdf2
+00000028  .text      00000028 PadRead
+8003df74  *ABS*      8003df74 __adddf3
+00000080  COMMON     00000080 ViewCoords
+000000d0  COMMON     000000d0 FireSprite
+80063f2c  *ABS*      80063f2c GsLSMATRIX
+00000008  .scommon   00000008 CurrentTMDStackAddress
+80042f68  *ABS*      80042f68 lseek
+00000950  .text      00000950 SetMiniObjectSubdivision
+80021f70  *ABS*      80021f70 GsSetProjection
+80043394  *ABS*      80043394 bzero
+00000100  COMMON     00000100 MultipleSprite
+800288fc  *ABS*      800288fc PutDispEnv
+00000000  .text      00000000 LinkObjectHandlerToSingleTMD
+80021e80  *ABS*      80021e80 GsInit3D
+80062d08  *ABS*      80062d08 PSDOFSY
+800441a4  *ABS*      800441a4 strtol
+00000000  .scommon   00000000 bb0
+00000554  .text      00000554 AssignVerticesNormalsAndUVs
+80042f28  *ABS*      80042f28 EnterCriticalSection
+80010d34  *ABS*      80010d34 SsGetSerialAttr
+80065954  *ABS*      80065954 GsLIGHT_MODE
+00001630  .text      00001630 SortSpriteObjectPosition
+80022a70  *ABS*      80022a70 GsGetWorkBase
+80010fc4  *ABS*      80010fc4 SsSetSerialVol
+8001f7e0  *ABS*      8001f7e0 GsInitFixBg16
+80042fd8  *ABS*      80042fd8 rename
+00000880  .text      00000880 CreateMoreLittleCubesAroundLargerOne
+80043f68  *ABS*      80043f68 strrchr
+800219d0  *ABS*      800219d0 GsSetOrign
+0000000c  .scommon   0000000c NumberOfCreatedTMDs
+00000130  COMMON     00000130 GreenCircleTextureInfo
+0000126c  .text      0000126c RotateCoordinateSystem
+8003f3e8  *ABS*      8003f3e8 __fixdfsi
+800109f0  *ABS*      800109f0 calloc
+80026a2c  *ABS*      80026a2c KanjiFntPrint
+800428e8  *ABS*      800428e8 strtod
+80021ef8  *ABS*      80021ef8 GsMapModelingData
+80022b44  *ABS*      80022b44 GsSetRefView2
+80063f74  *ABS*      80063f74 GsIDMATRIX2
+80042f88  *ABS*      80042f88 write
+000004d0  .text      000004d0 InitSingleObject
+800661e0  *ABS*      800661e0 PSDCNT
+800428c8  *ABS*      800428c8 atof
+000011d4  .text      000011d4 UpdateObjectCoordinates2
+8004096c  *ABS*      8004096c __ledf2
+80043b70  *ABS*      80043b70 strcat
+00000000  .text      00000000 InitialiseTextStrings
+00000310  .text      00000310 BringObjectToLife
+80062d04  *ABS*      80062d04 PSDOFSX
+00000150  COMMON     00000150 MascotsTextureInfo
+00000000  .sdata     00000000 _sys_init_fp
+8018034c  *ABS*      8018034c end
+80025320  *ABS*      80025320 FntOpen
+80023e58  *ABS*      80023e58 GsSortObject4
+00000170  COMMON     00000170 TheView
+80040554  *ABS*      80040554 modf
+00000190  COMMON     00000190 OrangeTileTextureInfo
+00002fcc  .text      00002fcc StartViewMove
+8001626c  *ABS*      8001626c SsUtSetReverbType
+800405fc  *ABS*      800405fc fmod
+80040d9c  *ABS*      80040d9c cos
+800283d8  *ABS*      800283d8 StoreImage
+8003d72c  *ABS*      8003d72c SetVideoMode
+8002843c  *ABS*      8002843c MoveImage
+8004107c  *ABS*      8004107c tanh
+0000049c  .text      0000049c AssignVerticesAndNormal
+000053c0  .text      801453c0 etext
+800435fc  *ABS*      800435fc memchr
+00000000  .sdata     00000000 _sys_init_bss_flag
+000003dc  .text      000003dc FindTopLeftOfTexturePage
+800151bc  *ABS*      800151bc SsSeqSetVol
+80020628  *ABS*      80020628 GsSortBoxFill
+00000000  .text      80140000 _ftext
+00000000  .text      00000000 _start
+80021de0  *ABS*      80021de0 GsDefDispBuff
+80044018  *ABS*      80044018 strstr
+80023314  *ABS*      80023314 GsGetLw
+00000460  .text      00000460 GetTexturePage
+80040cc4  *ABS*      80040cc4 sin
+80043b30  *ABS*      80043b30 rand
+00000280  .text      00000280 LinkAllObjectsToTheirCoordinateSystems
+8003d960  *ABS*      8003d960 atan2
+000001b0  COMMON     000001b0 ThePolygons
+80042f78  *ABS*      80042f78 read
+00002d58  .text      00002d58 ClearTheCreatedTmds
+80043e00  *ABS*      80043e00 strncmp
+00000000  .scommon   00000000 onlyNthBitOffMask
+00000000  .sdata     00000000 _sys_init_sp
+0001b1b0  COMMON     0001b1b0 StarsTextureInfo
+80040740  *ABS*      80040740 pow
+80043e80  *ABS*      80043e80 strncpy
+80040ed4  *ABS*      80040ed4 sinh
+00003338  .text      00003338 VerifyAndFixProperRotation
+0000000c  .sdata     00003cac frameNumber
+80026f04  *ABS*      80026f04 Krom2Tim
+800404bc  *ABS*      800404bc log10
+0001b1d0  COMMON     0001b1d0 GreenCircleSprite
+00000160  .text      00000160 LinkSpriteToImageInfo
+80042e28  *ABS*      80042e28 FlushCache
+80063f4c  *ABS*      80063f4c GsWSMATRIX
+8001095c  *ABS*      8001095c realloc
+8002d4d8  *ABS*      8002d4d8 ApplyMatrix
+8002527c  *ABS*      8002527c FntLoad
+00000344  .text      00000344 InitialiseAll
+800217e8  *ABS*      800217e8 GsSetClip
+80021f90  *ABS*      80021f90 GsSetFlatLight
+80043360  *ABS*      80043360 bcopy
+00000384  .text      00000384 RegisterTextStringForDisplay
+80044090  *ABS*      80044090 strtok
+8003f108  *ABS*      8003f108 __negdf2
+00000004  .scommon   00000004 bb1
+00000004  .scommon   00000004 onlyNthBitOn
+8004364c  *ABS*      8004364c memcmp
+00000000  .sdata     00000000 _sys_init_heapbase
+0001b200  COMMON     0001b200 OrangeTileSprite
+800231b0  *ABS*      800231b0 GsSetView2
+80043188  *ABS*      80043188 ResetRCnt
+8003e468  *ABS*      8003e468 __divdf3
+80043d8c  *ABS*      80043d8c strncat
+8002e4c8  *ABS*      8002e4c8 RotMatrixZ
+000001b4  .text      000001b4 quickCos
+800280b0  *ABS*      800280b0 SetDispMask
+8003e3a0  *ABS*      8003e3a0 _dbl_shift
+0001b230  COMMON     0001b230 StarsSprite
+80013654  *ABS*      80013654 SsSetTempo
+8003c068  *ABS*      8003c068 CdReadSync
+8003ecb4  *ABS*      8003ecb4 __muldf3
+800139d4  *ABS*      800139d4 SsSeqClose
+80042f38  *ABS*      80042f38 ExitCriticalSection
+00000094  .text      00000094 rsin
+80062d0c  *ABS*      80062d0c GsLIOFF
+00000000  .text      00000000 PadInit
+0000139c  .text      0000139c CopyMatrix
+80014c10  *ABS*      80014c10 SsSeqPause
+00000b44  .text      00000b44 CleanupAndExit
+8002cf70  *ABS*      8002cf70 ScaleMatrixL
+8001012c  *ABS*      8001012c TestCard
+8003c14c  *ABS*      8003c14c CdReadFile
+00000010  .scommon   00000010 ViewMoveStartFrame
+80020520  *ABS*      80020520 GsSortGLine
+000007e8  .text      000007e8 InitMiniObject
+80016340  *ABS*      80016340 SsUtReverbOff
+800216f0  *ABS*      800216f0 GsSetOffset
+00000000  .text      00000000 InitialiseObjectClass
+80043738  *ABS*      80043738 memset
+00000000  .text      00000000 main
+800430e8  *ABS*      800430e8 GetRCnt
+00000378  .text      00000378 CreateSimpleTMD
+00000828  .text      00000828 RegisterMiniObjectIntoMiniObjectArray
+000005a0  COMMON     000005a0 NumberSprites
+80043b60  *ABS*      80043b60 srand
+00000014  .scommon   00000014 ViewMoveFlag
+8002cde0  *ABS*      8002cde0 ApplyMatrixLV
+80043450  *ABS*      80043450 getchar
+8003ff54  *ABS*      8003ff54 __truncdfsf2
+80063eb0  *ABS*      80063eb0 GsDISPENV
+8002665c  *ABS*      8002665c KanjiFntFlush
+00000420  .text      00000420 RemoveObjectFromObjectArray
+000002c8  .text      000002c8 InitGsSprite
+800282e0  *ABS*      800282e0 ClearImage
+0001b260  COMMON     0001b260 MascotsSprite
+00000008  .text      00000008 HandleSound
+80014d64  *ABS*      80014d64 SsSeqPlay
+00001b80  .text      00001b80 SortCubeTextureAreas
+8002153c  *ABS*      8002153c GsGetActiveBuff
+00000000  .text      00000000 InitialiseTexture
+000001d0  .text      000001d0 LinkAllObjectsToModelsOrSprites
+8003f1c4  *ABS*      8003f1c4 exp
+80043764  *ABS*      80043764 putc
+00000018  .scommon   00000018 OverallLightMode
+8003fe10  *ABS*      8003fe10 __mulsf3
+800226a4  *ABS*      800226a4 GsSortOt
+80043c4c  *ABS*      80043c4c strcmp
+00001340  .text      00001340 CopyCoordinateSystem
+8003b198  *ABS*      8003b198 CdSearchFile
+0000001c  .scommon   0000001c ProjectionDistance
+000018f0  .text      000018f0 StoreScreen
+80040c3c  *ABS*      80040c3c tan
+80063e54  *ABS*      80063e54 GsDRAWENV
+80022a60  *ABS*      80022a60 GsSetWorkBase
+00000000  .sdata     00000000 _sys_ramsize
+800258fc  *ABS*      800258fc FntPrint
+800238ac  *ABS*      800238ac GsGetLws
+8003f0b8  *ABS*      8003f0b8 __nedf2
+8003c2b4  *ABS*      8003c2b4 CdReadExec
+80016438  *ABS*      80016438 SsUtSetReverbDelay
+8001f4b8  *ABS*      8001f4b8 GsSortFixBg16
+00000008  .sdata     00003ca8 QuitFlag
+8003d754  *ABS*      8003d754 atan
+80044be0  *ABS*      80044be0 sprintf
+00000000  COMMON     00000000 MiniObjectArray
+80043cf4  *ABS*      80043cf4 strcspn
+8003dbf8  *ABS*      8003dbf8 asin
+8003ccdc  *ABS*      8003ccdc VSyncCallback
+00000000  .sdata     00003ca0 ScreenWidth
+80063d40  *ABS*      80063d40 GsOUT_PACKET_P
+80010700  *ABS*      80010700 InitHeap
+80016360  *ABS*      80016360 SsUtSetReverbFeedback
+8002264c  *ABS*      8002264c GsClearOt
+8002c898  *ABS*      8002c898 CompMatrix
+8002814c  *ABS*      8002814c DrawSync
+000000f0  .text      000000f0 makeTMD_F_4T
+00000710  COMMON     00000710 AsciiTextureInfo
+00001994  .text      00001994 CreateCube
+800219e8  *ABS*      800219e8 GsInitCoordinate2
+8002297c  *ABS*      8002297c GsGetTimInfo
+80022628  *ABS*      80022628 GsDrawOt
+800208c4  *ABS*      800208c4 GsSortSprite
+8003ca68  *ABS*      8003ca68 VSync
+800100c8  *ABS*      800100c8 GetPadBuf
+0001b290  COMMON     0001b290 TheCubes
+8002def8  *ABS*      8002def8 RotMatrix
+80062d10  *ABS*      80062d10 GsLMODE
+80021868  *ABS*      80021868 GsSetClip2D
+8003d744  *ABS*      8003d744 GetVideoMode
+800255d8  *ABS*      800255d8 FntFlush
+00000000  .sdata     00000000 _sys_init_gp
+00000338  .text      00000338 RegisterObjectIntoObjectArray
+80021400  *ABS*      80021400 GsSortClear
+00002b10  .text      00002b10 DrawCube
+80146cd0  *ABS*      80146cd0 _edata
+0001c820  COMMON     0001c820 TheFogging
+8002d5b8  *ABS*      8002d5b8 ScaleMatrix
+00000120  .text      00000120 CountNumberOfLivingObjects
+8018034c  *ABS*      8018034c _end
+8002d094  *ABS*      8002d094 PushMatrix
+800661e4  *ABS*      800661e4 PSDIDX
+8002c9f8  *ABS*      8002c9f8 MulMatrix0
+800658c8  *ABS*      800658c8 GsTON
+80062d14  *ABS*      80062d14 GsLIGNR
+80042ff8  *ABS*      80042ff8 Krom2RawAdd
+0001c830  COMMON     0001c830 OutsideCube
+80063f9c  *ABS*      80063f9c CLIP2
+80010c90  *ABS*      80010c90 SsGetMute
+0000078c  .text      0000078c InitialiseObjects
+00002000  COMMON     00002000 ObjectArray
+8002d588  *ABS*      8002d588 TransMatrix
+00000080  .text      00000080 FindNextHighestObjectID
+000018f8  .text      000018f8 InitCube
+8002d2b8  *ABS*      8002d2b8 MulMatrix
+8002c778  *ABS*      8002c778 gteMIMefunc
+0000019c  .text      0000019c exit
+00000174  .text      00000174 quickSin
+80015d94  *ABS*      80015d94 SsVabTransfer
+00001460  .text      00001460 ExpressSubPointInSuper
+800155f4  *ABS*      800155f4 SsVabClose
+0000065c  .text      0000065c SetObjectScaling
+800113e8  *ABS*      800113e8 SsSeqOpen
+80016320  *ABS*      80016320 SsUtReverbOn
+80020dc0  *ABS*      80020dc0 GsSortFastSprite
+800431c0  *ABS*      800431c0 atoi
+8001b2b4  *ABS*      8001b2b4 SsUtAllKeyOff
+80010f30  *ABS*      80010f30 SsSetSerialAttr
+80063da8  *ABS*      80063da8 GsDISPON
+0001cd80  COMMON     0001cd80 MultipleTextureInfo
+80042fb8  *ABS*      80042fb8 firstfile
+00001548  .text      00001548 ExpressSuperPointInSub
+0001cda0  COMMON     0001cda0 PreviousViewCoords
+80043fb0  *ABS*      80043fb0 strspn
+8001b180  *ABS*      8001b180 SsUtSetVVol
+80042e08  *ABS*      80042e08 Load
+80043d5c  *ABS*      80043d5c strlen
+80015224  *ABS*      80015224 SsSeqGetVol
+80042f58  *ABS*      80042f58 open
+800135f4  *ABS*      800135f4 SsSeqSetAccelerando
+800433c0  *ABS*      800433c0 toupper
+8003e9a8  *ABS*      8003e9a8 __gedf2
+8002e188  *ABS*      8002e188 RotMatrixX
+8002dea8  *ABS*      8002dea8 TransposeMatrix
+80014dd4  *ABS*      80014dd4 SsPlayBack
+8001ae18  *ABS*      8001ae18 SsUtChangePitch
+80043c18  *ABS*      80043c18 strchr
+00000000  .sdata     00000000 _sys_init_heapsize
+0001cdf0  COMMON     0001cdf0 WaveTextureInfo
+800274cc  *ABS*      800274cc GetClut
+0001ce10  COMMON     0001ce10 InsideCube
+00000004  .sdata     00003ca4 ScreenHeight
+8003dd7c  *ABS*      8003dd7c acos
+80021660  *ABS*      80021660 GsSetDrawBuffClip
+00002c3c  .text      00002c3c CreateAnotherPolygonTMD
+8003f7a0  *ABS*      8003f7a0 hypot
+000030ac  .text      000030ac HandleTheView
+00000730  COMMON     00000730 LetterSprites
+8003f140  *ABS*      8003f140 __subdf3
+80023cf4  *ABS*      80023cf4 GsLinkObject4
+00000590  .text      00000590 InitialiseLighting
+80146cd0  *ABS*      80146cd0 _fbss
+8002e328  *ABS*      8002e328 RotMatrixY
+80010dcc  *ABS*      80010dcc SsGetSerialVol
+0001d360  COMMON     0001d360 PurpleNoiseSprite
+00000044  .text      00000044 LinkObjectHandlerToTmdObject
+80042f98  *ABS*      80042f98 close
+8004014c  *ABS*      8004014c frexp
+8003f9bc  *ABS*      8003f9bc __addsf3
+00000000  .text      00000000 InitialiseRandomNumbers
+0001d390  COMMON     0001d390 FireTextureInfo
+80066274  *ABS*      80066274 GsNDIV
+00000a54  .text      00000a54 InitialiseCubes
+00000b74  .text      00000b74 DealWithControllerPad
+80063d3c  *ABS*      80063d3c POSITION
+80043ef8  *ABS*      80043ef8 strpbrk
+80010924  *ABS*      80010924 free
+00000170  .text      00000170 CountNumberOfLivingTypedObjects
+00001044  .text      00001044 UpdateObjectCoordinates
+80021a90  *ABS*      80021a90 GsSetLsMatrix
+800163a0  *ABS*      800163a0 SsUtSetReverbDepth
+**MEMORY CONFIGURATION**
+
+name		origin   length   r_size   c_size    is    attributes
+*default*       00000000 ffffffff 00000000 8018034c ()
+
+
+**LINK EDITOR MEMORY MAP**
+
+output   input     virtual
+section  section   address    tsize
+
+
+*ABS*             00000000     0     0 2**0 
+LOAD c:/blackpsx/lib/libps.a
+address
+LOAD pad.o
+LOAD rand.o
+LOAD 2d1.o
+LOAD text_str.o
+LOAD sound.o
+LOAD tmd.o
+LOAD object.o
+LOAD sincos.o
+LOAD main.o
+LOAD c:/blackpsx/lib/libps.a
+                  00000000 80100000 . =80100000
+
+.text             80140000  53c0     0 2**4 load alloc reloc contents 
+                  80140000 00000000 _ftext =.
+ from *(.init)
+                  80140000 00000000 eprol =.
+ from *(.text)
+         .text    80140000    60    60 2**4  ecoff-littlemips pad.o(overhead 4056 bytes)
+                  80140028              PadRead
+                  80140000              PadInit
+         .text    80140060    50    50 2**4  ecoff-littlemips rand.o(overhead 4056 bytes)
+                  80140060              InitialiseRandomNumbers
+         .text    801400b0   530   530 2**4  ecoff-littlemips 2d1.o(overhead 4056 bytes)
+                  80140574              GetTexturePageOfRectangle
+                  80140148              ProperInitialiseTexture
+                  801403cc              Get32TPageNumber
+                  8014048c              FindTopLeftOfTexturePage
+                  80140510              GetTexturePage
+                  80140210              LinkSpriteToImageInfo
+                  80140378              InitGsSprite
+                  801400b0              InitialiseTexture
+         .text    801405e0   4e0   4e0 2**4  ecoff-littlemips text_str.o(overhead 4056 bytes)
+                  801407c4              DisplayTextStrings
+                  801408b0              GetSpriteForCharacter
+                  801405e0              InitialiseTextStrings
+                  80140964              RegisterTextStringForDisplay
+         .text    80140ac0    20    20 2**4  ecoff-littlemips sound.o(overhead 4056 bytes)
+                  80140ad8              CleanUpSound
+                  80140ac0              InitialiseSound
+                  80140ad0              TurnOnSound
+                  80140ac8              HandleSound
+         .text    80140ae0   660   660 2**4  ecoff-littlemips tmd.o(overhead 4056 bytes)
+                  80140ba4              CountNumberOfObjectsInTmdFile
+                  80140ae0              LinkObjectHandlerToSingleTMD
+                  80141034              AssignVerticesNormalsAndUVs
+                  80140f7c              AssignVerticesAndNormal
+                  80140e58              CreateSimpleTMD
+                  80140bd0              makeTMD_F_4T
+                  80140b24              LinkObjectHandlerToTmdObject
+         .text    80141140   a70   a70 2**4  ecoff-littlemips object.o(overhead 4056 bytes)
+                  80141470              KillAnObject
+                  801417b4              SortObjectSize
+                  80141904              InitialiseMiniObjectClass
+                  80141164              FindNextLowestObjectID
+                  80141a50              FindNextUnusedMiniObjectID
+                  801417f0              SetObjectSubdivision
+                  80141220              FindNextUnusedObjectID
+                  80141a90              SetMiniObjectSubdivision
+                  80141610              InitSingleObject
+                  80141450              BringObjectToLife
+                  801413c0              LinkAllObjectsToTheirCoordinateSystems
+                  80141928              InitMiniObject
+                  80141140              InitialiseObjectClass
+                  80141968              RegisterMiniObjectIntoMiniObjectArray
+                  80141560              RemoveObjectFromObjectArray
+                  80141310              LinkAllObjectsToModelsOrSprites
+                  80141478              RegisterObjectIntoObjectArray
+                  80141260              CountNumberOfLivingObjects
+                  801411c0              FindNextHighestObjectID
+                  8014179c              SetObjectScaling
+                  801412b0              CountNumberOfLivingTypedObjects
+         .text    80141bb0   200   200 2**4  ecoff-littlemips sincos.o(overhead 4056 bytes)
+                  80141bb0              rsin_sub
+                  80141c80              rcos
+                  80141d64              quickCos
+                  80141c44              rsin
+                  80141d24              quickSin
+         .text    80141db0  3450  3450 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80144b9c              PrintCubeInfo
+                  80142478              InitialiseView
+                  8014499c              GetNextFreePolygon
+                  80142c60              HandleAllObjects
+                  80142d50              HandleACube
+                  80143f30              SortVertices
+                  80143b40              CreateTheCubesPolygons
+                  801433e0              SortSpriteObjectPosition
+                  80142630              CreateMoreLittleCubesAroundLargerOne
+                  8014301c              RotateCoordinateSystem
+                  80142f84              UpdateObjectCoordinates2
+                  80144d7c              StartViewMove
+                  80144b08              ClearTheCreatedTmds
+                  801450e8              VerifyAndFixProperRotation
+                  801420f4              InitialiseAll
+                  8014314c              CopyMatrix
+                  801428f4              CleanupAndExit
+                  80141db0              main
+                  80143930              SortCubeTextureAreas
+                  801430f0              CopyCoordinateSystem
+                  801436a0              StoreScreen
+                  80143744              CreateCube
+                  801448c0              DrawCube
+                  8014253c              InitialiseObjects
+                  801436a8              InitCube
+                  80143210              ExpressSubPointInSuper
+                  801432f8              ExpressSuperPointInSub
+                  801449ec              CreateAnotherPolygonTMD
+                  80144e5c              HandleTheView
+                  80142340              InitialiseLighting
+                  80142804              InitialiseCubes
+                  80142924              DealWithControllerPad
+                  80142df4              UpdateObjectCoordinates
+         .text    80145200   1c0   1c0 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]startup.o(overhead 4056 bytes)
+                  801453ac              __main
+                  80145200              _start
+                  8014539c              exit
+                  801453c0 000053c0 PROVIDE (__runtime_reloc_start, .)
+ from *(.rel.sdata)
+                  801453c0 000053c0 PROVIDE (__runtime_reloc_stop, .)
+ from *(.fini)
+                  801453c0 000053c0 etext =.
+                  801453c0 000053c0 _etext =.
+                  801453c0 801453c0 . =.
+
+.rdata            801453c0   ee0     0 2**4 load alloc reloc contents 
+ from *(.rdata)
+         .rdata   801453c0    10    10 2**4  ecoff-littlemips rand.o(overhead 4056 bytes)
+         .rdata   801453d0   160   160 2**4  ecoff-littlemips 2d1.o(overhead 4056 bytes)
+         .rdata   80145530   130   130 2**4  ecoff-littlemips text_str.o(overhead 4056 bytes)
+         .rdata   80145660    f0    f0 2**4  ecoff-littlemips tmd.o(overhead 4056 bytes)
+         .rdata   80145750   2f0   2f0 2**4  ecoff-littlemips object.o(overhead 4056 bytes)
+         .rdata   80145a40    10    10 2**4  ecoff-littlemips sincos.o(overhead 4056 bytes)
+         .rdata   80145a50   850   850 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  801462a0 801462a0 _fdata =ALIGN(00000010)
+
+.data             801462a0   960     0 2**4 load alloc contents 
+ from *(.data)
+         .data    801462a0   810   810 2**4  ecoff-littlemips sincos.o(overhead 4056 bytes)
+                  801462a0              SinCosTable
+         .data    80146ab0   150   150 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]startup.o(overhead 4056 bytes)
+constructors:
+                  80146c00 8014ec00 _gp =(ALIGN(00000010)+00008000)
+
+.lit8    (no attached output section)
+ from *(.lit8)
+
+.lit4    (no attached output section)
+ from *(.lit4)
+
+.sdata            80146c00    d0     0 2**4 load alloc reloc contents 
+ from *(.sdata)
+         .sdata   80146c00    10    10 2**4  ecoff-littlemips 2d1.o(overhead 4056 bytes)
+         .sdata   80146c10    10    10 2**4  ecoff-littlemips tmd.o(overhead 4056 bytes)
+         .sdata   80146c20    30    30 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80146c2c              frameNumber
+                  80146c28              QuitFlag
+                  80146c20              ScreenWidth
+                  80146c24              ScreenHeight
+         .sdata   80146c50    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef1.o(overhead 4056 bytes)
+                  80146c50              _sys_ramsize
+         .sdata   80146c60    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef2.o(overhead 4056 bytes)
+                  80146c60              _sys_init_stacksize
+         .sdata   80146c70    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef3.o(overhead 4056 bytes)
+                  80146c70              _sys_init_sp
+         .sdata   80146c80    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef4.o(overhead 4056 bytes)
+                  80146c80              _sys_init_fp
+         .sdata   80146c90    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef5.o(overhead 4056 bytes)
+                  80146c90              _sys_init_gp
+         .sdata   80146ca0    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef6.o(overhead 4056 bytes)
+                  80146ca0              _sys_init_heapbase
+         .sdata   80146cb0    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef7.o(overhead 4056 bytes)
+                  80146cb0              _sys_init_heapsize
+         .sdata   80146cc0    10    10 2**4  ecoff-littlemips [c:/blackpsx/lib/libps.a]stdef8.o(overhead 4056 bytes)
+                  80146cc0              _sys_init_bss_flag
+                  80146cd0 80146cd0 edata =.
+                  80146cd0 80146cd0 _edata =.
+                  80146cd0 80146cd0 _fbss =.
+
+.sbss             80146cd0    60     0 2**4 alloc 
+ from *(.sbss)
+         .sbss    80146cd0    10    10 2**4  ecoff-littlemips sound.o(overhead 4056 bytes)
+ from *(.scommon)
+         .scommon 80146ce0     8     8 2**4  ecoff-littlemips pad.o(overhead 4056 bytes)
+                  80146ce0              bb0
+                  80146ce4              bb1
+         *fill*   80146ce8     8 0000
+         .scommon 80146cf0     4     4 2**4  ecoff-littlemips text_str.o(overhead 4056 bytes)
+                  80146cf0              NumberOfStrings
+         *fill*   80146cf4     c 0000
+         .scommon 80146d00     8     8 2**4  ecoff-littlemips object.o(overhead 4056 bytes)
+                  80146d00              onlyNthBitOffMask
+                  80146d04              onlyNthBitOn
+         *fill*   80146d08     8 0000
+         .scommon 80146d10    20    20 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80146d10              ViewDistanceFromOrigin
+                  80146d14              ViewMoveTime
+                  80146d18              CurrentTMDStackAddress
+                  80146d1c              NumberOfCreatedTMDs
+                  80146d20              ViewMoveStartFrame
+                  80146d24              ViewMoveFlag
+                  80146d28              OverallLightMode
+                  80146d2c              ProjectionDistance
+
+.bss              80146d30 3961c     0 2**4 alloc 
+ from *(.bss)
+         .bss     80146d30   360   360 2**4  ecoff-littlemips sound.o(overhead 4056 bytes)
+         .bss     80147090 19030 19030 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+ from *(COMMON)
+         COMMON   801600c0   ad8   ad8 2**4  ecoff-littlemips text_str.o(overhead 4056 bytes)
+                  801600c0              AllStrings
+                  80160660              NumberSprites
+                  801607d0              AsciiTextureInfo
+                  801607f0              LetterSprites
+         *fill*   80160b98     8 0000
+         COMMON   80160ba0  2400  2400 2**4  ecoff-littlemips object.o(overhead 4056 bytes)
+                  80160ba0              MiniObjectArray
+                  80162ba0              ObjectArray
+         COMMON   80162fa0 1d3ac 1d3ac 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80162fa0              WaveSprite
+                  80162fd0              TheLights
+                  80163000              PurpleNoiseTextureInfo
+                  80163020              ViewCoords
+                  80163070              FireSprite
+                  801630a0              MultipleSprite
+                  801630d0              GreenCircleTextureInfo
+                  801630f0              MascotsTextureInfo
+                  80163110              TheView
+                  80163130              OrangeTileTextureInfo
+                  80163150              ThePolygons
+                  8017e150              StarsTextureInfo
+                  8017e170              GreenCircleSprite
+                  8017e1a0              OrangeTileSprite
+                  8017e1d0              StarsSprite
+                  8017e200              MascotsSprite
+                  8017e230              TheCubes
+                  8017f7c0              TheFogging
+                  8017f7d0              OutsideCube
+                  8017fd20              MultipleTextureInfo
+                  8017fd40              PreviousViewCoords
+                  8017fd90              WaveTextureInfo
+                  8017fdb0              InsideCube
+                  80180300              PurpleNoiseSprite
+                  80180330              FireTextureInfo
+                  8018034c 8018034c end =.
+                  8018034c 8018034c _end =.
+OUTPUT(main ecoff-littlemips)
