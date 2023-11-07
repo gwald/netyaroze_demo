@@ -1,0 +1,20 @@
+local echo Resetting Now
+local beep
+sr sp 801ffff0
+local echo Type Any Key To Load Program
+local pause
+
+local dload giuli_bd.tim 80120000
+local dload giuli_fr.tim 80130000
+local dload giuli_pl.tim 80140000
+local dload giuli_tl.tim 80150000
+local dload giuli_tr.tim 80160000
+local dload giuli_wn.tim 80170000
+local dload wheel256.tim 80180000
+local dload giulieta.tmd 80190000
+local load main.exe
+
+local echo Type Any Key To Execute Program
+local pause
+
+go

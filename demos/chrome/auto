@@ -1,0 +1,4 @@
+local dload texture.tim  80090000
+local dload torus.tmd    800a0000
+local load main
+go
