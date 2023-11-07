@@ -1,0 +1,18 @@
+Copying folders: bare essentials:
+
+*.c
+*.h
+
+makefile, makefile.mak
+
+batch
+
+*.tim
+*.tmd
+
+*.vh
+*.vb
+*.seq
+
+*.txt
+*.doc
