@@ -1,0 +1,4148 @@
+/***************************************************************
+*															   *
+* Copyright (C) 1995 by Sony Computer Entertainment			   *
+*			All rights Reserved								   *
+*															   *
+*		 L.Evans 		 					 May 97			   *
+*															   *
+***************************************************************/
+
+
+
+/****************************************************************************
+					includes
+****************************************************************************/
+
+
+#include <stdio.h>
+
+#include <libps.h>
+
+
+#include "pad.h"
+
+#include "2d1.h"
+
+#include "rand.h"
+
+#include "text_str.h"
+
+#include "address.h"
+
+#include "sound.h"
+
+#include "tmd.h"
+
+#include "object.h"
+
+#include "geom.h"
+
+#include "sincos.h"
+
+
+
+
+
+
+
+
+/****************************************************************************
+					structures and constants
+****************************************************************************/
+
+
+
+GsIMAGE FireTextureInfo;
+GsSPRITE FireSprite;
+
+GsIMAGE MascotsTextureInfo;
+GsSPRITE MascotsSprite;
+
+GsIMAGE WaveTextureInfo;
+GsSPRITE WaveSprite;
+
+GsIMAGE StarsTextureInfo;
+GsSPRITE StarsSprite;
+
+GsIMAGE PurpleNoiseTextureInfo;
+GsSPRITE PurpleNoiseSprite;
+
+
+
+GsIMAGE Wave3TextureInfo;
+GsIMAGE Wave4TextureInfo;
+GsIMAGE Wave5TextureInfo;
+GsIMAGE Wave6TextureInfo;
+
+
+
+
+
+int ScreenWidth;		 
+int ScreenHeight;
+
+#define LOW_RES 1
+#define HI_RES 2
+
+int ScreenResolution;
+
+
+
+#define PACKETMAX	2048		/* Max GPU packets */
+#define PACKETMAX2	(PACKETMAX*24)
+
+PACKET packetArea[2][PACKETMAX2]; /* GPU PACKETS AREA */
+
+PACKET packetArea2[2][PACKETMAX];		// another packet area
+PACKET packetArea3[2][PACKETMAX];
+PACKET packetArea4[2][PACKETMAX];
+PACKET packetArea5[2][PACKETMAX];
+PACKET packetArea6[2][PACKETMAX];
+PACKET packetArea7[2][PACKETMAX];
+
+  
+
+#define FIRST_OT_LENGTH	9		
+
+GsOT Wot[2];			/* Handler of OT */
+GsOT_TAG wtags[2][1<<FIRST_OT_LENGTH];
+
+
+#define SECOND_OT_LENGTH 4
+
+GsOT Wot2[2];			/* Handler of secondOT */
+GsOT_TAG wtags2[2][1<<SECOND_OT_LENGTH];
+
+GsOT Wot3[2];			
+GsOT_TAG wtags3[2][1<<SECOND_OT_LENGTH];
+
+GsOT Wot4[2];			
+GsOT_TAG wtags4[2][1<<SECOND_OT_LENGTH];
+
+GsOT Wot5[2];			
+GsOT_TAG wtags5[2][1<<SECOND_OT_LENGTH];
+
+GsOT Wot6[2];			
+GsOT_TAG wtags6[2][1<<SECOND_OT_LENGTH];
+
+GsOT Wot7[2];			
+GsOT_TAG wtags7[2][1<<SECOND_OT_LENGTH];
+
+
+ 
+
+
+
+long ProjectionDistance;
+
+	// view moves
+#define VIEW_TWIST_LEFT 1
+#define VIEW_TWIST_RIGHT 2
+#define VIEW_TWIST_UP 3
+#define VIEW_TWIST_DOWN 4
+#define VIEW_TWIST_CLOCKWISE 5
+#define VIEW_TWIST_ANTICLOCKWISE 6
+
+GsRVIEW2 TheView;
+GsCOORDINATE2 ViewCoords;
+GsCOORDINATE2 PreviousViewCoords;
+int ViewMoveFlag;
+int ViewMoveTime;		// in frames
+int ViewMoveStartFrame;
+int ViewDistanceFromOrigin;
+
+
+	// first: super simple
+#define FIRST_VIEW_MODE 1
+	// second: like first but properly flexible
+#define SECOND_VIEW_MODE 2
+	// third: move as local view of object, i.e. lik aeroplane cockpit view
+#define THIRD_VIEW_MODE 3
+
+int ViewMode;
+
+
+
+int CubeSurfaceViewed;
+int OrientationOntoSurface;
+
+
+
+
+
+
+
+
+GsF_LIGHT TheLights[3];
+
+GsFOGPARAM TheFogging;
+
+int OverallLightMode;
+
+
+
+
+
+
+int QuitFlag = FALSE;
+
+int frameNumber = 0;
+
+
+
+
+	  
+
+
+
+
+
+
+
+	// object types
+#define SIMPLE_CUBE 0
+#define POLYGON 1
+#define PLAYERS_SPRITE 2
+
+
+
+
+#define MAX_SIMPLE_CUBES 12
+ObjectHandler TheSimpleCubes[MAX_SIMPLE_CUBES];
+
+ObjectHandler PlayersSprite;
+
+#define MAX_POLYGONS 1024
+MiniObject ThePolygons[MAX_POLYGONS];
+
+
+
+
+   
+
+
+
+	// textured inside or out
+#define VISIBLE_FROM_INSIDE 1
+#define VISIBLE_FROM_OUTSIDE	2
+
+
+	// ways to texture the polygons	of the cube surfaces
+#define SINGLE_CUBE_TEXTURE 1			   // 1
+#define ONE_TEXTURE_PER_FACE 2			   // 6
+#define ONE_TEXTURE_PER_POLYGON 3		   // n.polys
+#define ONE_TEXTURE_PER_MAIN_AXIS 4		   // 2
+#define ONE_TEXTURE_PER_CORNER 5		   // 2
+
+
+
+#define MAX_POLYS_PER_SIDE 4
+#define MAX_POLYGONS_PER_CUBE (MAX_POLYS_PER_SIDE * MAX_POLYS_PER_SIDE * 6)
+
+typedef struct
+{
+	int id;
+	int alive;
+	int sideLength;
+	int sideFlag;
+	int polysPerSide;
+	int textureType;
+
+	RECT textureAreas[MAX_POLYGONS_PER_CUBE];		// 16 bit textures
+	MiniObject *polygons[MAX_POLYGONS_PER_CUBE];
+	VECTOR normals[6];
+
+	GsCOORDINATE2 coord;
+} Cube;
+
+
+
+
+#define INSIDE_CUBE 0
+#define OUTSIDE_CUBE 1
+
+//Cube InsideCube;
+//Cube OutsideCube;
+
+
+#define MAX_CUBES 6
+Cube AllCubes[MAX_CUBES];
+
+
+	// all cube textures are 16 bit so that they
+	// can be drawn onto
+#define CUBE_TEXTURES_PIXEL_MODE 16
+
+
+
+
+
+
+	// face geometry
+
+	// which can be got to from which others
+int FaceAccessTable[6][4];
+
+	// clockwise twist to get new face axes from old face axes
+	// eg TOP, EAST, 1024
+int FaceAngleTable[6][4];
+
+VECTOR FaceInsideNormals[6];
+VECTOR FaceOutsideNormals[6];
+
+	// x and y vector for each plane, to treat it as standard Cartesian 2d space
+	// note that Y goes up and X goes right
+VECTOR FaceXVectors[6];
+VECTOR FaceYVectors[6];
+
+
+
+
+	// dynamic TMD management
+#define SIZEOF_SINGLE_POLYGON_TMD 0x00000100
+
+
+	// INTERACTION WITH ADDRESS.H AND BATCH FILE
+#define START_OF_CREATED_TMDS_STACK 0x80110000
+#define END_OF_CREATED_TMDS_STACK 0x80130000
+
+int NumberOfCreatedTMDs;
+
+u_long CurrentTMDStackAddress;
+
+
+
+
+#define MAX_DRAW_PROCESSES 12
+
+#define MAX_SPRITES_PER_DRAW_PROCESS 24
+
+typedef struct
+{
+	int id;
+	int alive;
+
+	RECT clipArea;
+	u_short offsets[2];
+
+	int otLabel; 
+	int packetAreaLabel;
+
+	int numberSprites;
+	GsSPRITE spriteList[MAX_SPRITES_PER_DRAW_PROCESS];
+} DrawProcess;
+
+DrawProcess *AllDrawProcesses[MAX_DRAW_PROCESSES];
+
+	// draw processes ids are SAME as face-plane ids
+
+DrawProcess FirstDrawProcess;
+DrawProcess SecondDrawProcess;
+DrawProcess ThirdDrawProcess;
+DrawProcess FourthDrawProcess;
+DrawProcess FifthDrawProcess;
+DrawProcess SixthDrawProcess;
+
+
+
+/****************************************************************************
+					prototypes
+****************************************************************************/
+
+
+void main (void);
+
+void InitialiseAll (void);
+
+void InitialiseLighting (void);
+void InitialiseView (void);
+
+void InitialiseObjects (void);
+
+void InitialiseFaceGeometry (void);
+
+void CreateMoreLittleCubesAroundLargerOne (void);
+
+void InitialiseCubes (void);
+
+void CleanupAndExit (void);
+
+void CycleLightsAroundAxes (void);
+
+
+
+void DealWithControllerPad (void);
+
+void DealWithViewControls (long pad, int controlSpeed);
+
+
+void HandleAllObjects (void);
+
+void HandleCommonUpdating( ObjectHandler *object);
+
+void HandleASimpleCube (ObjectHandler* object);
+void HandlePlayersSprite (ObjectHandler *object);
+
+
+
+
+
+void UpdateObjectCoordinates (VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem, MATRIX* matrix);
+
+void UpdateObjectCoordinates2 (SVECTOR* rotationVector,
+							VECTOR* translationVector,
+							GsCOORDINATE2* coordSystem);
+
+
+void RotateCoordinateSystem (VECTOR* twist,
+							GsCOORDINATE2* coordSystem);
+
+
+void CopyCoordinateSystem (GsCOORDINATE2 *from, GsCOORDINATE2 *to);
+
+void CopyMatrix (MATRIX *from, MATRIX *to);
+
+void ExpressSubPointInSuper (VECTOR* superPoint, 
+			GsCOORDINATE2* subSystem, VECTOR* subPointOutput);
+
+void ExpressSuperPointInSub (VECTOR* subPoint, 
+			GsCOORDINATE2* subSystem, VECTOR* superPointOutput);
+
+u_short SortSpriteObjectPosition (ObjectHandler* object);
+
+
+
+
+void StoreScreen (void);
+
+
+
+void InitCube (Cube *cube);
+
+
+void CreateCube (Cube *cube, int id, int sideLength, int sideFlag, 
+					int polysPerSide, int type, RECT *rectList);
+
+
+void SortCubeTextureAreas (Cube *cube, int type, RECT *rectList);
+
+
+void CreateTheCubesPolygons (Cube *cube);
+
+
+void SortRectGivenPolygonsPerSide (RECT *rect, int numPolysPerSide, int x, int y);
+
+
+
+void SortVertices (Cube *cube, int whichFace, int gridX, int gridY,
+		TMD_VERT *v1, TMD_VERT *v2, TMD_VERT *v3, TMD_VERT *v4);
+
+void DrawCube (Cube *cube, GsOT *ot);
+
+
+
+MiniObject *GetNextFreePolygon (void);
+
+
+u_long CreateAnotherPolygonTMD (int clutX, int clutY, 
+					int tPageID, int pixelMode, 
+					u_char u0, u_char v0,
+					u_char u1, u_char v1, 
+					u_char u2, u_char v2, 
+					u_char u3, u_char v3,
+					TMD_NORM* norm0, 
+					TMD_VERT* vert0, 
+					TMD_VERT* vert1, 
+					TMD_VERT* vert2, 
+					TMD_VERT* vert3);
+
+
+void ClearTheCreatedTmds (void);
+
+
+void PrintCubeInfo (Cube *cube);
+
+
+
+
+
+
+void InitNewViewMode (void);
+
+
+void InitTheFirstViewMode (void);
+void InitTheSecondViewMode (void);
+void InitTheThirdViewMode (void);
+
+
+
+void StartFirstModeViewMove (int viewMove);
+
+
+
+void HandleTheView (void);
+
+void HandleTheFirstViewMode (void);
+void HandleTheSecondViewMode (void);
+void HandleTheThirdViewMode (void);
+
+
+
+void VerifyAndFixProperRotation (void);
+
+
+void SortPlaneAndAngleViewed (void);
+
+
+int SameVector (VECTOR *first, VECTOR *second);
+
+
+void PrintDataTypeSizes (void);
+
+
+void InitialiseDrawingProcesses (void);
+
+void InitDrawingProcess (DrawProcess *process);
+
+void SetUpDrawingProcesses (void);
+
+
+
+void CreateDrawProcess(DrawProcess *process, int id,
+		RECT *area, u_short *offsets, int otLabel, int workAreaLabel);
+void CreateDrawProcess2 (DrawProcess *process, GsIMAGE *textureInfo, int id);
+
+void RegisterDrawProcess (DrawProcess *process);
+
+void RemoveDrawProcess (DrawProcess *process);
+
+void RegisterSpriteIntoDrawProcess (GsSPRITE *sprite, int processID);
+
+void HandleOffScreenDrawing (int bufferIndex);
+
+void ExecuteSingleDrawProcess (DrawProcess *process, int bufferIndex);
+
+
+
+void GetOtOfProcess (DrawProcess *process, int bufferIndex, GsOT **ot);
+
+void GetWorkAreaOfProcess (DrawProcess *process, 
+							int bufferIndex, PACKET **workArea);
+
+void DoWorkOfDrawProcess (int processID, GsOT *ot);
+
+
+void GetDrawProcessTextureWidthAndHeight (int processID,
+			int *textureWidth, int *textureHeight);
+
+
+
+
+void TranslatePointAcrossPlanes (int currentPlane, 
+			int currentX, int currentY,	int currentAngle,
+						int newPlane, 
+			int *newX, int *newY, int *newAngle,
+			int direction, int side);
+
+int PointWithinItsPlane (int px, int py, int sideLength);
+
+void PutObjectOntoSurfaceOfCube (ObjectHandler *object,	int cubeID,
+			int plane, int planeX, int planeY, int planeAngle);
+
+
+void FindNewPlaneAndItsDirectionFromPoint (int px, int py, int side,
+				int oldPlane, int *newPlane, int *direction);
+
+
+void PlaneIdToText (int planeID, char *string);
+
+int DotProduct (VECTOR *first, VECTOR *second);
+
+int SizeOfVector (VECTOR *vector);
+
+
+
+void PrintFullMatrixInfo (MATRIX *matrix);
+
+
+/****************************************************************************
+					 macros
+****************************************************************************/
+
+
+#define min(a,b) ( ((a) > (b)) ? (b) : (a))
+
+#define max(a,b) ( ((a) > (b)) ? (a) : (b))
+
+#define KeepWithinRange(quantity, min, max)					\
+{															\
+	if ((quantity) < (min))									\
+		(quantity) = (min);									\
+	else if ((quantity) > (max))							\
+		(quantity) = (max);									\
+}
+
+
+
+#define setVECTOR(vector, x, y, z)				\
+				(vector)->vx = (x), (vector)->vy = (y), (vector)->vz = (z)	
+
+
+#define setNORMAL(normal, x, y, z)				\
+				(normal)->nx = (x), (normal)->ny = (y), (normal)->nz = (z)
+				
+#define setVERTEX(vertex, x, y, z)				\
+				(vertex)->vx = (x), (vertex)->vy = (y), (vertex)->vz = (z)
+				
+		
+
+#define copyRECT(from, to)		  	\
+	(to)->x = (from)->x, (to)->y = (from)->y, (to)->w = (from)->w, (to)->h = (from)->h	  
+
+
+	
+#define ALL_ONES 0xffffffff
+
+u_long onlyNthBitOn, onlyNthBitOffMask;
+
+#define TURN_NTH_BIT_OFF(argument, sizeInBits, N)			\
+	{														\
+	onlyNthBitOn = 1 << (N);								\
+	onlyNthBitOffMask = ALL_ONES ^ onlyNthBitOn;			\
+	argument &= onlyNthBitOn;								\
+	}	
+
+
+
+
+#define ValidPlane(plane) ( ((plane) >= PLUS_X_Y_PLANE) && ((plane) <= MINUS_Y_Z_PLANE) )
+
+		
+  
+/****************************************************************************
+					functions
+****************************************************************************/
+
+
+void main (void)
+{
+	int	hsync = 0;
+	int bufferIndex;			  
+	u_short zValue;
+	MATRIX tmpls;
+	ObjectHandler *object;
+	int gpuLoad = 0, cpuLoad = 0;
+	int i;
+		
+
+
+	InitialiseAll();
+
+	PrintDataTypeSizes();
+
+	bufferIndex = GsGetActiveBuff();
+
+
+
+	while (QuitFlag == FALSE)
+		{		
+		FntPrint("~cf00frame %d\n", frameNumber);
+		FntPrint("~cf00hsync %d\n", hsync);
+		FntPrint("cpu %d gpu %d\n", cpuLoad, gpuLoad);
+		FntPrint("~cf00projection %d\n", ProjectionDistance);
+		FntPrint("~cf00vp %d %d %d\n", TheView.vpx, TheView.vpy, TheView.vpz);
+		FntPrint("~cf00ViewMoveTime %d\n", ViewMoveTime);
+		FntPrint("~cf00ViewDistanceFromOrigin %d\n", ViewDistanceFromOrigin);
+		switch(CubeSurfaceViewed)
+			{
+			case PLUS_X_Y_PLANE: FntPrint("~cf00back plane viewed\n"); break;
+			case MINUS_X_Y_PLANE: FntPrint("~cf00front plane viewed\n"); break;
+			case PLUS_X_Z_PLANE: FntPrint("~cf00bottom plane viewed\n"); break;
+			case MINUS_X_Z_PLANE: FntPrint("~cf00top plane viewed\n"); break;
+			case PLUS_Y_Z_PLANE: FntPrint("~cf00right plane viewed\n"); break;
+			case MINUS_Y_Z_PLANE: FntPrint("~cf00left plane viewed\n"); break;
+			case -1: FntPrint("~cf00 plane view interim\n"); break;
+			default:
+				assert(FALSE);
+			}
+		FntPrint("~cf00angle on plane %d\n", OrientationOntoSurface);
+		FntPrint("View Mode %d\n", ViewMode);
+
+
+
+#if 0
+  		if (frameNumber % 15 == 0)
+			{
+			PrintFullMatrixInfo( &ViewCoords.coord);
+			}
+#endif
+
+		//RegisterTextStringForDisplay("test 1234", 0, 0);
+
+		frameNumber++;
+
+		DealWithControllerPad();
+
+		//GsSetRefView2(&TheView);
+		HandleTheView();
+
+		HandleSound();
+
+		HandleAllObjects();
+
+		GsSetWorkBase( (PACKET*)packetArea[bufferIndex]);
+
+		GsClearOt(0, 0, &Wot[bufferIndex]);
+
+		DisplayTextStrings (&Wot[bufferIndex]);
+
+		//CycleLightsAroundAxes();
+			
+		for (i = 0; i < MAX_OBJECTS; i++)
+			{
+			if (ObjectArray[i] != NULL)
+				if (ObjectArray[i]->alive == TRUE)
+					{
+					object = ObjectArray[i];
+
+					if (object->displayFlag == TMD)
+						{
+						GsGetLs(&(object->coord), &tmpls);	   // local to screen matrix
+								   
+						GsSetLightMatrix(&tmpls);
+									
+						GsSetLsMatrix(&tmpls);
+									
+						GsSortObject4( &(object->handler), 
+								&Wot[bufferIndex], 
+									3, getScratchAddr(0));
+						}
+					else if (object->displayFlag == SPRITE)	  // speed-up here: use a fast flag
+						{	  // some can use GsSortFastSprite
+						zValue = SortSpriteObjectPosition(object);
+						GsSortSprite( &object->sprite, &Wot[bufferIndex], zValue);
+						}
+					else
+						{
+						assert(object->displayFlag == SPECIAL_SPRITE);
+						}
+					}
+			}
+
+#if 0		// sprite tester
+		PurpleNoiseSprite.x = 0;
+		PurpleNoiseSprite.y = 0;
+		GsSortSprite( &PurpleNoiseSprite, &Wot[bufferIndex], 0);
+#endif
+
+		//DrawCube( &InsideCube, &Wot[bufferIndex]);
+		//DrawCube( &OutsideCube, &Wot[bufferIndex]);
+		for (i = 0; i < MAX_CUBES; i++)
+			{
+			if (AllCubes[i].alive == TRUE)
+				{
+				DrawCube( &AllCubes[i], &Wot[bufferIndex]);
+				}
+			}
+
+		cpuLoad = VSync(1);
+		DrawSync(0);			 // wait for end of drawing
+		gpuLoad = VSync(1);
+		hsync = VSync(0);	
+			 
+		ResetGraph(1);		 // end all drawing processes
+							// (this redundant call when DrawSync is called above)
+
+		GsSwapDispBuff();
+
+		GsSortClear(0,0,0,&Wot[bufferIndex]);
+
+		GsDrawOt(&Wot[bufferIndex]);
+
+		bufferIndex = GsGetActiveBuff();
+
+		FntFlush(-1);
+
+			// handle list of tasks, each for drawing into off-screen area of VRAM
+		HandleOffScreenDrawing(bufferIndex);
+		}
+
+	CleanupAndExit();
+}
+
+
+
+
+
+
+
+void InitialiseAll (void)
+{
+	PadInit();
+
+	InitialiseRandomNumbers();
+
+	InitialiseTextStrings();
+
+	InitialiseSound();
+	
+	// see 3d7\main.c for better initialiser: InitialiseGraphicsSystem	   
+
+	ScreenResolution = LOW_RES;
+
+		// note: should be responding to video mode here:
+		// should detect using GetVideoMode,
+		// hence set NTSC 240 and PAL 256 (LO_RES)
+		// or NTSC 480 and PAL 512 (HI_RES)
+
+	switch(ScreenResolution)
+		{
+		case LOW_RES:
+			ScreenWidth = 320;
+			ScreenHeight = 240;
+			GsInitGraph(ScreenWidth, ScreenHeight, GsINTER|GsOFSGPU, 1, 0);
+			GsDefDispBuff(0, 0, 0, ScreenHeight);
+			break;
+		case HI_RES:
+			ScreenWidth = 640;
+			ScreenHeight = 480;
+			GsInitGraph(ScreenWidth, ScreenHeight, GsINTER|GsOFSGPU, 1, 0);
+			GsDefDispBuff(0, 0, 0, 0);
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	GsInit3D();		   
+
+		// sort our first ordering table
+	Wot[0].length = FIRST_OT_LENGTH;	
+	Wot[0].org = wtags[0];	   
+	Wot[1].length = FIRST_OT_LENGTH;
+	Wot[1].org = wtags[1];
+
+	GsClearOt(0,0,&Wot[0]);
+	GsClearOt(0,0,&Wot[1]);
+
+		// sort our second ordering table
+	Wot2[0].length = SECOND_OT_LENGTH;	
+	Wot2[0].org = wtags2[0];	   
+	Wot2[1].length = SECOND_OT_LENGTH;
+	Wot2[1].org = wtags2[1];
+
+	GsClearOt(0,0,&Wot2[0]);
+	GsClearOt(0,0,&Wot2[1]);
+
+		// sort our third ordering table
+	Wot3[0].length = SECOND_OT_LENGTH;	
+	Wot3[0].org = wtags3[0];	   
+	Wot3[1].length = SECOND_OT_LENGTH;
+	Wot3[1].org = wtags3[1];
+
+	GsClearOt(0,0,&Wot3[0]);
+	GsClearOt(0,0,&Wot3[1]);
+
+		// sort our fourth ordering table
+	Wot4[0].length = SECOND_OT_LENGTH;	
+	Wot4[0].org = wtags4[0];	   
+	Wot4[1].length = SECOND_OT_LENGTH;
+	Wot4[1].org = wtags4[1];
+
+	GsClearOt(0,0,&Wot4[0]);
+	GsClearOt(0,0,&Wot4[1]);
+
+		// sort our fifth ordering table
+	Wot5[0].length = SECOND_OT_LENGTH;	
+	Wot5[0].org = wtags5[0];	   
+	Wot5[1].length = SECOND_OT_LENGTH;
+	Wot5[1].org = wtags5[1];
+
+	GsClearOt(0,0,&Wot5[0]);
+	GsClearOt(0,0,&Wot5[1]);
+
+		// sort our sixth ordering table
+	Wot6[0].length = SECOND_OT_LENGTH;	
+	Wot6[0].org = wtags6[0];	   
+	Wot6[1].length = SECOND_OT_LENGTH;
+	Wot6[1].org = wtags6[1];
+
+	GsClearOt(0,0,&Wot6[0]);
+	GsClearOt(0,0,&Wot6[1]);
+
+		// sort our seventh ordering table
+	Wot7[0].length = SECOND_OT_LENGTH;	
+	Wot7[0].org = wtags7[0];	   
+	Wot7[1].length = SECOND_OT_LENGTH;
+	Wot7[1].org = wtags7[1];
+
+	GsClearOt(0,0,&Wot7[0]);
+	GsClearOt(0,0,&Wot7[1]);
+		
+
+
+	InitialiseLighting();
+
+	InitialiseView();
+
+	ProperInitialiseTexture(FIRE_TEXTURE_ADDRESS, &FireTextureInfo);
+	LinkSpriteToImageInfo(&FireSprite, &FireTextureInfo);
+
+	ProperInitialiseTexture(MASCOTS_TEXTURE_ADDRESS, &MascotsTextureInfo);
+	LinkSpriteToImageInfo(&MascotsSprite, &MascotsTextureInfo);
+
+	ProperInitialiseTexture(WAVE_TEXTURE_ADDRESS, &WaveTextureInfo);
+	LinkSpriteToImageInfo(&WaveSprite, &WaveTextureInfo);
+
+	ProperInitialiseTexture(STARS_TEXTURE_ADDRESS, &StarsTextureInfo);
+	LinkSpriteToImageInfo(&StarsSprite, &StarsTextureInfo);
+
+	ProperInitialiseTexture(PURPLE_NOISE_TEXTURE_ADDRESS, &PurpleNoiseTextureInfo);
+	LinkSpriteToImageInfo(&PurpleNoiseSprite, &PurpleNoiseTextureInfo);
+
+	ProperInitialiseTexture(WAVE_3_TEXTURE_ADDRESS, &Wave3TextureInfo);
+	ProperInitialiseTexture(WAVE_4_TEXTURE_ADDRESS, &Wave4TextureInfo);
+	ProperInitialiseTexture(WAVE_5_TEXTURE_ADDRESS, &Wave5TextureInfo);
+	ProperInitialiseTexture(WAVE_6_TEXTURE_ADDRESS, &Wave6TextureInfo);
+		 	
+		 	
+		 	
+		 		
+		// sort basic text printing
+	FntLoad( 960, 256);
+	FntOpen( -120, 10, 256, 200, 0, 512);
+
+	InitialiseFaceGeometry();
+
+	ClearTheCreatedTmds();
+
+	InitialiseObjects();
+
+	InitialiseCubes();
+
+	PutObjectOntoSurfaceOfCube (&PlayersSprite,	INSIDE_CUBE,
+			FRONT, 0, 0, 0);
+
+	InitialiseDrawingProcesses();
+
+	SetUpDrawingProcesses();
+}
+
+
+
+
+
+
+
+
+void InitialiseLighting (void)
+{
+		// three flat light sources
+	TheLights[0].vx = ONE; TheLights[0].vy = 0; TheLights[0].vz = 0;
+	TheLights[0].r = 128; TheLights[0].g = 0; TheLights[0].b = 0;
+	GsSetFlatLight(0, &TheLights[0]);
+
+	TheLights[1].vx = 0; TheLights[1].vy = ONE; TheLights[1].vz = 0;
+	TheLights[1].r = 0; TheLights[1].g = 128; TheLights[1].b = 0;
+	GsSetFlatLight(1, &TheLights[1]);
+
+	TheLights[2].vx = 0; TheLights[2].vy = 0; TheLights[2].vz = ONE;
+	TheLights[2].r = 0; TheLights[2].g = 0; TheLights[2].b = 128;
+	GsSetFlatLight(2, &TheLights[2]);
+
+		
+		// background lighting
+	GsSetAmbient(ONE/2, ONE/2, ONE/2);
+
+  
+
+		// distance colour blending ('fogging')
+  	TheFogging.dqa = -960;
+	TheFogging.dqb = 5120*5120;
+	TheFogging.rfc = 0; 
+	TheFogging.gfc = 0; 
+	TheFogging.bfc = 0;
+	GsSetFogParam( &TheFogging);
+
+
+		// overall lighting conditions
+	OverallLightMode = 0;			// does not allow fogging  
+	GsSetLightMode(OverallLightMode);
+}
+
+
+
+
+
+
+void InitialiseView (void)
+{
+		// screen-to-viewpoint distance
+	ProjectionDistance = 192;			
+	GsSetProjection(ProjectionDistance);
+
+
+	ViewMoveFlag = FALSE;
+	ViewMoveTime = 30;		// half a second
+	ViewMoveStartFrame = -1;
+	ViewDistanceFromOrigin = 2000;  
+
+	ViewMode = FIRST_VIEW_MODE;
+
+	TheView.vrx = 0; 
+	TheView.vry = 0; 
+	TheView.vrz = 0; 
+
+	TheView.vpx = 0; 
+	TheView.vpy = 0; 
+	TheView.vpz = -ViewDistanceFromOrigin; //-220;
+	
+	TheView.rz = 0;
+
+	GsInitCoordinate2( WORLD, &ViewCoords);
+	CopyCoordinateSystem( &ViewCoords, &PreviousViewCoords);
+
+	TheView.super = &ViewCoords;
+
+	GsSetRefView2(&TheView);
+
+
+	CubeSurfaceViewed = FRONT;
+	OrientationOntoSurface = 0;
+}
+
+
+
+
+
+
+void InitialiseFaceGeometry (void)
+{
+	int i;
+
+		// these go outwards from cube faces off into space
+	setVECTOR( &FaceOutsideNormals[FRONT], 0, 0, -ONE);
+	setVECTOR( &FaceOutsideNormals[RIGHT], ONE, 0, 0);
+	setVECTOR( &FaceOutsideNormals[BACK], 0, 0, ONE);
+	setVECTOR( &FaceOutsideNormals[LEFT], -ONE, 0, 0);
+	setVECTOR( &FaceOutsideNormals[TOP], 0, -ONE, 0);
+	setVECTOR( &FaceOutsideNormals[BOTTOM], 0, ONE, 0);
+
+		// these go from face centres to centre of cube
+	for (i = 0; i < 6; i++)
+		{
+		setVECTOR( &FaceInsideNormals[i],
+			-FaceOutsideNormals[i].vx,
+			-FaceOutsideNormals[i].vy,
+			-FaceOutsideNormals[i].vz);
+		}
+
+	setVECTOR( &FaceXVectors[FRONT], ONE, 0, 0);
+	setVECTOR( &FaceYVectors[FRONT], 0, -ONE, 0);
+
+	setVECTOR( &FaceXVectors[RIGHT], 0, 0, ONE);
+	setVECTOR( &FaceYVectors[RIGHT], 0, -ONE, 0);
+
+	setVECTOR( &FaceXVectors[BACK], -ONE, 0, 0);
+	setVECTOR( &FaceYVectors[BACK], 0, -ONE, 0);
+
+	setVECTOR( &FaceXVectors[LEFT], 0, 0, -ONE);
+	setVECTOR( &FaceYVectors[LEFT], 0, -ONE, 0);
+
+	setVECTOR( &FaceXVectors[TOP], ONE, 0, 0);
+	setVECTOR( &FaceYVectors[TOP], 0, 0, ONE);
+
+	setVECTOR( &FaceXVectors[BOTTOM], ONE, 0, 0);
+	setVECTOR( &FaceYVectors[BOTTOM], 0, 0, -ONE);
+	
+
+
+		// which can be got to from which others
+	FaceAccessTable[FRONT][NORTH] = TOP;
+	FaceAccessTable[FRONT][EAST] = RIGHT;
+	FaceAccessTable[FRONT][SOUTH] = BOTTOM;
+	FaceAccessTable[FRONT][WEST] = LEFT;
+
+	FaceAccessTable[RIGHT][NORTH] = TOP;
+	FaceAccessTable[RIGHT][EAST] = BACK;
+	FaceAccessTable[RIGHT][SOUTH] = BOTTOM;
+	FaceAccessTable[RIGHT][WEST] = FRONT;
+
+	FaceAccessTable[BACK][NORTH] = TOP;
+	FaceAccessTable[BACK][EAST] = LEFT;
+	FaceAccessTable[BACK][SOUTH] = BOTTOM;
+	FaceAccessTable[BACK][WEST] = RIGHT;
+
+	FaceAccessTable[LEFT][NORTH] = TOP;
+	FaceAccessTable[LEFT][EAST] = FRONT;
+	FaceAccessTable[LEFT][SOUTH] = BOTTOM;
+	FaceAccessTable[LEFT][WEST] = BACK;
+
+	FaceAccessTable[TOP][NORTH] = BACK;
+	FaceAccessTable[TOP][EAST] = RIGHT;
+	FaceAccessTable[TOP][SOUTH] = FRONT;
+	FaceAccessTable[TOP][WEST] = LEFT;
+
+	FaceAccessTable[BOTTOM][NORTH] = FRONT;
+	FaceAccessTable[BOTTOM][EAST] = RIGHT;
+	FaceAccessTable[BOTTOM][SOUTH] = BACK;
+	FaceAccessTable[BOTTOM][WEST] = LEFT;
+
+	FaceAngleTable[FRONT][NORTH] = 0;
+	FaceAngleTable[FRONT][EAST] = 0;
+	FaceAngleTable[FRONT][SOUTH] = 0;
+	FaceAngleTable[FRONT][WEST] = 0;
+
+	FaceAngleTable[RIGHT][NORTH] = 1024;
+	FaceAngleTable[RIGHT][EAST] = 0;
+	FaceAngleTable[RIGHT][SOUTH] = 3072;
+	FaceAngleTable[RIGHT][WEST] = 0;
+
+	FaceAngleTable[BACK][NORTH] = 2048;
+	FaceAngleTable[BACK][EAST] = 0;
+	FaceAngleTable[BACK][SOUTH] = 2048;
+	FaceAngleTable[BACK][WEST] = 0;
+
+	FaceAngleTable[LEFT][NORTH] = 3072;
+	FaceAngleTable[LEFT][EAST] = 0;
+	FaceAngleTable[LEFT][SOUTH] = 1024;
+	FaceAngleTable[LEFT][WEST] = 0;
+
+	FaceAngleTable[TOP][NORTH] = 2048;
+	FaceAngleTable[TOP][EAST] = 3072;
+	FaceAngleTable[TOP][SOUTH] = 0;
+	FaceAngleTable[TOP][WEST] = 1024;
+
+	FaceAngleTable[BOTTOM][NORTH] = 0;
+	FaceAngleTable[BOTTOM][EAST] = 1024;
+	FaceAngleTable[BOTTOM][SOUTH] = 2048;
+	FaceAngleTable[BOTTOM][WEST] = 3072;
+}
+
+
+
+
+
+void InitialiseObjects (void)
+{
+	int i;
+
+	InitialiseObjectClass();
+	InitialiseMiniObjectClass();
+
+	for (i = 0; i < MAX_SIMPLE_CUBES; i++)
+		{
+		InitSingleObject(&TheSimpleCubes[i]);
+
+		BringObjectToLife(&TheSimpleCubes[i], SIMPLE_CUBE, 
+			CUBE_MODEL_ADDRESS, 0, NONE);
+
+		RegisterObjectIntoObjectArray(&TheSimpleCubes[i]);
+		}
+
+
+
+	InitSingleObject(&PlayersSprite);
+
+	BringObjectToLife(&PlayersSprite, PLAYERS_SPRITE, 
+			CUBE_MODEL_ADDRESS, 0, NONE);
+
+	RegisterObjectIntoObjectArray(&PlayersSprite);
+	PlayersSprite.displayFlag = SPECIAL_SPRITE;
+	PlayersSprite.imageInfo = &FireTextureInfo;
+
+
+
+
+
+	for (i = 0; i < MAX_POLYGONS; i++)
+		{
+		InitMiniObject( &ThePolygons[i]);
+
+		RegisterMiniObjectIntoMiniObjectArray( &ThePolygons[i]);
+
+		ThePolygons[i].alive = FALSE;
+		}
+
+
+	 
+	LinkAllObjectsToModelsOrSprites();
+	
+	LinkAllObjectsToTheirCoordinateSystems();
+
+
+
+	for (i = 0; i < MAX_SIMPLE_CUBES; i++)
+		{
+		TheSimpleCubes[i].alive = FALSE;		// start off dead
+		}
+
+
+	
+
+#if 0
+		// bring alive the first cube, position it ahead of camera
+	TheCubes[0].alive = TRUE;
+	TheCubes[0].position.vz = 500;
+		// this for later variable scaling
+	SetObjectScaling( &TheCubes[0], ONE, ONE, ONE);
+#endif
+
+	CreateMoreLittleCubesAroundLargerOne();
+}
+
+
+
+
+
+void CreateMoreLittleCubesAroundLargerOne (void)
+{
+	int i;
+
+	for (i = 0; i < 8; i++)
+		{
+		TheSimpleCubes[i].alive = TRUE;
+		}
+
+	setVECTOR( &TheSimpleCubes[0].position, 400, 400, 400);
+	setVECTOR( &TheSimpleCubes[1].position, 400, 400, -400);
+	setVECTOR( &TheSimpleCubes[2].position, 400, -400, 400);
+	setVECTOR( &TheSimpleCubes[3].position, -400, 400, 400);
+	setVECTOR( &TheSimpleCubes[4].position, 400, -400, -400);
+	setVECTOR( &TheSimpleCubes[5].position, -400, 400, -400);
+	setVECTOR( &TheSimpleCubes[6].position, -400, -400, 400);
+	setVECTOR( &TheSimpleCubes[7].position, -400, -400, -400);
+
+
+#if 0
+	for (i = 0; i < 8; i++)
+		{
+		if (TheSimpleCubes[i].position.vx == 400)
+			SetObjectScaling( &TheSimpleCubes[i], ONE/2, ONE/2, ONE/2);
+		if (TheSimpleCubes[i].position.vy == 400)
+			{
+			TheSimpleCubes[i].rotationMomentumFlag = TRUE;
+			setVECTOR( &TheSimpleCubes[i].twist, 0, 0, (rand() % 30) );
+			}
+		}
+#endif
+}
+
+
+
+
+
+void InitialiseCubes (void)
+{
+	RECT insideTextureAreasList[6];
+	//RECT singleInsideCubeTexture;
+	//RECT outsideTextureAreasList[6];
+	RECT singleOutsideCubeTexture;
+	int i;
+
+	printf("Start of InitialiseCubes\n");
+
+	for (i = 0; i < MAX_CUBES; i++)
+		{
+		InitCube( &AllCubes[i]);
+		}
+
+#if 0		// single texture
+	setRECT( &singleInsideCubeTexture,
+			WaveTextureInfo.px,
+			WaveTextureInfo.py,
+			WaveTextureInfo.pw,
+			WaveTextureInfo.ph);
+	
+	CreateCube ( &AllCubes[INSIDE_CUBE], INSIDE_CUBE, 400, VISIBLE_FROM_OUTSIDE,
+		1, SINGLE_CUBE_TEXTURE, &singleInsideCubeTexture);
+#endif
+
+
+
+
+#if 0
+		// first cube: two textures
+	setRECT( &insideTextureAreasList[0],
+				WaveTextureInfo.px,
+				WaveTextureInfo.py,
+				WaveTextureInfo.pw,
+				WaveTextureInfo.ph);
+	setRECT( &insideTextureAreasList[1],
+				MascotsTextureInfo.px,
+				MascotsTextureInfo.py,
+				MascotsTextureInfo.pw,
+				MascotsTextureInfo.ph); 
+
+	CreateCube ( &AllCubes[INSIDE_CUBE], INSIDE_CUBE, 400, VISIBLE_FROM_OUTSIDE,
+		2, ONE_TEXTURE_PER_CORNER, insideTextureAreasList);
+#endif
+
+
+
+
+
+#if 1
+				// six textures, one per face
+	setRECT( &insideTextureAreasList[0],
+				MascotsTextureInfo.px,
+				MascotsTextureInfo.py,
+				MascotsTextureInfo.pw,
+				MascotsTextureInfo.ph);
+	setRECT( &insideTextureAreasList[1],
+				WaveTextureInfo.px,
+				WaveTextureInfo.py,
+				WaveTextureInfo.pw,
+				WaveTextureInfo.ph); 
+	setRECT( &insideTextureAreasList[2],
+				Wave3TextureInfo.px,
+				Wave3TextureInfo.py,
+				Wave3TextureInfo.pw,
+				Wave3TextureInfo.ph);
+	setRECT( &insideTextureAreasList[3],
+				Wave4TextureInfo.px,
+				Wave4TextureInfo.py,
+				Wave4TextureInfo.pw,
+				Wave4TextureInfo.ph);
+	setRECT( &insideTextureAreasList[4],
+				Wave5TextureInfo.px,
+				Wave5TextureInfo.py,
+				Wave5TextureInfo.pw,
+				Wave5TextureInfo.ph);
+	setRECT( &insideTextureAreasList[5],
+				Wave6TextureInfo.px,
+				Wave6TextureInfo.py,
+				Wave5TextureInfo.pw,
+				Wave6TextureInfo.ph);
+
+	CreateCube ( &AllCubes[INSIDE_CUBE], INSIDE_CUBE, 400, VISIBLE_FROM_OUTSIDE,
+		1, ONE_TEXTURE_PER_FACE, insideTextureAreasList);
+#endif
+
+
+
+	 
+	
+
+#if 0				// two textures, one for each 'corner' ie set of 3 faces
+	setRECT( &outsideTextureAreasList[0],
+				WaveTextureInfo.px,
+				WaveTextureInfo.py,
+				WaveTextureInfo.pw,
+				WaveTextureInfo.ph);
+	setRECT( &outsideTextureAreasList[1],
+				MascotsTextureInfo.px,
+				MascotsTextureInfo.py,
+				MascotsTextureInfo.pw,
+				MascotsTextureInfo.ph); 
+
+
+	CreateCube ( &AllCubes[OUTSIDE_CUBE], OUTSIDE_CUBE, 5000, VISIBLE_FROM_INSIDE,
+		3, ONE_TEXTURE_PER_CORNER, outsideTextureAreasList);
+#endif
+
+
+
+
+
+#if 0		// six textures, one per face
+	setRECT( &outsideTextureAreasList[0],
+				MascotsTextureInfo.px,
+				MascotsTextureInfo.py,
+				MascotsTextureInfo.pw,
+				MascotsTextureInfo.ph);
+	setRECT( &outsideTextureAreasList[1],
+				WaveTextureInfo.px,
+				WaveTextureInfo.py,
+				WaveTextureInfo.pw,
+				WaveTextureInfo.ph); 
+	setRECT( &outsideTextureAreasList[2],
+				Wave3TextureInfo.px,
+				Wave3TextureInfo.py,
+				Wave3TextureInfo.pw,
+				Wave3TextureInfo.ph);
+	setRECT( &outsideTextureAreasList[3],
+				Wave4TextureInfo.px,
+				Wave4TextureInfo.py,
+				Wave4TextureInfo.pw,
+				Wave4TextureInfo.ph);
+	setRECT( &outsideTextureAreasList[4],
+				Wave5TextureInfo.px,
+				Wave5TextureInfo.py,
+				Wave5TextureInfo.pw,
+				Wave5TextureInfo.ph);
+	setRECT( &outsideTextureAreasList[5],
+				Wave6TextureInfo.px,
+				Wave6TextureInfo.py,
+				Wave5TextureInfo.pw,
+				Wave6TextureInfo.ph);
+
+	CreateCube ( &AllCubes[OUTSIDE_CUBE], OUTSIDE_CUBE, 5000, VISIBLE_FROM_INSIDE,
+		3, ONE_TEXTURE_PER_FACE, outsideTextureAreasList);
+#endif
+
+
+
+
+
+#if 1			// single texture: mascots		
+	setRECT( &singleOutsideCubeTexture,
+			MascotsTextureInfo.px,
+			MascotsTextureInfo.py,
+			MascotsTextureInfo.pw,
+			MascotsTextureInfo.ph);
+	CreateCube ( &AllCubes[OUTSIDE_CUBE], OUTSIDE_CUBE, 5000, VISIBLE_FROM_INSIDE, 
+		3,
+			SINGLE_CUBE_TEXTURE, &singleOutsideCubeTexture);
+#endif
+
+	printf("End of InitialiseCubes\n");
+
+	
+
+	for (i = 0; i < MAX_CUBES; i++)
+		{
+		if (AllCubes[i].alive == TRUE)
+			{
+			PrintCubeInfo( &AllCubes[i]);
+			}
+		}
+}
+
+
+
+
+
+
+
+
+void CleanupAndExit (void)
+{
+	//StoreScreen2 ( (u_long*)SCREEN_SAVE_ADDRESS, 0, 0, ScreenWidth, ScreenHeight);
+	StoreScreen();
+
+	ResetGraph(3);
+
+	CleanUpSound();
+
+		// if this program part of a multiple module,
+		// can printf to siocons to tell user to
+		// invoke a new batch file, etc
+}
+
+
+
+
+void CycleLightsAroundAxes (void)
+{
+	int cyclePoint, theta;
+	int lightEffectPeriod = 90;
+
+	cyclePoint = (frameNumber % lightEffectPeriod);
+
+	theta = ONE * cyclePoint / lightEffectPeriod;
+
+		// not very sorted, but will do
+	TheLights[0].vx	= rcos(theta);
+	TheLights[0].vy	= rsin(theta);
+	GsSetFlatLight(0, &TheLights[0]);
+
+	TheLights[1].vz	= rcos(theta);
+	TheLights[1].vx	= rsin(theta);
+	GsSetFlatLight(1, &TheLights[1]);
+
+	TheLights[2].vy	= rcos(theta);
+	TheLights[2].vz	= rsin(theta);
+	GsSetFlatLight(2, &TheLights[2]);
+}
+
+
+
+   
+
+
+
+void DealWithControllerPad (void)
+{
+	long pad;
+	int controlSpeed;
+	int pauseSinceLastViewModeChange = 15;
+	static int framesSinceLastViewModeChange = 0;
+
+	pad = PadRead();
+
+		// <start> and <select> to quit
+	if (pad & PADselect && pad & PADstart)
+		{
+		QuitFlag = TRUE;
+		return;
+		}
+
+
+		// pause while start held down
+	if (pad & PADstart)
+		{
+		while (pad & PADstart)
+			{
+			pad = PadRead();
+			VSync(0);
+			}
+		}
+
+		// sort how fast controls act
+	if (pad & PADselect)
+		controlSpeed = 10;
+	else
+		controlSpeed = 1;
+
+
+
+		// L1 and L2 modifier: use Rpad to change projection distance
+	if (pad & PADL1 && pad & PADL2)
+		{
+		if (pad & PADRup)
+			{
+			ProjectionDistance += controlSpeed;
+			if (ProjectionDistance > 5000)
+				ProjectionDistance = 5000;
+			GsSetProjection(ProjectionDistance);
+			return;
+			}
+		if (pad & PADRdown)
+			{
+			ProjectionDistance -= controlSpeed;
+			if (ProjectionDistance < 5)
+				ProjectionDistance = 5;
+			GsSetProjection(ProjectionDistance);
+			return;
+			}
+		}
+
+
+
+
+
+#if 0
+		// L2 modifier: move viewing point in GsRVIEW2
+	if (pad & PADL2)
+		{
+		if (pad & PADRleft)
+			{
+			TheView.vpx -= controlSpeed;
+			return;
+			}
+		if (pad & PADRright)
+			{
+			TheView.vpx += controlSpeed;
+			return;
+			}
+		if (pad & PADRup)
+			{
+			TheView.vpy -= controlSpeed;
+			return;
+			}
+		if (pad & PADRdown)
+			{
+			TheView.vpy += controlSpeed;
+			return;
+			}
+		if (pad & PADR1)
+			{
+			TheView.vpz -= controlSpeed;
+			return;
+			}
+		if (pad & PADR2)
+			{
+			TheView.vpz += controlSpeed;
+			return;
+			}
+		}
+#endif
+
+	  
+		
+
+		// Lleft modifier: use Rpad to change ViewMoveTime
+	if (pad & PADLleft)
+		{
+		if (pad & PADRup)
+			{
+			ViewMoveTime += controlSpeed;
+			if (ViewMoveTime > 120)
+				ViewMoveTime = 120;
+			}
+		if (pad & PADRdown)
+			{
+			ViewMoveTime -= controlSpeed;
+			if (ViewMoveTime < 1)
+				ViewMoveTime = 1;
+			}
+		
+		return;
+		}
+
+
+
+
+
+		// Lright modifier: use Rpad to change ViewDistanceFromOrigin
+	if (pad & PADLright)
+		{
+		if (pad & PADRup)
+			{
+			ViewDistanceFromOrigin += 10 * controlSpeed;
+			if (ViewDistanceFromOrigin > 25000)
+				ViewDistanceFromOrigin = 25000;
+			TheView.vpz = -ViewDistanceFromOrigin;
+			}
+		if (pad & PADRdown)
+			{
+			ViewDistanceFromOrigin -= 10 * controlSpeed;
+			if (ViewDistanceFromOrigin < 200)
+				ViewDistanceFromOrigin = 200;
+			TheView.vpz = -ViewDistanceFromOrigin;
+			}
+		
+		return;
+		}
+
+
+		// Ldown: move the player's sprite
+	if (pad & PADLdown)
+		{
+		if (pad & PADRleft)
+			{
+			PlayersSprite.px -= controlSpeed;
+			}
+		if (pad & PADRright)
+			{
+			PlayersSprite.px += controlSpeed;
+			}
+		if (pad & PADRup)
+			{
+			PlayersSprite.py += controlSpeed;
+			}
+		if (pad & PADRdown)
+			{
+			PlayersSprite.py -= controlSpeed;
+			}
+		if (pad & PADR1)
+			{
+			PlayersSprite.pAngle += 4096 * controlSpeed;
+			}
+		if (pad & PADR2)
+			{
+			PlayersSprite.pAngle -= 4096 * controlSpeed;
+			}
+		return;
+		}
+
+
+	framesSinceLastViewModeChange++;
+	if (pad & PADLup)
+		{
+		if (framesSinceLastViewModeChange >= pauseSinceLastViewModeChange)
+			{
+			if (pad & PADRup)
+				{
+				if (ViewMode == FIRST_VIEW_MODE)
+					ViewMode = THIRD_VIEW_MODE;
+				else
+					ViewMode--;
+				InitNewViewMode();
+				framesSinceLastViewModeChange = 0;
+				}
+			else if (pad & PADRdown)
+				{
+				if (ViewMode == THIRD_VIEW_MODE)
+					ViewMode = FIRST_VIEW_MODE;
+				else
+					ViewMode++;
+				InitNewViewMode();
+				framesSinceLastViewModeChange = 0;
+				}
+			}
+		return;
+		}
+
+
+	DealWithViewControls(pad, controlSpeed);
+}
+
+
+
+
+
+
+void DealWithViewControls (long pad, int controlSpeed)
+{
+	VECTOR twist;
+	VECTOR relativeMove, worldMove;
+
+	switch(ViewMode)
+		{
+		case FIRST_VIEW_MODE:
+			if (ViewMoveFlag == FALSE)
+				{
+				if (pad & PADRleft)
+					{
+					StartFirstModeViewMove(VIEW_TWIST_LEFT);
+					}
+				if (pad & PADRright)
+					{
+					StartFirstModeViewMove(VIEW_TWIST_RIGHT);
+					}
+				if (pad & PADRup)
+					{
+					StartFirstModeViewMove(VIEW_TWIST_UP);
+					}
+				if (pad & PADRdown)
+					{
+					StartFirstModeViewMove(VIEW_TWIST_DOWN);
+					}
+				if (pad & PADR1)
+					{
+					StartFirstModeViewMove(VIEW_TWIST_CLOCKWISE);
+					}
+				if (pad & PADR2)
+					{
+					StartFirstModeViewMove(VIEW_TWIST_ANTICLOCKWISE);
+					}
+				}
+			break;
+		case SECOND_VIEW_MODE:
+			setVECTOR( &twist, 0, 0, 0);
+
+			if (pad & PADRleft)
+				{
+				twist.vy += 25 * controlSpeed;
+				}
+			if (pad & PADRright)
+				{
+				twist.vy -= 25 * controlSpeed;
+				}
+			if (pad & PADRup)
+				{
+				twist.vx -= 25 * controlSpeed;
+				}
+			if (pad & PADRdown)
+				{
+				twist.vx += 25 * controlSpeed;
+				}
+			if (pad & PADR1)
+				{
+				twist.vz -= 25 * controlSpeed;
+				}
+			if (pad & PADR2)
+				{
+				twist.vz += 25 * controlSpeed;
+				}
+
+			RotateCoordinateSystem (&twist, &ViewCoords);
+
+			GsSetRefView2(&TheView);
+			break;
+		case THIRD_VIEW_MODE:
+			setVECTOR( &twist, 0, 0, 0);
+			setVECTOR( &relativeMove, 0, 0, 0);
+
+			if (pad & PADRleft)
+				{
+				twist.vy -= 25 * controlSpeed;
+				}
+			if (pad & PADRright)
+				{
+				twist.vy += 25 * controlSpeed;
+				}
+			if (pad & PADRup)
+				{
+				twist.vx -= 25 * controlSpeed;
+				}
+			if (pad & PADRdown)
+				{
+				twist.vx += 25 * controlSpeed;
+				}
+			if (pad & PADR1)
+				{
+				twist.vz -= 25 * controlSpeed;
+				}
+			if (pad & PADR2)
+				{
+				twist.vz += 25 * controlSpeed;
+				}
+
+			if (pad & PADL1)
+				{
+				setVECTOR( &relativeMove, 0, 0, 20 * -controlSpeed);
+				}
+			else if (pad & PADL2)
+				{
+				setVECTOR( &relativeMove, 0, 0, 20 * controlSpeed);
+				} 
+
+			RotateCoordinateSystem (&twist, &ViewCoords);
+
+				// find relative movement in world terms
+			ApplyMatrixLV( &ViewCoords.coord, &relativeMove, &worldMove);
+
+			ViewCoords.coord.t[0] += worldMove.vx;
+			ViewCoords.coord.t[1] += worldMove.vy;
+			ViewCoords.coord.t[2] += worldMove.vz;
+
+			ViewCoords.flg = 0;
+
+			GsSetRefView2(&TheView);
+			break;
+		default:
+			assert(FALSE);
+		}
+}
+
+
+
+
+
+void HandleAllObjects (void)
+{
+	ObjectHandler* object;
+	int i;
+
+	for (i = 0; i < MAX_OBJECTS; i++)
+		{
+		if (ObjectArray[i] != NULL)
+			{
+			if (ObjectArray[i]->alive == TRUE)
+				{
+				object = ObjectArray[i];
+
+				HandleCommonUpdating(object);
+
+				switch(object->type)
+					{
+					case SIMPLE_CUBE:
+						HandleASimpleCube(object);
+						break;
+					case PLAYERS_SPRITE:
+						HandlePlayersSprite(object);
+						break;
+					case POLYGON:
+						assert(FALSE);		// don't need handling
+						break;
+					default:
+						assert(FALSE);
+					}
+				}
+			}
+		}
+}
+
+
+
+
+
+
+	// updating common to all object types
+	// void function at present
+
+void HandleCommonUpdating( ObjectHandler *object)
+{
+	
+	//object->lifeTime++;
+
+			// no guns yet
+	//if (object->canFire == TRUE)
+	//	object->framesSinceLastFire++;
+}
+
+
+
+
+void HandleASimpleCube (ObjectHandler* object)
+{
+	assert(object->type == SIMPLE_CUBE);
+
+	// OLD
+	//UpdateObjectCoordinates2 ( &object->rotate,
+	//						&object->position, &object->coord);
+
+	UpdateObjectCoordinates (&object->twist,
+							&object->position, &object->velocity,
+							&object->coord, &object->matrix);
+
+	SortObjectSize(object);
+
+	if (object->movementMomentumFlag == FALSE)
+		{
+		setVECTOR( &object->velocity, 0, 0, 0);
+		}
+	if (object->rotationMomentumFlag == FALSE)
+		{
+		setVECTOR( &object->twist, 0, 0, 0);
+		}
+}
+
+
+
+
+
+	
+	
+void HandlePlayersSprite (ObjectHandler *object)
+{
+	int oldPlane, px, py, oldAngle;
+	int direction;		// from oldPlane to newPlane
+	int newPlane, newX, newY, newAngle;
+	int side;
+	int x1, y1, x2, y2, x3, y3, x4, y4;
+	int numberExtraPlanesDrawnOnto;
+	int listOfExtraPlanes[MAX_PLANES_PER_OBJECT];
+	int directionsToExtraPlanes[MAX_PLANES_PER_OBJECT];
+	int plane, i;
+	int textureWidth, textureHeight;
+				
+#if 0		
+	if (frameNumber % 15 == 0)
+		{
+		char debug[32];
+		PlaneIdToText(object->plane, debug);		
+		printf("plane %d ie %s, side %d\n", object->plane, debug, object->side);
+		printf("x %d y %d angle %d\n", object->px, object->py, object->pAngle);
+		}
+#endif
+
+	oldPlane = object->plane;
+	side = object->side;
+	px = object->px;
+	py = object->py;
+	oldAngle = object->pAngle;
+
+	assert(object->type == PLAYERS_SPRITE);
+		
+	if (PointWithinItsPlane(px, py, side) == FALSE)
+		{
+		FindNewPlaneAndItsDirectionFromPoint(px, py, side, 
+			oldPlane, &newPlane, &direction);
+
+		TranslatePointAcrossPlanes (oldPlane, 
+			px,	py, oldAngle,
+						newPlane, 
+			&newX, &newY, &newAngle,
+			 direction, side);
+
+		object->plane = newPlane;
+		object->px = newX;
+		object->py = newY;
+		object->pAngle = newAngle;
+		}	
+
+		// find which extra planes sprite appears on (if near cube edge/corner, can be up to 3)
+	numberExtraPlanesDrawnOnto = 0;
+	x1 = object->px - (object->sprite.w/2);				 // top left
+	y1 = object->py - (object->sprite.h/2);
+	if (PointWithinItsPlane(x1, y1, side) == FALSE)
+		{
+		FindNewPlaneAndItsDirectionFromPoint(x1, y1, side, 
+			oldPlane, &newPlane, &direction);
+		
+		listOfExtraPlanes[numberExtraPlanesDrawnOnto] = newPlane;
+		directionsToExtraPlanes[numberExtraPlanesDrawnOnto] = direction;
+
+		numberExtraPlanesDrawnOnto++;
+		}
+	assert(numberExtraPlanesDrawnOnto <= MAX_PLANES_PER_OBJECT);
+	x2 = object->px + (object->sprite.w/2);			// top right
+	y2 = object->py - (object->sprite.h/2);
+	if (PointWithinItsPlane(x2, y2, side) == FALSE)
+		{
+		FindNewPlaneAndItsDirectionFromPoint(x2, y2, side, 
+			oldPlane, &newPlane, &direction);
+		
+		listOfExtraPlanes[numberExtraPlanesDrawnOnto] = newPlane;
+		directionsToExtraPlanes[numberExtraPlanesDrawnOnto] = direction;
+
+		numberExtraPlanesDrawnOnto++;
+		}
+	assert(numberExtraPlanesDrawnOnto <= MAX_PLANES_PER_OBJECT);
+	x3 = object->px - (object->sprite.w/2);				 // bottom left
+	y3 = object->py + (object->sprite.h/2);
+	if (PointWithinItsPlane(x3, y3, side) == FALSE)
+		{
+		FindNewPlaneAndItsDirectionFromPoint(x3, y3, side, 
+			oldPlane, &newPlane, &direction);
+		
+		listOfExtraPlanes[numberExtraPlanesDrawnOnto] = newPlane;
+		directionsToExtraPlanes[numberExtraPlanesDrawnOnto] = direction;
+
+		numberExtraPlanesDrawnOnto++;
+		}
+	assert(numberExtraPlanesDrawnOnto <= MAX_PLANES_PER_OBJECT);
+	x4 = object->px + (object->sprite.w/2);			// bottom right
+	y4 = object->py + (object->sprite.h/2);
+	if (PointWithinItsPlane(x4, y4, side) == FALSE)
+		{
+		FindNewPlaneAndItsDirectionFromPoint(x4, y4, side, 
+			oldPlane, &newPlane, &direction);
+		
+		listOfExtraPlanes[numberExtraPlanesDrawnOnto] = newPlane;
+		directionsToExtraPlanes[numberExtraPlanesDrawnOnto] = direction;
+
+		numberExtraPlanesDrawnOnto++;
+		}
+	assert(numberExtraPlanesDrawnOnto <= MAX_PLANES_PER_OBJECT);
+	
+
+
+	
+
+		// always draw the base sprite
+	GetDrawProcessTextureWidthAndHeight(object->plane, &textureWidth, &textureHeight);
+	object->sprite.x = object->px - (object->sprite.w/2) + (textureWidth/2);
+	object->sprite.y = object->py - (object->sprite.h/2) + (textureHeight/2);
+	object->sprite.rotate = object->pAngle * 360;
+	RegisterSpriteIntoDrawProcess( &object->sprite, object->plane);
+
+#if 0
+	if (frameNumber % 15 == 0)
+		{
+		printf("Draw Base sprite onto plane %d\n", object->plane);
+		//dumpSPRITE( &object->sprite);
+		printf("sprite x %d y %d\n", object->sprite.x, object->sprite.y);
+		}
+#endif
+
+		// now sort extra sprites
+	for (i = 0; i < numberExtraPlanesDrawnOnto; i++)
+		{
+		plane = listOfExtraPlanes[i];
+		direction = directionsToExtraPlanes[i];
+
+		TranslatePointAcrossPlanes (object->plane, 
+			object->px,	object->py, oldAngle,
+						plane, 
+			&newX, &newY, &newAngle,
+			 direction, side);
+
+		GetDrawProcessTextureWidthAndHeight(plane, &textureWidth, &textureHeight);
+		object->sprite.x = newX - (object->sprite.w/2) + (textureWidth/2);
+		object->sprite.y = newY - (object->sprite.h/2) + (textureHeight/2);
+		object->sprite.rotate = newAngle * 360;
+		RegisterSpriteIntoDrawProcess( &object->sprite, plane);
+
+#if 0
+		if (frameNumber % 15 == 0)
+			{
+			printf("Draw Extra sprite onto plane %d\n", plane);	
+			//dumpSPRITE( &object->sprite);
+			printf("sprite x %d y %d\n", object->sprite.x, object->sprite.y);
+			}
+#endif
+		}	
+}	
+
+  	 
+
+
+
+
+	// this function does object-relative movement and rotation
+	// only allows one angle rotation per frame
+void UpdateObjectCoordinates (VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem, MATRIX* matrix)
+{	
+	VECTOR realMovement;
+	MATRIX xMatrix, yMatrix, zMatrix;
+	SVECTOR xVector, yVector, zVector;
+	
+		// find the object-local velocity in super coordinate terms
+	ApplyMatrixLV(matrix, velocity, &realMovement);
+
+		// update position by actual movement
+	position->vx += realMovement.vx;
+	position->vy += realMovement.vy;
+	position->vz += realMovement.vz;
+
+	
+	if (twist->vz != 0)
+		{
+		zVector.vx = 0;
+		zVector.vy = 0;
+		zVector.vz = twist->vz;
+			
+		RotMatrix(&zVector, &zMatrix);
+
+		MulMatrix0(matrix, &zMatrix, matrix);
+		}
+	else if (twist->vy != 0)
+		{
+		yVector.vx = 0;
+		yVector.vy = twist->vy;
+		yVector.vz = 0;
+			
+		RotMatrix(&yVector, &yMatrix);
+
+		MulMatrix0(matrix, &yMatrix, matrix);
+		}
+	else if (twist->vx != 0)
+		{
+		xVector.vx = twist->vx;
+		xVector.vy = 0;
+		xVector.vz = 0;
+			
+		RotMatrix(&xVector, &xMatrix);
+
+		MulMatrix0(matrix, &xMatrix, matrix);
+		}
+	 
+	coordSystem->coord = *matrix;
+	
+		// set position absolutely	
+	coordSystem->coord.t[0] = position->vx;
+	coordSystem->coord.t[1] = position->vy;
+	coordSystem->coord.t[2] = position->vz;
+
+		// tell GTE that coordinate system has been updated
+	coordSystem->flg = 0;
+}
+
+
+
+
+
+
+
+
+	// this does world-relative movement and rotation
+void UpdateObjectCoordinates2 (SVECTOR* rotationVector,
+							VECTOR* translationVector,
+							GsCOORDINATE2* coordSystem)
+{
+	MATRIX tempMatrix;
+
+		// get rotation matrix from rotation vector
+		// order will by zyx
+	RotMatrix(rotationVector, &tempMatrix);
+
+		// assign new matrix to coordinate system
+	coordSystem->coord = tempMatrix;
+	
+		// set position by absolute coordinates	
+	coordSystem->coord.t[0] = translationVector->vx;
+	coordSystem->coord.t[1] = translationVector->vy;
+	coordSystem->coord.t[2] = translationVector->vz;
+
+	   	// tell GTE that coordinate system has been updated
+	coordSystem->flg = 0;
+}
+
+
+
+	// this function does self-relative rotation
+void RotateCoordinateSystem (VECTOR* twist,
+							GsCOORDINATE2* coordSystem)
+{	
+	MATRIX xMatrix, yMatrix, zMatrix;
+	SVECTOR xVector, yVector, zVector;
+	
+	if (twist->vz != 0)
+		{
+		zVector.vx = 0;
+		zVector.vy = 0;
+		zVector.vz = twist->vz;
+			
+		RotMatrix(&zVector, &zMatrix);
+
+		MulMatrix0(&coordSystem->coord, &zMatrix, &coordSystem->coord);
+		}
+	else if (twist->vy != 0)
+		{
+		yVector.vx = 0;
+		yVector.vy = twist->vy;
+		yVector.vz = 0;
+			
+		RotMatrix(&yVector, &yMatrix);
+
+		MulMatrix0(&coordSystem->coord, &yMatrix, &coordSystem->coord);
+		}
+	else if (twist->vx != 0)
+		{
+		xVector.vx = twist->vx;
+		xVector.vy = 0;
+		xVector.vz = 0;
+			
+		RotMatrix(&xVector, &xMatrix);
+
+		MulMatrix0(&coordSystem->coord, &xMatrix, &coordSystem->coord);
+		}
+
+		// tell GTE that coordinate system has been updated
+	coordSystem->flg = 0;
+}
+
+
+
+
+
+void CopyCoordinateSystem (GsCOORDINATE2 *from, GsCOORDINATE2 *to)
+{
+	assert(from != to);
+
+	to->super = from->super;
+
+	CopyMatrix( &from->coord, &to->coord);
+
+	to->flg = 0;
+}
+
+
+
+
+
+
+void CopyMatrix (MATRIX *from, MATRIX *to)
+{
+	assert(from != to);
+
+	to->m[0][0] = from->m[0][0];
+	to->m[0][1] = from->m[0][1];
+	to->m[0][2] = from->m[0][2];
+	to->m[1][0] = from->m[1][0];
+	to->m[1][1] = from->m[1][1];
+	to->m[1][2] = from->m[1][2];
+	to->m[2][0] = from->m[2][0];
+	to->m[2][1] = from->m[2][1];
+	to->m[2][2] = from->m[2][2];
+
+	to->t[0] = from->t[0];
+	to->t[1] = from->t[1];
+	to->t[2] = from->t[2];
+}
+
+
+
+void ExpressSubPointInSuper (VECTOR* superPoint, 
+			GsCOORDINATE2* subSystem, VECTOR* subPointOutput)
+{
+	MATRIX* matrix;
+
+	matrix = &subSystem->coord;
+
+	setVECTOR(subPointOutput, 
+				((superPoint->vx * matrix->m[0][0]
+				+ superPoint->vy * matrix->m[1][0]
+				+ superPoint->vz * matrix->m[2][0]) >> 12),
+
+				((superPoint->vx * matrix->m[0][1]
+				+ superPoint->vy * matrix->m[1][1]
+				+ superPoint->vz * matrix->m[2][1]) >> 12),
+
+				((superPoint->vx * matrix->m[0][2]
+				+ superPoint->vy * matrix->m[1][2]
+				+ superPoint->vz * matrix->m[2][2]) >> 12) );
+}
+
+
+
+void ExpressSuperPointInSub (VECTOR* subPoint, 
+			GsCOORDINATE2* subSystem, VECTOR* superPointOutput)
+{
+	MATRIX* matrix;
+
+	matrix = &subSystem->coord;
+
+	setVECTOR(superPointOutput, 
+				((subPoint->vx * matrix->m[0][0]
+				+ subPoint->vy * matrix->m[0][1]
+				+ subPoint->vz * matrix->m[0][2]) >> 12),
+
+				((subPoint->vx * matrix->m[1][0]
+				+ subPoint->vy * matrix->m[1][1]
+				+ subPoint->vz * matrix->m[1][2]) >> 12),
+
+				((subPoint->vx * matrix->m[2][0]
+				+ subPoint->vy * matrix->m[2][1]
+				+ subPoint->vz * matrix->m[2][2]) >> 12) );
+}
+
+
+
+
+
+	// sort out the conversion of coordinates from local->world->screen			 
+	// for objects that are displayed by GsSPRITE rather than GsDOBJ2
+u_short SortSpriteObjectPosition (ObjectHandler* object)
+{
+	VECTOR screen;
+	int visualX, visualY;
+	u_short zValue;
+
+	PushMatrix();
+
+	ApplyMatrixLV( &GsWSMATRIX, &object->position, &screen);
+
+	screen.vx += GsWSMATRIX.t[0];
+	screen.vy += GsWSMATRIX.t[1];
+	screen.vz += GsWSMATRIX.t[2];
+
+	if (screen.vz == 0)			   // prevent division by zero
+		return 0;	   // right at the front
+
+	visualX = object->sprite.w * ProjectionDistance / screen.vz;	
+	visualY = object->sprite.h * ProjectionDistance / screen.vz;	
+
+	object->sprite.x = ((screen.vx * ProjectionDistance / screen.vz) - visualX/2);
+	object->sprite.y = ((screen.vy * ProjectionDistance / screen.vz) - visualY/2);
+
+	object->sprite.scalex = object->scaleX * ProjectionDistance / screen.vz; 
+	object->sprite.scaley = object->scaleY * ProjectionDistance / screen.vz; 
+
+	PopMatrix();
+
+		// 3D clipping
+	if (screen.vz < ProjectionDistance/2)
+		object->sprite.attribute |= GsDOFF;			 // display off
+	else
+		TURN_NTH_BIT_OFF(object->sprite.attribute, 32, 31)		// ensure 31st bit is OFF
+
+	zValue = (u_short) (screen.vz >> 6);	 // NOTE: need to adjust this
+											// just a blagg to make it look right
+
+	return zValue;			   // NOT YET CORRECT
+}
+
+
+
+
+
+
+#define STORING_SCREEN 0
+
+void StoreScreen (void)
+{
+#if STORING_SCREEN
+	u_long* destination;
+	int x, y, w, h;
+	RECT rect;
+
+	destination = (u_long *) SCREEN_SAVE_ADDRESS;
+
+	x = y = 0;		// top left of frame buffer
+
+	w = ScreenWidth;
+	h = ScreenHeight;
+
+	*(destination+0) = 0x00000010;		/* ID */
+	*(destination+1) = 0x00000002;		/* FLAG(15bit Direct,No Clut) */
+	*(destination+2) = (w*h/2+3)*4;		/* pixel bnum */
+	*(destination+3) = ((0 & 0xffff) << 16) | (640 & 0xffff);
+						/* pixel DX,DY: at 640, 0 */
+	*(destination+4) = ((h & 0xffff) << 16) | (w & 0xffff);
+						/* pixel W,H */
+
+	// NO CLUT since 16-bit mode used
+
+	rect.x = x; 
+	rect.y = y;
+	rect.w = w; 
+	rect.h = h;
+	DrawSync(0);
+	StoreImage(&rect, destination+5);		
+
+	printf("\n\nPress [F10][F4] for dsave, to get screen picture\n"); 
+	printf("Dsave[0]: filename %08x %x\n\n\n", destination, (w*h/2+5)*4);
+
+	DrawSync(0);
+	VSync(0);
+#endif
+}
+		  
+
+
+
+
+
+
+
+
+
+
+void InitCube (Cube *cube)
+{
+	int i;
+
+	cube->id = -1;
+	cube->alive = FALSE;
+	cube->sideLength = -1;
+	cube->sideFlag = -1;
+	cube->polysPerSide = -1;
+	cube->textureType = -1;
+
+	for (i = 0; i < MAX_POLYGONS_PER_CUBE; i++)
+		{
+		setRECT( &(cube->textureAreas[i]), 0, 0, 0, 0);
+		cube->polygons[i] = NULL;
+		}
+	for (i = 0; i < 6; i++)
+		{
+		setVECTOR( &(cube->normals[i]), 0, 0, 0);
+		}
+
+	GsInitCoordinate2( WORLD, &cube->coord);
+}
+
+
+
+
+
+
+
+void CreateCube (Cube *cube, int id, int sideLength, int sideFlag, 
+				   int polysPerSide, int type, RECT *rectList)
+{
+	assert(id >= 0);
+	assert(sideLength > 0);
+	assert(polysPerSide >= 1);		
+	assert(polysPerSide <= MAX_POLYS_PER_SIDE);
+
+	InitCube(cube);
+	cube->alive = TRUE;
+
+	cube->id = id;
+	cube->sideLength = sideLength;
+	cube->sideFlag = sideFlag;
+	cube->polysPerSide = polysPerSide;
+
+	SortCubeTextureAreas(cube, type, rectList);
+
+		// we know the normals: 
+		// cube constructed at world origin with world's orientation
+	switch(sideFlag)
+		{
+		case VISIBLE_FROM_INSIDE:
+			setVECTOR( &(cube->normals[PLUS_X_Y_PLANE]), 0, 0, -ONE);
+			setVECTOR( &(cube->normals[MINUS_X_Y_PLANE]), 0, 0, ONE);
+			setVECTOR( &(cube->normals[PLUS_X_Z_PLANE]), 0, -ONE, 0);
+			setVECTOR( &(cube->normals[MINUS_X_Z_PLANE]), 0, ONE, 0);
+			setVECTOR( &(cube->normals[PLUS_Y_Z_PLANE]), -ONE, 0, 0);
+			setVECTOR( &(cube->normals[MINUS_Y_Z_PLANE]), ONE, 0, 0);
+			break;
+		case VISIBLE_FROM_OUTSIDE:
+			setVECTOR( &(cube->normals[PLUS_X_Y_PLANE]), 0, 0, ONE);
+			setVECTOR( &(cube->normals[MINUS_X_Y_PLANE]), 0, 0, -ONE);
+			setVECTOR( &(cube->normals[PLUS_X_Z_PLANE]), 0, ONE, 0);
+			setVECTOR( &(cube->normals[MINUS_X_Z_PLANE]), 0, -ONE, 0);
+			setVECTOR( &(cube->normals[PLUS_Y_Z_PLANE]), ONE, 0, 0);
+			setVECTOR( &(cube->normals[MINUS_Y_Z_PLANE]), -ONE, 0, 0);
+			break;
+		default:	
+			assert(FALSE);
+		}
+
+#if 0
+	{
+	int i;
+	printf("Normals :-\n\n");
+	for (i = 0; i < 6; i++)
+		{
+		dumpVECTOR( &(cube->normals[i]) );
+		}
+	}
+#endif
+
+	CreateTheCubesPolygons(cube);
+} 
+
+
+
+
+
+	// just copying rectangle data into cube's memory space
+
+void SortCubeTextureAreas (Cube *cube, int type, RECT *rectList)
+{
+	int numberPolygons;
+	int i;
+
+	assert(cube->alive == TRUE);
+
+	switch(type)
+		{
+		case SINGLE_CUBE_TEXTURE:
+			setRECT( &cube->textureAreas[0], 
+				rectList[0].x, rectList[0].y,
+				rectList[0].w, rectList[0].h);
+			break;
+		case ONE_TEXTURE_PER_FACE:
+			for (i = 0; i < 6; i++)
+				{
+				setRECT( &cube->textureAreas[i],
+					rectList[i].x, rectList[i].y,
+					rectList[i].w, rectList[i].h);	
+				}
+			break;
+		case ONE_TEXTURE_PER_POLYGON:
+			numberPolygons = 6 * cube->polysPerSide * cube->polysPerSide;
+			for (i = 0; i < numberPolygons; i++)
+				{
+				setRECT( &cube->textureAreas[i],
+					rectList[i].x, rectList[i].y,
+					rectList[i].w, rectList[i].h);	
+				}
+			break;
+		case ONE_TEXTURE_PER_MAIN_AXIS:
+			for (i = 0; i < 3; i++)
+				{
+				setRECT( &cube->textureAreas[i],
+					rectList[i].x, rectList[i].y,
+					rectList[i].w, rectList[i].h);	
+				}
+			break;
+		case ONE_TEXTURE_PER_CORNER:	
+			for (i = 0; i < 2; i++)
+				{
+				setRECT( &cube->textureAreas[i],
+					rectList[i].x, rectList[i].y,
+					rectList[i].w, rectList[i].h);	
+				}
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	cube->textureType = type;
+}
+
+
+
+
+void CreateTheCubesPolygons (Cube *cube)
+{
+	MiniObject *polygon;
+	u_long address;
+	TMD_NORM normal;
+	TMD_VERT vert1, vert2, vert3, vert4;
+	int tPageID;
+	RECT rect;
+	int baseX, baseY;
+	u_char u0, v0, u1, v1, u2, v2, u3, v3;
+	int i, j, k;
+	int number;
+	int whichOne;
+	int whichPoly;
+
+	assert(cube->alive == TRUE);
+
+	number = cube->polysPerSide;
+	assert(number >= 1);
+	assert(number <= MAX_POLYS_PER_SIDE);
+
+	printf("START of CreateTheCubesPolygons\n");
+	printf("NumberOfCreatedTMDs %d\n", NumberOfCreatedTMDs);
+	printf("CurrentTMDStackAddress %08x\n", (int) CurrentTMDStackAddress);
+
+	whichPoly = 0;
+	for (i = 0; i < 6; i++)		  // plane
+		{
+		for (j = 0; j < number; j++)	// grid X on plane
+			{
+			for (k = 0; k < number; k++)	// grid Y on plane
+				{
+				polygon = GetNextFreePolygon();
+				assert(polygon != NULL);
+
+				assert(whichPoly < (6 * number * number) );
+
+				//printf("\n\ni %d j %d k %d\n\n", i, j, k);
+
+				switch(cube->textureType)
+					{
+					case SINGLE_CUBE_TEXTURE:
+						copyRECT(&cube->textureAreas[0],&rect);
+						break;
+					case ONE_TEXTURE_PER_FACE:
+						copyRECT(&cube->textureAreas[i],&rect);
+						break;
+					case ONE_TEXTURE_PER_POLYGON:
+						copyRECT(&cube->textureAreas[whichPoly],&rect);
+						break;
+					case ONE_TEXTURE_PER_MAIN_AXIS:
+						whichOne = i % 3;
+						copyRECT(&cube->textureAreas[whichOne],&rect);
+						break;
+					case ONE_TEXTURE_PER_CORNER:	
+						if ((i % 2) == 0)
+							copyRECT(&cube->textureAreas[0],&rect);
+						else
+							copyRECT(&cube->textureAreas[1],&rect);
+						break;
+					default:
+						assert(FALSE);
+					}
+
+				//printf("RECT before "); dumpRECT(&rect);
+				switch (cube->sideFlag)
+					{
+					case VISIBLE_FROM_OUTSIDE:
+						SortRectGivenPolygonsPerSide( &rect, number, j, k);
+						break;
+					case VISIBLE_FROM_INSIDE:
+						SortRectGivenPolygonsPerSide( &rect, number, k, j);
+						break;
+					default:	
+						assert(FALSE);
+					}
+				//printf("RECT after "); dumpRECT(&rect);
+
+				//printf("\n\nTexture for poly: ");dumpRECT(&rect); printf("\n\n");
+
+				GetTexturePageOfRectangle (&rect, &tPageID, &baseX, &baseY);
+
+				u0 = baseX;				v0 = baseY;
+				u1 = baseX + rect.w-1;	v1 = baseY;
+				u2 = baseX;				v2 = baseY + rect.h-1;
+				u3 = baseX + rect.w-1;	v3 = baseY + rect.h-1;
+
+				setNORMAL( &normal, cube->normals[i].vx,
+					cube->normals[i].vy, cube->normals[i].vz);
+
+				SortVertices(cube, i, j, k, &vert1, &vert2, &vert3, &vert4);
+
+				address = CreateAnotherPolygonTMD (0, 0, 
+							tPageID, CUBE_TEXTURES_PIXEL_MODE, 
+						 u0, v0,
+						 u1, v1, 
+						 u2, v2, 
+						 u3, v3,
+						 &normal, 
+						 &vert1, &vert2, &vert3, &vert4);
+							
+				LinkObjectHandlerToSingleTMD (&polygon->handler, 
+							address);
+
+				polygon->alive = TRUE;
+
+				cube->polygons[whichPoly] = polygon;
+
+				whichPoly++;
+				}
+			}
+		}
+
+	printf("END of CreateTheCubesPolygons\n");
+	printf("NumberOfCreatedTMDs %d\n", NumberOfCreatedTMDs);
+	printf("CurrentTMDStackAddress %08x\n", (int) CurrentTMDStackAddress);
+}
+
+
+
+
+
+
+void SortRectGivenPolygonsPerSide (RECT *rect, int numPolysPerSide, int x, int y)
+{
+	int width, height;
+
+	assert(numPolysPerSide >= 1);
+	assert(numPolysPerSide <= MAX_POLYS_PER_SIDE);
+
+	assert(x >= 0);
+	assert(x < numPolysPerSide);
+	assert(y >= 0);
+	assert(y < numPolysPerSide);
+
+	width = rect->w / numPolysPerSide;
+	height = rect->h / numPolysPerSide;
+
+	rect->x += width * x;
+	rect->y += height * y;
+
+	rect->w = width;
+	rect->h = height;
+}
+
+
+
+
+
+
+void SortVertices (Cube *cube, int whichFace, int gridX, int gridY,
+		TMD_VERT *v1, TMD_VERT *v2, TMD_VERT *v3, TMD_VERT *v4)
+{
+	VECTOR centreToPlane;
+	VECTOR xOnPlane, yOnPlane;
+	VECTOR topLeft;
+	int distance, number;
+	VECTOR temp;
+
+	assert(cube->alive == TRUE);
+
+	distance = cube->sideLength; 
+	number = cube->polysPerSide;
+	assert(number > 0);
+
+	assert(gridX >= 0);
+	assert(gridX < number);
+	assert(gridY >= 0);
+	assert(gridY < number);
+
+	//printf("gridX %d gridY %d\n\n\n", gridX, gridY);
+
+	switch(whichFace)
+		{
+		case PLUS_X_Y_PLANE:	  // back
+			setVECTOR( &centreToPlane, 0, 0, distance/2);
+			setVECTOR( &xOnPlane, -distance, 0, 0);
+			setVECTOR( &yOnPlane, 0, -distance, 0);
+			break;
+		case MINUS_X_Y_PLANE:	// front
+			setVECTOR( &centreToPlane, 0, 0, -distance/2);
+			setVECTOR( &xOnPlane, distance, 0, 0);
+			setVECTOR( &yOnPlane, 0, -distance, 0);
+			break;
+		case PLUS_X_Z_PLANE:	  // bottom
+			setVECTOR( &centreToPlane, 0, distance/2, 0);
+			setVECTOR( &xOnPlane, distance, 0, 0);
+			setVECTOR( &yOnPlane, 0, 0, -distance);
+			break;
+		case MINUS_X_Z_PLANE:		 // top
+			setVECTOR( &centreToPlane, 0, -distance/2, 0);
+			setVECTOR( &xOnPlane, distance, 0, 0);
+			setVECTOR( &yOnPlane, 0, 0, distance);
+			break;
+		case PLUS_Y_Z_PLANE:		 // right
+			setVECTOR( &centreToPlane, distance/2, 0, 0);
+			setVECTOR( &xOnPlane, 0, 0, distance);
+			setVECTOR( &yOnPlane, 0, -distance, 0);
+			break;
+		case MINUS_Y_Z_PLANE:		 // left
+			setVECTOR( &centreToPlane, -distance/2, 0, 0);
+			setVECTOR( &xOnPlane, 0, 0, -distance);
+			setVECTOR( &yOnPlane, 0, -distance, 0);
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	setVECTOR( &topLeft, 
+		centreToPlane.vx - (xOnPlane.vx/2) + (yOnPlane.vx/2),
+		centreToPlane.vy - (xOnPlane.vy/2) + (yOnPlane.vy/2),
+		centreToPlane.vz - (xOnPlane.vz/2) + (yOnPlane.vz/2) );
+	//dumpVECTOR(&topLeft);
+	//printf("\n\n");
+
+	setVERTEX(v1, 
+		topLeft.vx + (xOnPlane.vx * gridX / number) - (yOnPlane.vx * gridY / number),
+		topLeft.vy + (xOnPlane.vy * gridX / number) - (yOnPlane.vy * gridY / number),
+		topLeft.vz + (xOnPlane.vz * gridX / number) - (yOnPlane.vz * gridY / number) );
+
+	setVERTEX(v2, 
+		v1->vx + (xOnPlane.vx / number),
+		v1->vy + (xOnPlane.vy / number),
+		v1->vz + (xOnPlane.vz / number) );
+
+	setVERTEX(v3, 
+		v1->vx - (yOnPlane.vx / number),
+		v1->vy - (yOnPlane.vy / number),
+		v1->vz - (yOnPlane.vz / number) );
+
+	setVERTEX(v4, 
+		v1->vx + (xOnPlane.vx / number) - (yOnPlane.vx / number),
+		v1->vy + (xOnPlane.vy / number) - (yOnPlane.vy / number),
+		v1->vz + (xOnPlane.vz / number) - (yOnPlane.vz / number) );
+	
+		// the order of v1 to v4 above is fixed for VISIBLE_FROM_OUTSIDE
+	switch(cube->sideFlag)
+		{
+		case VISIBLE_FROM_INSIDE:	   // reverse order: swap v2 and v3
+			setVECTOR( &temp, v2->vx, v2->vy, v2->vz);
+			setVECTOR(v2, v3->vx, v3->vy, v3->vz);
+			setVECTOR(v3, temp.vx, temp.vy, temp.vz);
+			break;
+		case VISIBLE_FROM_OUTSIDE:	 // all is well
+			break;
+		default:	
+			assert(FALSE);
+		}
+
+	//dumpSVECTOR(v1);
+	//dumpSVECTOR(v2);
+	//dumpSVECTOR(v3);
+	//dumpSVECTOR(v4);
+	//printf("\n\n");
+}
+
+
+
+
+
+
+
+void DrawCube (Cube *cube, GsOT *ot)
+{
+	int i;
+	MATRIX tmpls;
+	int numberPolygons;
+	MiniObject *polygon;
+	GsCOORDINATE2 world;
+
+	GsInitCoordinate2( WORLD, &world);
+
+	if (cube->alive != TRUE)
+		return;
+
+	numberPolygons = 6 * cube->polysPerSide * cube->polysPerSide;
+
+	for (i = 0; i < numberPolygons; i++)
+		{
+		polygon = cube->polygons[i];
+
+		if (polygon != NULL)
+			{
+			if (polygon->alive == TRUE)
+				{
+				//GsGetLs(&(polygon->coord), &tmpls);
+				GsGetLs( &world, &tmpls);	   
+										   
+				GsSetLightMatrix(&tmpls);
+											
+				GsSetLsMatrix(&tmpls);
+											
+				GsSortObject4( &(polygon->handler), 
+						ot, 3, getScratchAddr(0));
+				}
+			}
+		}
+}
+
+
+
+
+MiniObject *GetNextFreePolygon (void)
+{
+	MiniObject *polygon;
+	int i;
+
+	polygon = NULL;
+	for (i = 0; i < MAX_POLYGONS; i++)
+		{
+		if (ThePolygons[i].alive == FALSE)
+			{
+			polygon = &ThePolygons[i];
+			break;
+			}
+		}
+
+	return polygon;
+}
+
+
+
+
+
+
+u_long CreateAnotherPolygonTMD (int clutX, int clutY, 
+					int tPageID, int pixelMode, 
+					u_char u0, u_char v0,
+					u_char u1, u_char v1, 
+					u_char u2, u_char v2, 
+					u_char u3, u_char v3,
+					TMD_NORM* norm0, 
+					TMD_VERT* vert0, 
+					TMD_VERT* vert1, 
+					TMD_VERT* vert2, 
+					TMD_VERT* vert3)
+{
+	u_long address;
+
+	address = CurrentTMDStackAddress;
+
+	assert(address < END_OF_CREATED_TMDS_STACK);		
+
+	CreateSimpleTMD ( (u_long*)address, clutX, clutY, tPageID,
+				 pixelMode, 
+				 u0, v0,
+				 u1, v1, 
+				 u2, v2, 
+				 u3, v3,
+				 norm0, 
+				 vert0, 
+				 vert1, 
+				 vert2, 
+				 vert3);
+
+	NumberOfCreatedTMDs++;
+	CurrentTMDStackAddress += SIZEOF_SINGLE_POLYGON_TMD;
+
+	assert(address < END_OF_CREATED_TMDS_STACK);
+
+	return address;
+}
+
+
+
+
+
+void ClearTheCreatedTmds (void)
+{
+	int i;
+	u_long *pointer;
+
+	NumberOfCreatedTMDs = 0;
+	CurrentTMDStackAddress = START_OF_CREATED_TMDS_STACK;
+
+		// link them all to a safe and simple TMD
+	pointer = (u_long*) CUBE_MODEL_ADDRESS;
+	pointer++;
+	GsMapModelingData(pointer);
+	pointer += 2;
+
+	for (i = 0; i < MAX_POLYGONS; i++)
+		{
+		ThePolygons[i].alive = FALSE;
+		//GsLinkObject4( (u_long)pointer, &ThePolygons[i].handler, 0); // NO NEED
+		}
+}	  
+
+
+
+void PrintCubeInfo (Cube *cube)
+{
+	int i;
+
+	printf("id %d\n", cube->id);
+	printf("sideLength %d\n", cube->sideLength);
+	printf("sideFlag %d\n", cube->sideFlag);
+	printf("textureType %d\n", cube->textureType);
+	printf("polysPerSide %d\n", cube->polysPerSide);
+
+	for (i = 0; i < 6 * cube->polysPerSide * cube->polysPerSide; i++)
+		{
+		dumpRECT( &cube->textureAreas[i]);
+		printf("poly pointer %ld\n", (long)cube->polygons[i]);
+		}
+	for (i = 0; i < 6; i++)
+		{
+		dumpVECTOR( &cube->normals[i]);
+		}
+
+	dumpCOORD2( &cube->coord);
+}
+
+
+
+
+
+void InitNewViewMode (void)
+{
+	switch(ViewMode)
+		{
+		case FIRST_VIEW_MODE:
+			InitTheFirstViewMode();
+			break;
+		case SECOND_VIEW_MODE:
+			InitTheSecondViewMode();
+			break;
+		case THIRD_VIEW_MODE:
+			InitTheThirdViewMode();
+			break;
+		default:
+			assert(FALSE);
+		}
+}
+
+
+
+void InitTheFirstViewMode (void)
+{
+	assert(ViewMode == FIRST_VIEW_MODE);
+
+		// screen-to-viewpoint distance
+	ProjectionDistance = 192;			
+	GsSetProjection(ProjectionDistance);
+
+
+	ViewMoveFlag = FALSE;
+	ViewMoveTime = 30;		// half a second
+	ViewMoveStartFrame = -1;
+	ViewDistanceFromOrigin = 2000;  
+
+	TheView.vrx = 0; 
+	TheView.vry = 0; 
+	TheView.vrz = 0; 
+
+	TheView.vpx = 0; 
+	TheView.vpy = 0; 
+	TheView.vpz = -ViewDistanceFromOrigin; 
+	
+	TheView.rz = 0;
+
+	GsInitCoordinate2( WORLD, &ViewCoords);
+	CopyCoordinateSystem( &ViewCoords, &PreviousViewCoords);
+
+	TheView.super = &ViewCoords;
+
+	GsSetRefView2(&TheView);
+
+
+	CubeSurfaceViewed = FRONT;
+	OrientationOntoSurface = 0;
+}
+
+
+
+void InitTheSecondViewMode (void)
+{
+	assert(ViewMode == SECOND_VIEW_MODE);
+
+		// screen-to-viewpoint distance
+	ProjectionDistance = 192;			
+	GsSetProjection(ProjectionDistance);
+
+
+	ViewMoveFlag = FALSE;
+	ViewMoveTime = -1;		// half a second
+	ViewMoveStartFrame = -1;
+	ViewDistanceFromOrigin = 2000;  
+
+	TheView.vrx = 0; 
+	TheView.vry = 0; 
+	TheView.vrz = 0; 
+
+	TheView.vpx = 0; 
+	TheView.vpy = 0; 
+	TheView.vpz = -ViewDistanceFromOrigin; 
+	
+	TheView.rz = 0;
+
+	GsInitCoordinate2( WORLD, &ViewCoords);
+	CopyCoordinateSystem( &ViewCoords, &PreviousViewCoords);
+
+	TheView.super = &ViewCoords;
+
+	GsSetRefView2(&TheView);
+
+
+	CubeSurfaceViewed = -1;
+	OrientationOntoSurface = -1;
+}
+
+
+
+void InitTheThirdViewMode (void)
+{
+	assert(ViewMode == THIRD_VIEW_MODE);
+
+		// screen-to-viewpoint distance
+	ProjectionDistance = 192;			
+	GsSetProjection(ProjectionDistance);
+
+
+	ViewMoveFlag = -1;
+	ViewMoveTime = -1;		
+	ViewMoveStartFrame = -1;
+	ViewDistanceFromOrigin = 500;  
+
+	TheView.vrx = 0; 
+	TheView.vry = 0; 
+	TheView.vrz = 0; 
+
+	TheView.vpx = 0; 
+	TheView.vpy = 0; 
+	TheView.vpz = -ViewDistanceFromOrigin; 
+	
+	TheView.rz = 0;
+
+	GsInitCoordinate2( WORLD, &ViewCoords);
+	CopyCoordinateSystem( &ViewCoords, &PreviousViewCoords);
+
+	TheView.super = &ViewCoords;
+
+	GsSetRefView2(&TheView);
+
+
+	CubeSurfaceViewed = -1;
+	OrientationOntoSurface = -1;
+}
+
+
+
+
+void StartFirstModeViewMove (int viewMove)
+{
+	assert(ViewMode == FIRST_VIEW_MODE);
+
+	assert(viewMove >= VIEW_TWIST_LEFT);
+	assert(viewMove <= VIEW_TWIST_ANTICLOCKWISE);
+
+	ViewMoveFlag = viewMove;
+	ViewMoveStartFrame = frameNumber;
+
+		// work out useful axes on the circle that the view is rotating on
+	switch(ViewMoveFlag)
+		{
+		case FALSE:
+			assert(FALSE);
+			break;
+		case VIEW_TWIST_LEFT:		   // store the previous one for proper checking
+		case VIEW_TWIST_RIGHT:		
+		case VIEW_TWIST_UP:	
+		case VIEW_TWIST_DOWN:
+		case VIEW_TWIST_CLOCKWISE:	   
+		case VIEW_TWIST_ANTICLOCKWISE:
+			CopyCoordinateSystem( &ViewCoords, &PreviousViewCoords);	   
+			break;
+		default:
+			assert(FALSE);
+		}
+}
+
+
+
+
+void HandleTheView (void)
+{
+	switch(ViewMode)
+		{
+		case FIRST_VIEW_MODE:
+			HandleTheFirstViewMode();
+			break;
+		case SECOND_VIEW_MODE:
+			HandleTheSecondViewMode();
+			break;
+		case THIRD_VIEW_MODE:
+			HandleTheThirdViewMode();
+			break;
+		default:
+			assert(FALSE);
+		}	
+}
+
+
+
+
+void HandleTheFirstViewMode (void)
+{	
+	VECTOR twist;
+
+	assert(ViewMode == FIRST_VIEW_MODE);
+
+	setVECTOR( &twist, 0, 0, 0);
+
+	if (ViewMoveFlag != FALSE
+			&& frameNumber >= ViewMoveStartFrame + ViewMoveTime)
+		{
+		VerifyAndFixProperRotation();
+		ViewMoveFlag = FALSE;
+		ViewMoveStartFrame = -1;
+		GsSetRefView2(&TheView);
+		return;
+		}
+
+		// all view movements are done by rotating the view coordinate system
+		// by 90 degrees over ViewMoveTime frames
+	switch (ViewMoveFlag)
+		{
+		case FALSE:
+			// nowt to do, leave the switch
+			break;
+		case VIEW_TWIST_LEFT:
+			setVECTOR( &twist, 0, (ONE / (4 * ViewMoveTime)), 0);
+			break;
+		case VIEW_TWIST_RIGHT:
+			setVECTOR( &twist, 0, -(ONE / (4 * ViewMoveTime)), 0);
+			break;
+		case VIEW_TWIST_UP:
+			setVECTOR( &twist, -(ONE / (4 * ViewMoveTime)), 0, 0);
+			break;
+		case VIEW_TWIST_DOWN:
+			setVECTOR( &twist, (ONE / (4 * ViewMoveTime)), 0, 0);
+			break;
+		case VIEW_TWIST_CLOCKWISE:		  
+			setVECTOR( &twist, 0, 0, -(ONE / (4 * ViewMoveTime)) );
+			break;
+		case VIEW_TWIST_ANTICLOCKWISE:	   
+			setVECTOR( &twist, 0, 0, (ONE / (4 * ViewMoveTime)) );
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	RotateCoordinateSystem (&twist,
+							&ViewCoords);
+
+	GsSetRefView2(&TheView);
+}
+
+
+
+
+	// lots of small, incremental rotations lead to the accumalation
+	// of errors in a matrix; single large rotations are better
+
+void VerifyAndFixProperRotation (void)
+{
+	VECTOR totalTwist;
+	GsCOORDINATE2 properCoordResult;
+
+	setVECTOR( &totalTwist, 0, 0, 0);
+
+	switch (ViewMoveFlag)
+		{
+		case FALSE:
+			assert(FALSE);
+			break;
+		case VIEW_TWIST_LEFT:
+			setVECTOR( &totalTwist, 0, 1024, 0);
+			break;
+		case VIEW_TWIST_RIGHT:
+			setVECTOR( &totalTwist, 0, -1024, 0);
+			break;
+		case VIEW_TWIST_UP:
+			setVECTOR( &totalTwist, -1024, 0, 0);
+			break;
+		case VIEW_TWIST_DOWN:
+			setVECTOR( &totalTwist, 1024, 0, 0);
+			break;
+		case VIEW_TWIST_CLOCKWISE:		  
+			setVECTOR( &totalTwist, 0, 0, -1024);
+			break;
+		case VIEW_TWIST_ANTICLOCKWISE:	   
+			setVECTOR( &totalTwist, 0, 0, 1024);
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	CopyCoordinateSystem( &PreviousViewCoords, &properCoordResult);
+	RotateCoordinateSystem (&totalTwist,
+							&properCoordResult);
+							
+	CopyCoordinateSystem( &properCoordResult, &ViewCoords);	
+
+	SortPlaneAndAngleViewed();
+}
+
+
+
+
+
+void SortPlaneAndAngleViewed (void)
+{
+	int value;
+	int i, j;
+	VECTOR zAxis;
+	VECTOR xAxis;
+	VECTOR *planeXaxis, *planeYaxis, planeMinusXaxis, planeMinusYaxis;
+	int plane;
+	int angle;
+	
+	for (i = 0; i < 3; i++)
+		{
+		for (j = 0; j < 3; j++)
+			{
+			value = ViewCoords.coord.m[i][j];
+			if (value != 0 && value != ONE && value != -ONE)
+				{
+				CubeSurfaceViewed = -1;
+				OrientationOntoSurface = -1;
+				return;
+				}
+			}
+		}
+
+	setVECTOR( &zAxis, 
+			ViewCoords.coord.m[0][2],
+			ViewCoords.coord.m[1][2],
+			ViewCoords.coord.m[2][2]);
+
+	plane = -1;
+	for (i = 0; i < 6; i++)
+		{
+		if (SameVector( &zAxis, &FaceInsideNormals[i]) == TRUE)
+			{
+			plane = i;
+			break;
+			} 
+		}
+
+	if (plane == -1)
+		{
+		printf("PLANE IS -1\n");
+		printf("zAxis: ");dumpVECTOR( &zAxis);
+		assert(FALSE);
+		}
+	else
+		{
+		CubeSurfaceViewed = plane;
+
+		setVECTOR( &xAxis, 
+			ViewCoords.coord.m[0][0],
+			ViewCoords.coord.m[1][0],
+			ViewCoords.coord.m[2][0]);
+
+		planeXaxis = &FaceXVectors[plane];
+		planeYaxis = &FaceYVectors[plane];
+
+		if (SameVector( &xAxis, planeXaxis) == TRUE)
+			{
+			angle = 0;
+			}
+		else if (SameVector( &xAxis, planeYaxis) == TRUE)
+			{
+			angle = 1024;
+			} 
+		else
+			{
+			setVECTOR( &planeMinusXaxis, -planeXaxis->vx,
+				-planeXaxis->vy, -planeXaxis->vz);
+			if (SameVector( &xAxis, &planeMinusXaxis) == TRUE)
+				{
+				angle = 2048;
+				}
+			else
+				{
+				setVECTOR( &planeMinusYaxis, -planeYaxis->vx,
+				-planeYaxis->vy, -planeYaxis->vz);
+				if (SameVector( &xAxis, &planeMinusYaxis) == TRUE)
+					{
+					angle = 3072;
+					}
+				else
+					assert(FALSE);
+				}
+			}
+
+		OrientationOntoSurface = angle;
+		}
+}
+
+
+
+
+
+
+int SameVector (VECTOR *first, VECTOR *second)
+{
+	int boolean = FALSE;
+
+	if ((first->vx == second->vx)
+		&& (first->vy == second->vy)
+		&& (first->vz == second->vz))
+			{
+			boolean = TRUE;
+			}
+
+	return boolean;
+}
+
+
+
+
+
+void HandleTheSecondViewMode (void)
+{
+	assert(ViewMode == SECOND_VIEW_MODE);
+
+	// nowt to do
+
+/***			   // see if matrix deteriorates over time due to rounding errors
+	if (frameNumber % 15 == 0)
+		{
+		PrintFullMatrixInfo( &ViewCoords.coord);
+		}
+***/
+}
+
+
+
+
+
+
+
+
+void HandleTheThirdViewMode (void)
+{
+	assert(ViewMode == THIRD_VIEW_MODE);
+
+	// nowt to do
+
+/*** 		 // see if matrix deteriorates over time due to rounding errors
+	if (frameNumber % 15 == 0)
+		{
+		PrintFullMatrixInfo( &ViewCoords.coord);
+		}
+***/
+}
+
+
+
+
+
+
+void PrintDataTypeSizes (void)
+{
+	ObjectHandler object;
+	Cube cube;
+	MiniObject miniObject;
+	DrawProcess process;
+
+	printf("\n\nsizes of data types in bytes\n\n");
+
+	printf("ObjectHandler: %d\n", sizeof(object));
+	printf("Cube: %d\n", sizeof(cube));
+	printf("MiniObject: %d\n", sizeof(miniObject));
+	printf("DrawProcess: %d\n", sizeof(process));
+
+	printf("packetArea: %d\n", sizeof(packetArea));
+	printf("packetArea2: %d\n", sizeof(packetArea2));
+	printf("packetArea3: %d\n", sizeof(packetArea3));
+	printf("packetArea4: %d\n", sizeof(packetArea4));
+	printf("packetArea5: %d\n", sizeof(packetArea5));
+	printf("packetArea6: %d\n", sizeof(packetArea6));
+	printf("packetArea7: %d\n", sizeof(packetArea7));
+	printf("Wot: %d\n", sizeof(Wot));
+	printf("wtags: %d\n", sizeof(wtags));
+	printf("wtags2: %d\n", sizeof(wtags2));
+	printf("wtags3: %d\n", sizeof(wtags3));
+	printf("wtags4: %d\n", sizeof(wtags4));
+	printf("wtags5: %d\n", sizeof(wtags5));
+	printf("wtags6: %d\n", sizeof(wtags6));
+	printf("wtags7: %d\n", sizeof(wtags7));
+
+	printf("ObjectArray: %d\n", sizeof(ObjectArray));
+	printf("MiniObjectArray: %d\n", sizeof(MiniObjectArray));
+	printf("TheSimpleCubes: %d\n", sizeof(TheSimpleCubes));
+	printf("ThePolygons: %d\n", sizeof(ThePolygons));
+	printf("AllDrawProcesses: %d\n", sizeof(AllDrawProcesses));
+}
+
+
+
+
+
+void InitialiseDrawingProcesses (void)
+{
+	int i;
+
+	for (i = 0; i < MAX_DRAW_PROCESSES; i++)
+		{
+		AllDrawProcesses[i] = NULL;
+		}
+}
+
+
+
+
+void InitDrawingProcess (DrawProcess *process)
+{
+	int i;
+
+	process->id = -1;
+	process->alive = FALSE;
+
+	setRECT( &process->clipArea, 0, 0, 0, 0);
+	for (i = 0; i < 2; i++)
+		{
+		process->offsets[i] = 0;
+		}
+
+	process->otLabel = -1;
+	process->packetAreaLabel = -1;
+
+	process->numberSprites = 0;
+	for (i = 0; i < MAX_SPRITES_PER_DRAW_PROCESS; i++)
+		{
+		InitGsSprite( &process->spriteList[i]);
+		}
+}
+	 
+
+
+
+
+void SetUpDrawingProcesses (void)			   
+{
+	InitDrawingProcess( &FirstDrawProcess);
+	CreateDrawProcess2 (&FirstDrawProcess, &MascotsTextureInfo, PLUS_X_Y_PLANE);
+	RegisterDrawProcess( &FirstDrawProcess);
+
+
+	InitDrawingProcess( &SecondDrawProcess);
+	CreateDrawProcess2 (&SecondDrawProcess, &WaveTextureInfo, MINUS_X_Y_PLANE);
+	RegisterDrawProcess( &SecondDrawProcess);
+
+
+	InitDrawingProcess( &ThirdDrawProcess);
+	CreateDrawProcess2 (&ThirdDrawProcess, &Wave3TextureInfo, PLUS_X_Z_PLANE);
+	RegisterDrawProcess( &ThirdDrawProcess);
+
+
+	InitDrawingProcess( &FourthDrawProcess);
+	CreateDrawProcess2 (&FourthDrawProcess, &Wave4TextureInfo, MINUS_X_Z_PLANE);
+	RegisterDrawProcess( &FourthDrawProcess);
+
+
+	InitDrawingProcess( &FifthDrawProcess);
+	CreateDrawProcess2 (&FifthDrawProcess, &Wave5TextureInfo, PLUS_Y_Z_PLANE);
+	RegisterDrawProcess( &FifthDrawProcess);
+
+
+	InitDrawingProcess( &SixthDrawProcess);
+	CreateDrawProcess2 (&SixthDrawProcess, &Wave6TextureInfo, MINUS_Y_Z_PLANE);
+	RegisterDrawProcess( &SixthDrawProcess);
+}
+
+
+
+
+
+
+void CreateDrawProcess(DrawProcess *process, int id,
+		RECT *area, u_short *offsets, int otLabel, int packetAreaLabel)
+{	
+	assert(process != NULL);
+
+	assert(area->w >= 1);
+	assert(area->h >= 1);
+	
+	process->id = id;
+	process->alive = TRUE;
+	
+	setRECT( &process->clipArea, area->x, area->y, area->w, area->h);
+	process->offsets[0] = offsets[0];
+	process->offsets[1] = offsets[1];
+
+	process->otLabel = otLabel;
+	process->packetAreaLabel = packetAreaLabel;
+}
+
+
+
+
+
+
+void CreateDrawProcess2 (DrawProcess *process, GsIMAGE *textureInfo, int id)
+{
+	assert(process != NULL);
+			
+	assert(textureInfo != NULL);
+	assert(textureInfo->pw >= 1);
+	assert(textureInfo->ph >= 1);
+
+	assert(ValidPlane(id));
+	
+	process->id = id;
+	process->alive = TRUE;
+	
+	setRECT( &process->clipArea, 
+					textureInfo->px, textureInfo->py, 
+							textureInfo->pw, textureInfo->ph);
+	process->offsets[0] = textureInfo->px;
+	process->offsets[1] = textureInfo->py;
+
+	process->otLabel = id;
+	process->packetAreaLabel = id;	
+}
+
+
+
+
+
+void RegisterDrawProcess (DrawProcess *process)
+{
+	int freeSlotID;
+	int i;
+
+		// firstly look for free slot in array
+	freeSlotID = -1;
+	for (i = 0; i < MAX_DRAW_PROCESSES; i++)
+		{
+		if (AllDrawProcesses[i] == NULL)
+			{
+			freeSlotID = i;
+			break;
+			}
+		}
+
+	if (freeSlotID == -1)
+		{
+		printf("\n\n No free slots to register draw process\n\n\n");
+		return;
+		}
+	else
+		{
+		AllDrawProcesses[freeSlotID] = process;
+		}
+}
+
+
+
+
+
+void RemoveDrawProcess (DrawProcess *process)
+{
+	int slotID;
+	int i;
+
+		// firstly look for the slot in array
+	slotID = -1;
+	for (i = 0; i < MAX_DRAW_PROCESSES; i++)
+		{
+		if (AllDrawProcesses[i] == process)
+			{
+			slotID = i;
+			break;
+			}
+		}
+
+	if (slotID == -1)
+		{
+		printf("\n\n process was not found in array, could not remove\n\n\n");
+		return;
+		}
+	else
+		{
+		AllDrawProcesses[slotID] = NULL;
+		}
+}
+
+
+
+
+
+void RegisterSpriteIntoDrawProcess (GsSPRITE *sprite, int processID)
+{
+	DrawProcess *process;
+	int numSprites;
+
+	assert(processID >= 0);
+	assert(processID < MAX_DRAW_PROCESSES);
+	process = AllDrawProcesses[processID];
+	//assert(process != NULL);
+	if (process == NULL)
+		{
+		printf("null process; id %d\n", processID);
+		return;
+		}
+
+	numSprites = process->numberSprites;
+	if (numSprites >= MAX_SPRITES_PER_DRAW_PROCESS-1)
+		{
+		printf("\n\n\nCannot register sprite into draw process, no room left\n\n\n");
+		return;
+		}
+	else
+		{
+		CopySprite(sprite, &process->spriteList[numSprites]);
+		process->numberSprites++;
+		}
+}
+
+
+
+
+void HandleOffScreenDrawing (int bufferIndex)
+{
+	DrawProcess *drawProcess;
+	int i;
+
+	for (i = 0; i < MAX_DRAW_PROCESSES; i++)
+		{
+		drawProcess = AllDrawProcesses[i];
+
+		if (drawProcess != NULL)
+			{
+			if (drawProcess->alive == TRUE)
+				{
+				ExecuteSingleDrawProcess (drawProcess, bufferIndex);
+				}
+			}
+		}
+}
+
+
+
+void ExecuteSingleDrawProcess (DrawProcess *process, int bufferIndex)
+{
+	RECT previousClip;
+	u_short previousOffsets[2];
+	GsOT *ot;
+	PACKET *packetArea;
+
+	assert(process->alive == TRUE);
+
+		// store previous
+	setRECT( &previousClip, GsDRAWENV.clip.x, GsDRAWENV.clip.y,
+		GsDRAWENV.clip.w, GsDRAWENV.clip.h);
+	previousOffsets[0] = GsDRAWENV.ofs[0];
+	previousOffsets[1] = GsDRAWENV.ofs[1];
+
+#if 0
+	if (frameNumber % 15 == 0)
+		{
+		printf("previous business :-\n");
+		dumpRECT( &previousClip);
+		printf("previous offsets %d, %d\n\n\n", 
+			previousOffsets[0], previousOffsets[1]);
+		}
+#endif
+
+		// set new drawing environment
+	setRECT( &GsDRAWENV.clip, 
+			process->clipArea.x,
+			process->clipArea.y,
+			process->clipArea.w,
+			process->clipArea.h);
+	GsDRAWENV.ofs[0] = process->offsets[0];
+	GsDRAWENV.ofs[1] = process->offsets[1];
+	PutDrawEnv( &GsDRAWENV);
+
+#if 0
+	if (frameNumber % 15 == 0)
+		{
+		printf("newly set business :-\n");
+		dumpRECT( &GsDRAWENV.clip);
+		printf("new offsets %d, %d\n\n\n", 
+			GsDRAWENV.ofs[0], GsDRAWENV.ofs[1]);
+		}
+#endif
+
+		// get the right OT
+	GetOtOfProcess(process, bufferIndex, &ot);
+	GsClearOt(0, 0, ot);
+
+		// get the right packet area, use as work base for GPU
+	GetWorkAreaOfProcess(process, bufferIndex, &packetArea);
+	GsSetWorkBase(packetArea);
+
+		// actually register draw requests into OT
+	DoWorkOfDrawProcess( process->id, ot);
+
+	GsDrawOt(ot);
+
+		// restore previous settings
+	setRECT( &GsDRAWENV.clip, previousClip.x, previousClip.y,
+			previousClip.w, previousClip.h);	
+	GsDRAWENV.ofs[0] = previousOffsets[0];	
+	GsDRAWENV.ofs[1] = previousOffsets[1];
+	PutDrawEnv(&GsDRAWENV);
+
+#if 0
+	if (frameNumber % 15 == 0)
+		{
+		printf("newly restored business :-\n");
+		dumpRECT( &GsDRAWENV.clip);
+		printf("newly restored offsets %d, %d\n\n\n", 
+			GsDRAWENV.ofs[0], GsDRAWENV.ofs[1]);
+		}
+#endif
+}
+
+
+
+
+
+void GetOtOfProcess (DrawProcess *process, int bufferIndex, GsOT **ot)
+{
+	switch(process->otLabel)
+		{
+		case PLUS_X_Y_PLANE:
+			*ot = &Wot2[bufferIndex];			
+			break;
+		case MINUS_X_Y_PLANE:
+			*ot = &Wot3[bufferIndex];			
+			break;	
+		case PLUS_X_Z_PLANE:
+			*ot = &Wot4[bufferIndex];			
+			break;
+		case MINUS_X_Z_PLANE:
+			*ot = &Wot5[bufferIndex];			
+			break;
+		case PLUS_Y_Z_PLANE:
+			*ot = &Wot6[bufferIndex];			
+			break;
+		case MINUS_Y_Z_PLANE:
+			*ot = &Wot7[bufferIndex];			
+			break;
+		default:	
+			assert(FALSE);
+		}
+}
+
+
+
+
+void GetWorkAreaOfProcess (DrawProcess *process, 
+							int bufferIndex, PACKET **workArea)
+{
+	switch(process->packetAreaLabel)
+		{
+		case PLUS_X_Y_PLANE:
+			*workArea = packetArea2[bufferIndex];
+			break;
+		case MINUS_X_Y_PLANE:
+			*workArea = packetArea3[bufferIndex];
+			break;
+		case PLUS_X_Z_PLANE:
+			*workArea = packetArea4[bufferIndex];
+			break;
+		case MINUS_X_Z_PLANE:
+			*workArea = packetArea5[bufferIndex];
+			break;
+		case PLUS_Y_Z_PLANE:
+			*workArea = packetArea6[bufferIndex];
+			break;
+		case MINUS_Y_Z_PLANE:						  
+			*workArea = packetArea7[bufferIndex];
+			break;
+		default:	
+			assert(FALSE);
+		}
+}
+
+
+
+
+
+void DoWorkOfDrawProcess (int processID, GsOT *ot)
+{
+	int i;
+	int numSprites;
+	GsSPRITE *sprite;
+	DrawProcess *process;
+
+	assert(processID >= 0);
+	assert(processID < MAX_DRAW_PROCESSES);
+	process = AllDrawProcesses[processID];
+	assert(process != NULL);
+	numSprites = process->numberSprites;
+
+	for (i = 0; i < numSprites; i++)
+		{
+		sprite = &process->spriteList[i];
+		GsSortSprite(sprite, ot, 0);
+		}
+
+		// clear them all; external functions must register sprites every frame to see them
+	process->numberSprites = 0;
+
+#if 0		// OLD and fixed
+	switch(processID)
+		{
+		case PLUS_X_Y_PLANE:
+			GsSortSprite( &FireSprite, ot, 0);
+			break;
+	    case MINUS_X_Y_PLANE:
+			GsSortSprite( &PurpleNoiseSprite, ot, 0);
+			break;
+		case PLUS_X_Z_PLANE:
+			GsSortSprite( &FireSprite, ot, 0);
+			break;
+		case MINUS_X_Z_PLANE:
+			GsSortSprite( &StarsSprite, ot, 0);
+			break;
+		case PLUS_Y_Z_PLANE:
+			GsSortSprite( &FireSprite, ot, 0);
+			break;
+		case MINUS_Y_Z_PLANE:
+			GsSortSprite( &FireSprite, ot, 0);
+			break;
+		default:	
+			assert(FALSE);
+		}
+#endif
+}
+
+
+
+
+
+
+
+void GetDrawProcessTextureWidthAndHeight (int processID,
+			int *textureWidth, int *textureHeight)
+{
+	DrawProcess *process;
+
+	assert(processID >= 0);
+	assert(processID < MAX_DRAW_PROCESSES);
+
+	process = AllDrawProcesses[processID];
+	assert(process != NULL);
+
+	*textureWidth = process->clipArea.w;
+	*textureHeight = process->clipArea.h;
+}
+
+
+
+
+
+
+
+void TranslatePointAcrossPlanes (int currentPlane, 
+			int currentX, int currentY,	int currentAngle,
+						int newPlane, 
+			int *newX, int *newY, int *newAngle,
+			int direction, int side)
+{
+	int originMoveX, originMoveY;
+	int tempX, tempY;
+	int angle;		  // clockwise twist onto new plane
+
+	assert(PointWithinItsPlane(currentX, currentY, side) == FALSE);
+
+	switch(direction)
+		{
+		case NORTH:
+			originMoveX = 0;
+			originMoveY = side;
+			break;
+		case SOUTH:
+			originMoveX = 0;
+			originMoveY = -side;
+			break;
+		case WEST:
+			originMoveX = -side;
+			originMoveY = 0;
+			break;
+		case EAST:
+			originMoveX = side;
+			originMoveY = 0;
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	assert(ValidPlane(currentPlane));
+
+	angle = FaceAngleTable[currentPlane][direction];
+	
+	tempX = currentX - originMoveX;
+	tempY = currentY - originMoveY;	
+	
+	switch(angle)
+		{
+		case 0:
+			*newX = tempX;
+			*newY = tempY;
+			break;
+		case 1024:
+			*newX = -tempY;
+			*newY = tempX;
+			break;
+		case 2048:
+			*newX = -tempX;
+			*newY = -tempY;
+			break;
+		case 3072:
+			*newX = tempY;
+			*newY = -tempX;
+			break;
+		default:
+			assert(FALSE);
+		}
+
+	*newAngle = currentAngle + angle;
+}
+
+
+
+
+
+
+int PointWithinItsPlane (int px, int py, int sideLength)
+{
+	int booleanResult;
+	int halfSide;
+
+	halfSide = sideLength / 2;
+
+	booleanResult = TRUE;
+	if (px <= -halfSide || px >= halfSide
+		|| py <= -halfSide || py >= halfSide)
+			{
+			booleanResult = FALSE;
+			}
+
+	return booleanResult;
+}
+
+
+
+
+
+
+void PutObjectOntoSurfaceOfCube (ObjectHandler *object,	int cubeID,
+			int plane, int planeX, int planeY, int planeAngle)
+{
+	assert(ValidPlane(plane));
+	object->plane = plane;
+
+	assert(cubeID >= 0);
+	assert(cubeID < MAX_CUBES);
+	object->cube = cubeID;
+	object->side = AllCubes[cubeID].sideLength;
+
+	assert(planeX > -object->side/2);
+	assert(planeX < object->side/2);
+	assert(planeY > -object->side/2);
+	assert(planeY < object->side/2);
+	object->px = planeX;
+	object->py = planeY;
+
+	assert(planeAngle >= 0);
+	assert(planeAngle < 4096);
+	object->pAngle = planeAngle;
+}
+	  
+
+
+
+void FindNewPlaneAndItsDirectionFromPoint (int px, int py, int side,
+				int oldPlane, int *newPlane, int *direction)
+{
+	int halfSide;
+
+	assert(ValidPlane(oldPlane));
+	assert(PointWithinItsPlane(px, py, side) == FALSE);
+
+	halfSide = side/2;
+	
+	if (px <= -halfSide)
+		{
+		assert(py > -halfSide);
+		assert(py < halfSide);
+		*direction = WEST;
+		}
+	else if (px >= halfSide)
+		{
+		assert(py > -halfSide);
+		assert(py < halfSide);
+		*direction = EAST;
+		}
+	else if (py <= -halfSide)
+		{
+		assert(px > -halfSide);
+		assert(px < halfSide);
+		*direction = SOUTH;
+		}
+	else  
+		{
+		assert(py >= halfSide);
+		assert(px > -halfSide);
+		assert(px < halfSide);
+		*direction = NORTH;
+		}	
+
+	*newPlane = FaceAccessTable[oldPlane][*direction];
+}
+
+
+
+
+
+
+void PlaneIdToText (int planeID, char *string)
+{
+	switch(planeID)
+		{
+		case FRONT:		sprintf(string, "FRONT");	break;
+		case BACK:		sprintf(string, "BACK"); 	break;
+		case RIGHT:		sprintf(string, "RIGHT");	break;
+		case LEFT:		sprintf(string, "LEFT"); 	break;
+		case TOP:		sprintf(string, "TOP"); 	break;
+		case BOTTOM:	sprintf(string, "BOTTOM"); 	break;
+		default:		assert(FALSE);
+		}
+}
+
+
+
+
+
+
+int DotProduct (VECTOR *first, VECTOR *second)
+{
+	int product;
+
+	assert(abs(first->vx) < 64000);
+	assert(abs(first->vy) < 64000);
+	assert(abs(first->vz) < 64000);
+	assert(abs(second->vx) < 64000);
+	assert(abs(second->vy) < 64000);
+	assert(abs(second->vz) < 64000);
+
+	product	= (first->vx * second->vx)
+				 + (first->vy * second->vy)
+					+ (first->vz * second->vz);
+
+	return product;
+}
+
+
+
+
+
+
+int SizeOfVector (VECTOR *vector)
+{
+	int size, sizeSquared;
+
+	assert(abs(vector->vx) < 64000);
+	assert(abs(vector->vy) < 64000);
+	assert(abs(vector->vz) < 64000);
+
+	sizeSquared = (vector->vx * vector->vx)
+					+ (vector->vy * vector->vy)
+						+ (vector->vz * vector->vz);
+
+	size = pow(sizeSquared, 0.5);
+
+	return size;
+}
+
+
+
+
+
+
+void PrintFullMatrixInfo (MATRIX *matrix)
+{
+	VECTOR xAxis, yAxis, zAxis;
+	int dotxy, dotxz, dotyz;
+	int sizeX, sizeY, sizeZ;
+
+	printf("\n\nPrinting Matrix info; firstly matrix itself :-\n");
+	dumpMATRIX(matrix);
+
+	setVECTOR( &xAxis, matrix->m[0][0], matrix->m[0][1], matrix->m[0][2]);
+	setVECTOR( &yAxis, matrix->m[1][0], matrix->m[1][1], matrix->m[1][2]);
+	setVECTOR( &zAxis, matrix->m[2][0], matrix->m[2][1], matrix->m[2][2]);
+
+	printf("xAxis :-\n");
+	dumpVECTOR(&xAxis);
+	printf("yAxis :-\n");
+	dumpVECTOR(&yAxis);
+	printf("zAxis :-\n");
+	dumpVECTOR(&zAxis);
+
+	dotxy = DotProduct( &xAxis, &yAxis);
+	dotxz = DotProduct( &xAxis, &zAxis);
+	dotyz = DotProduct( &yAxis, &zAxis);
+
+	printf("dot xy %d\n", dotxy);
+	printf("dot xz %d\n", dotxz);
+	printf("dot yz %d\n", dotyz);
+
+	sizeX = SizeOfVector( &xAxis);
+	sizeY = SizeOfVector( &yAxis);
+	sizeZ = SizeOfVector( &zAxis);
+	
+	printf("size X axis %d\n", sizeX);
+	printf("size Y axis %d\n", sizeY);
+	printf("size Z axis %d\n", sizeZ);
+
+	printf("\n\n\n\n");
+}
