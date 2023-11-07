@@ -1,0 +1,586 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: June 17, 1998
+// Description: Chapter 1 - Peripherals Tester
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h"
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id 
+
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Peripherals Tester
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {
+          
+    int count=0;
+
+   	InitGame();	
+	
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		 FntPrint(fnt_id[0]," CONTROLLER PORT 1\n");
+		 FntPrint(fnt_id[4]," CONTROLLER PORT 2\n");		 
+		 
+		 // check status
+		 if( buffer1->status != PAD_BAD )
+			 FntPrint(fnt_id[1]," CONTROLLER INSERTED \n ");
+		 else
+		   {
+		     FntPrint(fnt_id[1]," ~c900CONTROLLER NOT INSERTED \n ");
+			
+			 buffer1->type >>= 8;
+		   }
+
+         if( buffer2->status != PAD_BAD )
+			 FntPrint(fnt_id[5]," CONTROLLER INSERTED \n ");
+		 else
+		   {
+		     FntPrint(fnt_id[5]," ~c900CONTROLLER NOT INSERTED \n ");
+			 buffer2->type >>= 8;
+		   }
+
+         CheckTerminalType();  		  
+		  	  	   
+		 /* DEBUG STUFF
+         // bit layout		 
+         for( count=0; count<8; count++ )
+		    {
+			  if( ~(buffer2->data.guncon.guncon_screen_div) & 0x80 )			  			      
+				  FntPrint(fnt_id[7],"1");
+				else
+				  FntPrint(fnt_id[7],"0");
+
+              buffer2->data.guncon.guncon_screen_div = (buffer2->data.guncon.guncon_screen_div << 1);
+			  if( count == 7 )
+			      FntPrint(fnt_id[7]," ");
+            }
+  		   	 
+		  */ 
+		  	
+		 /*	  DEBUG STUFF
+         for( count=0; count<32; count++ )
+		    {
+			  if( buffer2.data.mouse.buttons & 1 )			      
+				  FntPrint(fnt_id[4]," BIT NUMBER: %d ", count);
+				
+
+              buffer2.data.mouse.buttons = (buffer2.data.mouse.buttons >> 1);
+
+            }
+		   
+  		   */        
+
+		 UpdateScreen();
+
+      }// end while loop
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: CheckGunCon()
+// Description: Check for current status of the Guncon 
+// Parameters: cntrl_data *port:  current controller buffer
+// Returns: void
+// Notes:  This routine is just for the checking.  To use it for a game use
+//         the pad macros.  e.g .GUNCON_PRESS(BUFFER NUMBER,GUNCON_A)
+//--------------------------------------------------------------------------
+
+void CheckGunCon( cntrl_data *port )
+ {
+
+	if( GUNCON_PRESS(port,GUNCON_A) )
+	  {	
+	  	FntPrint(fnt_id[7]," A ");
+	  }
+	if( GUNCON_PRESS(port,GUNCON_B) )
+	  {	
+	  	FntPrint(fnt_id[7]," B ");
+	  }
+	if( GUNCON_PRESS(port,GUNCON_TRIGGER) )
+	  {	
+	  	FntPrint(fnt_id[7]," TRIGGER ");
+	  }
+	if( !PAD_PRESS(port,PAD_NOKEY) )
+	  {
+	    FntPrint(fnt_id[7]," NO BUTTONS PRESSED ");
+	  }
+
+
+	FntPrint(fnt_id[7],"\n X:%d,Y:%d ",
+	         GUNCON_X(port),
+			 GUNCON_Y(port));
+	             
+
+ }// end CheckGunCon
+
+
+//--------------------------------------------------------------------------
+// Function: CheckNegcon()
+// Description: Check for current status of the NeGcon 
+// Parameters: cntrl_data *port:  current controller buffer
+// Returns: void
+// Notes:  This routine is just for the checking.  To use it for a game use
+//         the pad macros.  e.g.NEGCON_PRESS(BUFFER NUMBER,NEGCON_LEFT)
+//--------------------------------------------------------------------------
+
+void CheckNegcon( cntrl_data *port )
+ {
+
+	if( NEGCON_PRESS(port,NEGCON_LEFT) )
+	  {
+	    FntPrint(fnt_id[7]," LEFT ");
+   	  }
+	if( NEGCON_PRESS(port,NEGCON_RIGHT) )
+	  {
+	    FntPrint(fnt_id[7]," RIGHT ");
+	  }	
+	if( NEGCON_PRESS(port,NEGCON_DOWN) )
+	  {
+	    FntPrint(fnt_id[7]," DOWN ");
+	  }
+	if( NEGCON_PRESS(port,NEGCON_UP) )
+	  {
+	    FntPrint(fnt_id[7]," UP ");
+	  }
+
+
+	if( NEGCON_PRESS(port,NEGCON_START) )
+	  {
+	    FntPrint(fnt_id[7]," START ");
+	  }
+
+
+	if( NEGCON_PRESS(port,NEGCON_A) )
+	  {
+	    FntPrint(fnt_id[7]," A ");
+	  }
+	if( NEGCON_PRESS(port,NEGCON_B) )
+	  {
+	    FntPrint(fnt_id[7]," B ");
+	  }
+
+	if( NEGCON_PRESS(port,NEGCON_R) )
+	  {
+	    FntPrint(fnt_id[7]," R ");
+	  }
+
+	if( !NEGCON_PRESS(port,PAD_NOKEY) )
+	  {
+	    FntPrint(fnt_id[7]," NO BUTTONS PRESSED ");
+	  }
+
+
+	FntPrint(fnt_id[7]," \n twist:%d, I:%d, II:%d, L:%d ",
+	         NEGCON_PRESS_TWIST(port),
+	         NEGCON_PRESS_I(port),
+	         NEGCON_PRESS_II(port),
+	         NEGCON_PRESS_L(port));
+
+ }// end CheckNegcon
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: CheckController()
+// Description: Check the 14 button standard controller, also checks for
+//              the other 2 buttons when in analog mode. 
+// Parameters: cntrl_data *port:  current controller buffer
+// Returns: void
+// Notes:  This routine is just for the checking.  To use it for a game use
+//         the pad macros.  e.g. PAD_PRESS( BUFFER NUMBER,THE BUTTON )
+//--------------------------------------------------------------------------
+
+void CheckController( cntrl_data *port )
+ {
+	  
+	if( PAD_PRESS(port,PAD_START) )
+	  {
+	    FntPrint(fnt_id[3]," START ");
+	  }
+	if( PAD_PRESS(port,PAD_SELECT) )
+	  {
+	    FntPrint(fnt_id[3]," SELECT ");
+	  }
+	if( PAD_PRESS(port,PAD_CROSS) )
+	  {
+	    FntPrint(fnt_id[3]," CROSS ");
+	  }
+	if( PAD_PRESS(port,PAD_SQUARE) )
+	  {
+	    FntPrint(fnt_id[3]," SQUARE ");
+	  }
+	if( PAD_PRESS(port,PAD_TRIANGLE) )
+	  {
+	    FntPrint(fnt_id[3]," TRIANGLE ");
+	  }
+	if( PAD_PRESS(port,PAD_CIRCLE) )
+	  {
+	    FntPrint(fnt_id[3]," CIRCLE ");
+	  }
+	if( PAD_PRESS(port,PAD_UP) )
+	  {
+	    FntPrint(fnt_id[3]," UP ");
+	  }
+	if( PAD_PRESS(port,PAD_DOWN) )
+	  {
+	    FntPrint(fnt_id[3]," DOWN ");
+	  }
+	if( PAD_PRESS(port,PAD_LEFT) )
+	  {
+	    FntPrint(fnt_id[3]," LEFT ");
+	  }
+	if( PAD_PRESS(port,PAD_RIGHT) )
+	  {
+	    FntPrint(fnt_id[3]," RIGHT ");
+	  }
+   	if( PAD_PRESS(port,PAD_L1) )
+	  {
+	    FntPrint(fnt_id[3]," L1 ");
+	  }
+	if( PAD_PRESS(port,PAD_L2) )
+	  {
+	    FntPrint(fnt_id[3]," L2 ");
+	  }
+	if( PAD_PRESS(port,PAD_L3) )
+	  {
+	    FntPrint(fnt_id[3]," L3 ");
+	  }
+	if( PAD_PRESS(port,PAD_R1) )
+	  {
+	    FntPrint(fnt_id[3]," R1 ");
+	  }
+	if( PAD_PRESS(port,PAD_R2) )
+	  {
+	    FntPrint(fnt_id[3]," R2 ");
+	  }
+	if( PAD_PRESS(port,PAD_R3) )
+	  {
+	    FntPrint(fnt_id[3]," R3 ");
+	  }
+	if( !PAD_PRESS(port,PAD_NOKEY) )
+	  {
+	    FntPrint(fnt_id[3]," NO BUTTONS PRESSED ");
+	  }			 
+
+ }// end CheckController
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: CheckMouse()
+// Description: Check for current status of the mouse buttons 
+// Parameters: cntrl_data *port:  current controller buffer
+// Returns: void
+// Notes:  This routine is just for the checking.  To use it for a game use
+//         the pad macros.  e.g. MOUSE_PRESS( BUFFER NUMBER,THE BUTTON )
+//--------------------------------------------------------------------------
+
+void CheckMouse( cntrl_data *port )
+ {	   
+ 	
+	if( MOUSE_PRESS(port,MOUSE_LEFT) )
+	  {
+		FntPrint(fnt_id[7]," LEFT ");
+   	  }
+
+    if( MOUSE_PRESS(port,MOUSE_RIGHT) )
+	  {
+		FntPrint(fnt_id[7]," RIGHT ");
+   	  }
+   	if( !MOUSE_PRESS(port,MOUSE_NOKEY) )
+	  {
+		FntPrint(fnt_id[7]," NO BUTTONS PRESSED ");
+   	  }	  
+
+	FntPrint(fnt_id[7]," \n x offset:%d, y offset:%d ",
+	         MOUSE_X(port), MOUSE_Y(port) ); 	  
+
+ }// end CheckMouse
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: CheckTerminalType()
+// Description: Checks the status of both buffers for the terminal type 
+// Parameters: none
+// Returns: void
+// Notes:  N/A
+//--------------------------------------------------------------------------
+ 
+void CheckTerminalType( void )
+ {
+         
+         // find type 
+		switch( (buffer1->type >> 4) )
+		   { 
+		   	case MOUSE:
+			  FntPrint(fnt_id[2]," ~c090MOUSE   \n ");
+			break;
+			case NEGCON:
+			  FntPrint(fnt_id[2]," ~c090NEGCON CONTROLLER  \n ");			  
+			break;
+			case NORMAL:
+			  FntPrint(fnt_id[2]," ~c090STANDARD CONTROLLER  \n ");
+			  CheckController(buffer1);
+			break;
+			case ANALOG:
+			  FntPrint(fnt_id[2]," ~c090ANALOG CONTROLLER  \n ");
+			  CheckController(buffer1);
+			  
+ 		      FntPrint(fnt_id[3],"\n left x:%d, left y:%d, right x:%d, right y:%d \n",
+ 		               buffer1->data.analog.left_x,
+ 		               buffer1->data.analog.left_y,
+				       buffer1->data.analog.right_x,
+ 		               buffer1->data.analog.right_y);
+
+			break;
+			case ANALOG_JOY:
+			  FntPrint(fnt_id[2]," ~c090ANALOG JOYSTICK  \n ");
+			  CheckController(buffer1);
+			  FntPrint(fnt_id[3],"\n left x:%d, left y:%d, right x:%d, right y:%d \n",
+ 		               buffer1->data.analog.left_x,
+ 		               buffer1->data.analog.left_y,
+				       buffer1->data.analog.right_x,
+ 		               buffer1->data.analog.right_y);
+			break;
+			case GUNCON:
+			  FntPrint(fnt_id[2]," ~c090GUNCON CONTROLLER  \n ");			 
+			break;
+			case 0:
+			  FntPrint(fnt_id[2]," ~c090                   \n");
+			break;
+			default:
+			  FntPrint(fnt_id[6]," ~c090UNKNOWN CONTROLLER \n");
+			break;
+		   }
+			   
+		// find type		
+		 switch( (buffer2->type >> 4) )
+		   { 
+		   	case MOUSE:
+			  FntPrint(fnt_id[6]," ~c090MOUSE   \n ");
+			  CheckMouse(buffer2);
+		 	break;
+			case NEGCON:
+			  FntPrint(fnt_id[6]," ~c090NEGCON CONTROLLER  \n ");
+			  CheckNegcon(buffer2);
+			break;
+			case NORMAL:
+			  FntPrint(fnt_id[6]," ~c090STANDARD CONTROLLER  \n ");
+			break;
+			case ANALOG:
+			  FntPrint(fnt_id[6]," ~c090ANALOG CONTROLLER  \n ");
+			break;
+			case ANALOG_JOY:
+			  FntPrint(fnt_id[6]," ~c090ANALOG JOYSTICK  \n ");
+			break;
+			case GUNCON:
+			  FntPrint(fnt_id[6]," ~c090GUNCON CONTROLLER  \n ");
+			  CheckGunCon(buffer2);
+			break;
+			case 0:
+			  FntPrint(fnt_id[2]," ~c090                   \n");
+			break;
+			default:
+			  FntPrint(fnt_id[6]," ~c090UNKNOWN CONTROLLER \n");
+			break;
+
+		   }
+
+			  
+ }// end CheckTerminalType
+   
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitGame()
+// Description: Initialise the graphics mode, joypad, ordering tables,
+//              textures, and objects
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitGame( void )
+ {
+	 int count;
+     
+	 printf("Starting InitGame() \n");
+	
+	 // load in the font pattern
+	 FntLoad(960,256);
+     printf("Fonts loaded: \n");
+
+	 fnt_id[0] = FntOpen(0,10,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[1] = FntOpen(0,20,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[2] = FntOpen(0,30,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[3] = FntOpen(0,40,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+
+	 fnt_id[4] = FntOpen(0,120,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[5] = FntOpen(0,130,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[6] = FntOpen(0,140,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[7] = FntOpen(0,150,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	  
+   	 // save current video mode
+	 prev_mode = GetVideoMode();
+
+	 // init graphic mode
+	 SetVideoMode( MODE_PAL );
+	 printf("Set video mode complete: \n");
+
+	 // init the controller buffers
+	 GetPadBuf(&buffer1,&buffer2);	  
+	 printf("Set controller buffers complete: \n");
+
+	 // all reset, the drawing environment and display are initialised
+	 ResetGraph(0);
+
+	 GsInitGraph( SCREEN_WIDTH, SCREEN_HEIGHT,
+			      GsOFSGPU|GsNONINTER, 0, 0 );
+	 printf("Screen size setup complete: \n");
+
+	 // double buffer definition
+	 GsDefDispBuff( 0, 0, 0, SCREEN_HEIGHT );
+	 printf("Double buffer setup complete: \n");
+
+	  
+	 GsDISPENV.screen.x = 6;
+	 GsDISPENV.screen.y = 16;
+	 GsDISPENV.screen.w = 255;
+	 GsDISPENV.screen.h = 255;	
+	
+	 // set up the ordering table handlers
+	 for( count=0; count < 2; count++ )
+	    {
+		  world_ordering_table[count].length = 1;
+		  world_ordering_table[count].org = ordering_table[count];
+	    }
+
+	 // initialises the ordering table
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index]);
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index+1]);
+	 printf("WOT is setup and complete: \n");
+     printf("Game setup is complete: \n");
+
+ }// end InitGame
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: DeInitGame()
+// Description: De-init the game, sound, graphics, etc
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void DeInitGame( void )
+ {
+
+ 	 // set previous video mode
+	 SetVideoMode( prev_mode );
+
+	 // current drawing is canvelled and the command queue is flushed
+	 ResetGraph(3);	   
+
+	 printf("Graphics flushed: \n");
+	 printf("Game now de-int: \n");
+ 
+ }// end DeInitGame
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Function: UpdateScreen()
+// Description: Updates all the game objects and redraws the screen
+// Parameters: none
+// Returns: void
+// Notes: 
+//------------------------------------------------------------------------------
+
+void UpdateScreen( void )
+ {
+
+	int count;
+
+	// get the active buffer
+    output_buffer_index = GsGetActiveBuff();
+
+    // sets drawing command storage address
+    GsSetWorkBase((PACKET*)gpu_work_area[output_buffer_index]);
+
+    // initialises the ordering table
+    GsClearOt(0, 0, &world_ordering_table[output_buffer_index]);
+
+    // rendering done here
+    
+	for( count =0; count <8; count++ )
+         FntFlush(fnt_id[count]);        
+		
+    // wait for all drawing to be completed
+    DrawSync(0);
+
+    // wait for vertical synchronisation
+    VSync(0);    // 0: blocking until vertical synch occurs
+
+    // swap double buffers, (changes the display buffer and drawing buffer)
+    GsSwapDispBuff();
+
+    // registers drawing clear command in OT (e.g. clear to black)
+    GsSortClear(0x0, 0x0, 0x80,
+                &world_ordering_table[output_buffer_index]);
+
+	// start execution of the drawing command registered in OT
+    GsDrawOt(&world_ordering_table[output_buffer_index]);
+
+ }// end UpdateScreen 
+
+
+//----------------------------------EOF-------------------------------------

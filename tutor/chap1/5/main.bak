@@ -1,0 +1,639 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: August 3, 1998
+// Description: Chapter Three - Analog Calibration/Demo Example
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h"	
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//-------------------------------------------------------------------------- 
+
+// screen resolution
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 256
+
+// image address
+#define TIM_ADDR (0x80090000)
+
+// mode defines
+#define CALIBRATE_LEFT  0
+#define CALIBRATE_RIGHT 1
+#define CALIBRATE_DONE  2
+#define MODE_TEST       3
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id
+GsSPRITE  sprite; 
+int mode = CALIBRATE_LEFT;
+int frame_count=0;
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Analog Calibration/Demo Example
+// Parameters: none
+// Returns: int
+// Notes: I hate long main()'s but I wanted it all in one routine...
+//--------------------------------------------------------------------------
+
+int main( void )
+ {	          
+    
+	int done = 1;
+
+	// left stick 
+	int l_x_mid, l_y_mid;
+	int l_x_min, l_x_max;
+	int l_y_min, l_y_max;
+
+    // right stick
+	int r_x_mid, r_y_mid;
+	int r_x_min, r_x_max;
+	int r_y_min, r_y_max;
+
+   	InitGame();	
+	
+	InitYarozeSprite();
+	
+	// main loop
+    while( !DONE )
+      {	 		 	     
+                 
+        switch( mode )
+           {
+
+           	 case CALIBRATE_LEFT:
+			   { 				 
+
+ 				 while( !PAD_PRESS(buffer1,PAD_L1) ) 
+				   {
+
+					 FntPrint(fnt_id[0]," ~c900Analog Example ");
+				     FntPrint(fnt_id[1]," ~c090Calibrate Left Stick ");
+					 
+					 FntPrint(fnt_id[2]," left x:%d, left y:%d",
+                              buffer1->data.analog.left_x,
+                              buffer1->data.analog.left_y);
+
+					 FntPrint(fnt_id[3]," ~c900Move to lower right and press L1 ");
+
+					 l_x_max  = ANALOG_LEFT_X(buffer1);
+					 l_y_max  = ANALOG_LEFT_Y(buffer1);
+
+					 UpdateScreen();					
+
+				   }// end while
+
+				 frame_count =0;
+
+				 while( frame_count < 100 )	
+				    {
+				      VSync(0);
+				      frame_count++;
+				    }
+
+				 while( !PAD_PRESS(buffer1,PAD_L1)) 
+				   {
+
+					 FntPrint(fnt_id[0]," ~c900Analog Example ");
+				     FntPrint(fnt_id[1]," ~c090Calibrate Left Stick ");
+					 
+					 FntPrint(fnt_id[2]," left x:%d, left y:%d",
+                              buffer1->data.analog.left_x,
+                              buffer1->data.analog.left_y);
+
+					 FntPrint(fnt_id[3]," ~c909Move to upper left and press L1 ");
+
+					 l_x_min  = ANALOG_LEFT_X(buffer1);
+					 l_y_min  = ANALOG_LEFT_Y(buffer1);
+
+					 UpdateScreen();
+					 
+				   }// end while
+
+				 frame_count =0;
+
+				 while( frame_count < 100 )	
+				    {
+				      VSync(0);
+				      frame_count++;
+				    }
+
+				 mode = CALIBRATE_RIGHT;
+				 
+				 l_x_mid = (l_x_min + l_x_max) / 2;
+				 l_y_mid = (l_y_min + l_y_max) / 2;				  	
+			      
+			   }
+			 break;
+			 case CALIBRATE_RIGHT:
+			   {
+				
+				 while( !PAD_PRESS(buffer1,PAD_L1) ) 
+				   {
+
+					 FntPrint(fnt_id[0]," ~c900Analog Example ");
+				     FntPrint(fnt_id[1]," ~c090Calibrate Right Stick ");
+					 
+					 FntPrint(fnt_id[2]," right x:%d, right y:%d",
+                              buffer1->data.analog.right_x,
+                              buffer1->data.analog.right_y);
+
+					 FntPrint(fnt_id[3]," ~c900Move to lower right and press L1 ");
+
+					 r_x_max  = ANALOG_RIGHT_X(buffer1);
+					 r_y_max  = ANALOG_RIGHT_Y(buffer1);
+
+					 UpdateScreen();
+
+				   }// end while
+
+				 frame_count =0;
+
+				 while( frame_count < 100 )	
+				    {
+				      VSync(0);
+				      frame_count++;
+				    }
+
+				 while( !PAD_PRESS(buffer1,PAD_L1) ) 
+				   {
+				    
+				     FntPrint(fnt_id[0]," ~c900Analog Example ");
+				     FntPrint(fnt_id[1]," ~c090Calibrate Right Stick ");
+
+				     FntPrint(fnt_id[2]," right x:%d, right y:%d ",
+				              buffer1->data.analog.right_x,
+                              buffer1->data.analog.right_y);
+
+				     FntPrint(fnt_id[3]," ~c909Move to upper left and press L1 ");
+
+				     r_x_min = ANALOG_RIGHT_X(buffer1);
+				     r_y_min = ANALOG_RIGHT_Y(buffer1);
+				
+				     UpdateScreen();
+
+				   }// end while
+
+				 frame_count =0;
+
+				 while( frame_count < 100 )	
+				    {
+				      VSync(0);
+				      frame_count++;
+				    }
+
+				 mode = CALIBRATE_DONE;
+				  
+				 r_x_mid = (r_x_min + r_x_max) / 2;
+				 r_y_mid = (r_y_min + r_y_max) / 2;				  
+				  	  
+               }
+			 break;
+			 case CALIBRATE_DONE:
+			   {
+			     
+			     while( !PAD_PRESS(buffer1,PAD_CROSS) ) 
+				   {
+
+			         FntPrint(fnt_id[0]," ~c900Calibrate mode complete ");
+				     FntPrint(fnt_id[1]," Press X to continue ");
+		             FntPrint(fnt_id[2]," Left :x midpoint: %d, y midpoint: %d",
+				                          l_x_mid, l_y_mid);
+		             FntPrint(fnt_id[3]," Right:x midpoint: %d, y midpoint: %d",
+				                          r_x_mid, r_y_mid);
+					 UpdateScreen();
+
+				   }// end while  
+
+				 frame_count =0;
+
+				 while( frame_count < 100 )	
+				    {
+				      VSync(0);
+				      frame_count++;
+				    }
+
+  				 mode = MODE_TEST;
+
+			   }
+			 break;
+			 case MODE_TEST:
+			   {
+									 
+			   	FntPrint(fnt_id[0],"~c900 Analog Test - Left stick only ");
+				FntPrint(fnt_id[1]," Press X to recalibrate ");
+				FntPrint(fnt_id[2]," left x:%d, left y:%d",
+                         buffer1->data.analog.left_x,
+                         buffer1->data.analog.left_y);
+
+				if( PAD_PRESS(buffer1,PAD_CROSS) )
+				  {
+				    mode = CALIBRATE_LEFT;
+
+				    frame_count =0;
+
+				    while( frame_count < 100 )	
+				      {
+				        VSync(0);
+				        frame_count++;
+				      }
+
+				  }// end if
+
+				// X ANALOG
+				if( ANALOG_LEFT_X(buffer1) >= (l_x_mid+14) )
+				  {
+				    if( ANALOG_LEFT_X(buffer1) <= 160 )
+				        sprite.x +=1;
+					else
+					if( ANALOG_LEFT_X(buffer1) <= 192 )
+				        sprite.x +=2;
+					else
+					if( ANALOG_LEFT_X(buffer1) <= 224 )
+				        sprite.x +=3;
+					else
+					    sprite.x +=6;
+
+				  }
+				
+			 	if( ANALOG_LEFT_X(buffer1) <= (l_x_mid-14) )
+				  {
+				    if( ANALOG_LEFT_X(buffer1) >= 96 )
+				        sprite.x -=1;
+				    else
+					if( ANALOG_LEFT_X(buffer1) >= 64 )
+				        sprite.x -=2;
+					else
+					if( ANALOG_LEFT_X(buffer1) >= 32 )
+				        sprite.x -=3;
+					else
+					    sprite.x -=6;
+
+				  }
+				 
+				 // Y ANALOG
+				if( ANALOG_LEFT_Y(buffer1) >= (l_y_mid+14) )
+				  {
+				    if( ANALOG_LEFT_Y(buffer1) <= 160 )
+				        sprite.y +=1;
+					else
+					if( ANALOG_LEFT_Y(buffer1) <= 192 )
+				        sprite.y +=2;
+					else
+					if( ANALOG_LEFT_Y(buffer1) <= 224 )
+				        sprite.y +=3;
+					else
+					    sprite.y +=6;
+
+				  }
+				
+			 	if( ANALOG_LEFT_Y(buffer1) <= (l_y_mid-14) )
+				  {
+				    if( ANALOG_LEFT_Y(buffer1) >= 96 )
+				        sprite.y -=1;
+				    else
+					if( ANALOG_LEFT_Y(buffer1) >= 64 )
+				        sprite.y -=2;
+					else
+					if( ANALOG_LEFT_Y(buffer1) >= 32 )
+				        sprite.y -=3;
+					else
+					    sprite.y -=6;
+
+				  }
+
+				// wrap around sprite
+				if( sprite.x > SCREEN_WIDTH )
+				    sprite.x = 0-sprite.w;
+				if( (sprite.x+sprite.w) < 0 )
+				    sprite.x = SCREEN_WIDTH;
+
+				if( sprite.y > SCREEN_HEIGHT )
+				    sprite.y = 0-sprite.h;
+				if( (sprite.y+sprite.h) < 0 )
+				    sprite.y = SCREEN_HEIGHT;		    		
+
+			   }// end case_test
+			 break;
+			              
+           
+           }// end switch           
+            
+        UpdateScreen();	   	
+   
+      }// end while loop
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitYarozeSprite()
+// Description: Load TIM and setup sprite structure
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitYarozeSprite( void )
+ {
+
+	GsIMAGE *tim;
+	u_short tpage;
+
+   	tim   = ReadTIM((u_long*)TIM_ADDR);	
+	tpage = GetTPage(1,0,tim->px,tim->py);
+			
+	InitSprite( &sprite,(1<<24),100,100,64,64,tpage,0,0,tim->cx,tim->cy,
+	            0x80,0x80,0x80,0,0,ONE,ONE,0 );
+
+ }// end InitYarozeSprite
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: ReadTIM()
+// Description: Read a TIM and CLUT(if 4 bit or 8 bit) and transfer to VRAM
+// Parameters: u_long *addr: address of TIM
+// Returns: GsIMAGE: address of tim variable
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+
+GsIMAGE *ReadTIM( u_long *addr )
+ { 	
+   
+	static GsIMAGE tim;	 
+	RECT rect; 			
+			
+	// skip id and initialize image structure 
+	addr ++;
+	GsGetTimInfo(addr, &tim);	
+
+	// transfer pixel data to VRAM 
+	rect.x = tim.px;
+	rect.y = tim.py;
+	rect.w = tim.pw;
+	rect.h = tim.ph;
+	LoadImage(&rect, tim.pixel);
+
+	DrawSync(0);
+
+    // check if CLUT exists and transfer it to VRAM 
+ 	if( (tim.pmode >> 3) & 0x01 ) 
+ 	  {
+ 	  	rect.x = tim.cx;
+	  	rect.y = tim.cy;
+	  	rect.w = tim.cw;
+	  	rect.h = tim.ch;
+	  	LoadImage(&rect, tim.clut);
+	  }	
+	  
+    DrawSync(0);
+
+    printf(" IMAGE - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.px, tim.py,tim.pw,tim.ph );  
+    printf(" CLUT - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.cx, tim.cy,tim.cw,tim.ch );
+    printf(" image mode:%d \n", tim.pmode);   
+	printf(" tim addr: %p \n",&tim);
+
+    return(&tim);
+	
+
+ }// end ReadTIM  
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitSprite()
+// Description: Setup sprite structure
+// Parameters: Lots!  Look at the Library Reference Manual
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+   
+void InitSprite( GsSPRITE *sprite, u_long attribute, short x, short y, u_short w, u_short h,
+                 u_short tpage, u_char u, u_char v, short cx, short cy, u_char r, u_char g,
+                 u_char b, short mx, short my, short scalex, short scaley, long rotate )
+ {
+
+	sprite->attribute = attribute;
+	
+	sprite->x = x;
+	sprite->y = y;
+
+	sprite->w = w;
+	sprite->h = h;
+
+	sprite->tpage = tpage;
+
+	sprite->u = u;
+	sprite->v = v;
+
+	sprite->cx = cx;
+	sprite->cy = cy;;
+
+	sprite->r = r;
+	sprite->g = g;
+	sprite->b = b;
+
+	sprite->mx = mx;
+	sprite->my = my;
+
+	sprite->scalex = scalex;
+	sprite->scaley = scaley;
+	sprite->rotate = rotate;
+
+
+ }// end InitSprite 
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitGame()
+// Description: Initialise the graphics mode, joypad, ordering tables,
+//              textures, and objects
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitGame( void )
+ {
+	 int count;
+     
+	 printf("Starting InitGame() \n");
+	
+	 // load in the font pattern
+	 FntLoad(960,256);
+     printf("Fonts loaded: \n");
+
+	 fnt_id[0] = FntOpen(0,10,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[1] = FntOpen(0,20,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[2] = FntOpen(0,60,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[3] = FntOpen(0,70,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+
+	 fnt_id[4] = FntOpen(0,120,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[5] = FntOpen(0,130,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[6] = FntOpen(0,140,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[7] = FntOpen(0,150,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	  
+   	 // save current video mode
+	 prev_mode = GetVideoMode();
+
+	 // init graphic mode
+	 SetVideoMode( MODE_PAL );
+	 printf("Set video mode complete: \n");
+
+	 // init the controller buffers
+	 GetPadBuf(&buffer1,&buffer2); 
+	 printf("Set controller buffers complete: \n");
+
+	 // all reset, the drawing environment and display are initialised
+	 ResetGraph(0);
+
+	 GsInitGraph( SCREEN_WIDTH, SCREEN_HEIGHT,
+			      GsOFSGPU|GsNONINTER, 0, 0 );
+	 printf("Screen size setup complete: \n");
+
+	 // double buffer definition
+	 GsDefDispBuff( 0, 0, 0, SCREEN_HEIGHT );
+	 printf("Double buffer setup complete: \n");
+
+	  
+	 GsDISPENV.screen.x = 6;
+	 GsDISPENV.screen.y = 16;
+	 GsDISPENV.screen.w = 255;
+	 GsDISPENV.screen.h = 255;	
+	
+	 // set up the ordering table handlers
+	 for( count=0; count < 2; count++ )
+	    {
+		  world_ordering_table[count].length = 1;
+		  world_ordering_table[count].org = ordering_table[count];
+	    }
+
+	 // initialises the ordering table
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index]);
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index+1]);
+	 printf("WOT is setup and complete: \n");
+     printf("Game setup is complete: \n");
+
+ }// end InitGame
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: DeInitGame()
+// Description: De-init the game, sound, graphics, etc
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void DeInitGame( void )
+ {
+
+ 	 // set previous video mode
+	 SetVideoMode( prev_mode );
+
+	 // current drawing is canvelled and the command queue is flushed
+	 ResetGraph(3);	   
+
+	 printf("Graphics flushed: \n");
+	 printf("Game now de-int: \n");
+ 
+ }// end DeInitGame
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Function: UpdateScreen()
+// Description: Updates all the game objects and redraws the screen
+// Parameters: none
+// Returns: void
+// Notes: 
+//------------------------------------------------------------------------------
+
+void UpdateScreen( void )
+ {
+
+	int count;
+
+	// get the active buffer
+    output_buffer_index = GsGetActiveBuff();
+
+    // sets drawing command storage address
+    GsSetWorkBase((PACKET*)gpu_work_area[output_buffer_index]);
+
+    // initialises the ordering table
+    GsClearOt(0, 0, &world_ordering_table[output_buffer_index]);
+
+    // rendering done here
+    
+	for( count =0; count <8; count++ )
+         FntFlush(fnt_id[count]);        
+	
+	if( mode == MODE_TEST )
+	    GsSortSprite(&sprite,
+	                 &world_ordering_table[output_buffer_index],
+	                 0);
+		
+    // wait for all drawing to be completed
+    DrawSync(0);
+
+    
+    // wait for vertical synchronisation
+    VSync(0);    // 0: blocking until vertical synch occurs
+	frame_count++;
+
+    // swap double buffers, (changes the display buffer and drawing buffer)
+    GsSwapDispBuff();
+
+    // registers drawing clear command in OT (e.g. clear to black)
+    GsSortClear(0x0, 0x0, 0x80,
+                &world_ordering_table[output_buffer_index]);
+
+	// start execution of the drawing command registered in OT
+    GsDrawOt(&world_ordering_table[output_buffer_index]);
+
+ }// end UpdateScreen 
+
+
+//----------------------------------EOF-------------------------------------

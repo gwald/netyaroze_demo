@@ -1,0 +1,533 @@
+symusr.o needed due to GsDISPENV
+startup.o needed due to __main
+video.o needed due to SetVideoMode
+stdef1.o needed due to _sys_ramsize
+stdef2.o needed due to _sys_init_stacksize
+stdef3.o needed due to _sys_init_sp
+stdef4.o needed due to _sys_init_fp
+stdef5.o needed due to _sys_init_gp
+stdef6.o needed due to _sys_init_heapbase
+stdef7.o needed due to _sys_init_heapsize
+stdef8.o needed due to _sys_init_bss_flag
+Allocating common fnt_id: 24 at 0 main.o
+Allocating common prev_mode: 1 at 0 main.o
+Allocating common gpu_work_area: bb80 at 30 main.o
+Allocating common output_buffer_index: 4 at 4 main.o
+Allocating common clear: 10 at bbb0 main.o
+Allocating common ordering_table: 10 at bbc0 main.o
+Allocating common buffer2: 4 at 8 main.o
+Allocating common cross: 24 at bbd0 main.o
+Allocating common enemy: 14 at bc00 main.o
+Allocating common cross_hair: 24 at bc20 main.o
+Allocating common buffer1: 4 at c main.o
+Allocating common world_ordering_table: 28 at bc50 main.o
+**FILES**
+
+  main.o
+00000000 00000e90 2** 4d .text
+00000000 00000280 2** 4d .rdata
+00000000 00000000 2** 4d .data
+00000000 00000010 2** 4d .sdata
+00000000 00000020 2** 4d .bss
+00000000 00000010 2** 4d .scommon
+00000020 0000bc78 2** 4d COMMON
+
+  symusr.o
+00000e90 00000000 2** 4d .text
+00000000 00000000 2** 4d .data
+00000020 00000000 2** 4d .bss
+
+  startup.o
+00000e90 000001c0 2** 4d .text
+00000000 00000150 2** 4d .data
+00000020 00000000 2** 4d .bss
+
+  video.o
+00001050 00000040 2** 4d .text
+00000150 00000000 2** 4d .data
+00000020 00000000 2** 4d .bss
+
+  stdef1.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000010 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef2.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000020 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef3.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000030 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef4.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000040 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef5.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000050 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef6.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000060 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef7.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000070 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+  stdef8.o
+00001090 00000000 2** 4d .text
+00000150 00000000 2** 4d .data
+00000080 00000010 2** 4d .sdata
+00000020 00000000 2** 4d .bss
+
+**GLOBAL SYMBOLS**
+
+offset    section    offset   symbol
+80045548  *ABS*      80045548 longjmp
+80043790  *ABS*      80043790 putchar
+80022524  *ABS*      80022524 GsSetLightMode
+80023bcc  *ABS*      80023bcc GsScaleScreen
+80015124  *ABS*      80015124 SsSeqSetRitardando
+80043cb0  *ABS*      80043cb0 strcpy
+000001ac  .text      000001ac __main
+8002632c  *ABS*      8002632c KanjiFntOpen
+8001b0f4  *ABS*      8001b0f4 SsUtGetVVol
+80040274  *ABS*      80040274 log
+80043314  *ABS*      80043314 bcmp
+800411cc  *ABS*      800411cc sqrt
+8004550c  *ABS*      8004550c setjmp
+8004100c  *ABS*      8004100c cosh
+8002663c  *ABS*      8002663c KanjiFntClose
+8003e854  *ABS*      8003e854 __eqdf2
+80027cb0  *ABS*      80027cb0 ResetGraph
+80027404  *ABS*      80027404 GetTPage
+80021920  *ABS*      80021920 GsSwapDispBuff
+80042fe8  *ABS*      80042fe8 delete
+8001ad88  *ABS*      8001ad88 SsUtPitchBend
+80044518  *ABS*      80044518 printf
+80141310  *ABS*      80141310 _fdata
+80042df8  *ABS*      80042df8 LoadTest
+8004133c  *ABS*      8004133c sprintf2
+80042e18  *ABS*      80042e18 Exec
+80043120  *ABS*      80043120 StartRCnt
+8003fb64  *ABS*      8003fb64 __divsf3
+8002d718  *ABS*      8002d718 SetLightMatrix
+80043008  *ABS*      80043008 _get_errno
+800225b0  *ABS*      800225b0 GsSetFogParam
+80021ac0  *ABS*      80021ac0 GsSetLightMatrix
+800137e8  *ABS*      800137e8 SsIsEos
+800436cc  *ABS*      800436cc memmove
+00000000  .text      80140000 eprol
+80022600  *ABS*      80022600 GsSetAmbient
+8001a33c  *ABS*      8001a33c SsUtKeyOn
+8003ea84  *ABS*      8003ea84 __gtdf2
+800432f4  *ABS*      800432f4 atol
+800133fc  *ABS*      800133fc SsSeqSetNext
+8004ea28  *ABS*      8004ea28 math_errno
+000003f4  .text      000003f4 CheckHit
+8003f5c0  *ABS*      8003f5c0 ceil
+8003bf60  *ABS*      8003bf60 CdRead
+8003f4e8  *ABS*      8003f4e8 floor
+00001090  .text      80141090 _etext
+80043484  *ABS*      80043484 gets
+8004543c  *ABS*      8004543c bsearch
+80149460  *ABS*      80149460 _gp
+8002a9fc  *ABS*      8002a9fc Krom2RawAdd2
+80043ab4  *ABS*      80043ab4 qsort
+8002154c  *ABS*      8002154c GsSetDrawBuffOffset
+00000000  COMMON     00000000 fnt_id
+80042fa8  *ABS*      80042fa8 format
+800412fc  *ABS*      800412fc printf2
+800235d8  *ABS*      800235d8 GsGetLs
+80043420  *ABS*      80043420 getc
+8002d528  *ABS*      8002d528 ApplyMatrixSV
+80043698  *ABS*      80043698 memcpy
+80063e30  *ABS*      80063e30 GsLIGHTWSMATRIX
+00000860  .text      00000860 InitSprite
+8003e8a4  *ABS*      8003e8a4 __floatsidf
+8003eb60  *ABS*      8003eb60 __ltdf2
+000005e0  .text      000005e0 InitCross
+80014f3c  *ABS*      80014f3c SsSeqReplay
+8001a6e0  *ABS*      8001a6e0 SsUtKeyOff
+80042860  *ABS*      80042860 _err_math
+800433f0  *ABS*      800433f0 tolower
+8002d134  *ABS*      8002d134 PopMatrix
+80010754  *ABS*      80010754 malloc
+80040088  *ABS*      80040088 ldexp
+80020f3c  *ABS*      80020f3c GsInitGraph
+801414f0  *ABS*      801414f0 edata
+800153c4  *ABS*      800153c4 SsSeqStop
+80010ea0  *ABS*      80010ea0 SsSetMute
+800203b4  *ABS*      800203b4 GsSortLine
+80044368  *ABS*      80044368 strtoul
+80042fc8  *ABS*      80042fc8 nextfile
+80028724  *ABS*      80028724 PutDrawEnv
+80028374  *ABS*      80028374 LoadImage
+00000000  .sdata     00000000 _sys_init_stacksize
+8003c388  *ABS*      8003c388 CdPlay
+80010cb4  *ABS*      80010cb4 SsGetMVol
+80010ee0  *ABS*      80010ee0 SsSetMVol
+80016310  *ABS*      80016310 SsUtGetReverbType
+80063f0c  *ABS*      80063f0c GsIDMATRIX
+00000000  .scommon   00000000 prev_mode
+8003fcb0  *ABS*      8003fcb0 __extendsfdf2
+8003df74  *ABS*      8003df74 __adddf3
+80063f2c  *ABS*      80063f2c GsLSMATRIX
+80042f68  *ABS*      80042f68 lseek
+80021f70  *ABS*      80021f70 GsSetProjection
+80043394  *ABS*      80043394 bzero
+800288fc  *ABS*      800288fc PutDispEnv
+80021e80  *ABS*      80021e80 GsInit3D
+80062d08  *ABS*      80062d08 PSDOFSY
+800147ec  *ABS*      800147ec SsSetTickMode
+800441a4  *ABS*      800441a4 strtol
+00000030  COMMON     00000030 gpu_work_area
+80042f28  *ABS*      80042f28 EnterCriticalSection
+80010d34  *ABS*      80010d34 SsGetSerialAttr
+80065954  *ABS*      80065954 GsLIGHT_MODE
+80022a70  *ABS*      80022a70 GsGetWorkBase
+80010fc4  *ABS*      80010fc4 SsSetSerialVol
+8001f7e0  *ABS*      8001f7e0 GsInitFixBg16
+80042fd8  *ABS*      80042fd8 rename
+80043f68  *ABS*      80043f68 strrchr
+800219d0  *ABS*      800219d0 GsSetOrign
+8003f3e8  *ABS*      8003f3e8 __fixdfsi
+800109f0  *ABS*      800109f0 calloc
+80026a2c  *ABS*      80026a2c KanjiFntPrint
+800428e8  *ABS*      800428e8 strtod
+80021ef8  *ABS*      80021ef8 GsMapModelingData
+80022b44  *ABS*      80022b44 GsSetRefView2
+80063f74  *ABS*      80063f74 GsIDMATRIX2
+80042f88  *ABS*      80042f88 write
+800661e0  *ABS*      800661e0 PSDCNT
+800428c8  *ABS*      800428c8 atof
+00000004  .scommon   00000004 output_buffer_index
+0000bbb0  COMMON     0000bbb0 clear
+8004096c  *ABS*      8004096c __ledf2
+80043b70  *ABS*      80043b70 strcat
+0000bbc0  COMMON     0000bbc0 ordering_table
+80062d04  *ABS*      80062d04 PSDOFSX
+00000008  .scommon   00000008 buffer2
+00000000  .sdata     00000000 _sys_init_fp
+8014d198  *ABS*      8014d198 end
+80025320  *ABS*      80025320 FntOpen
+80023e58  *ABS*      80023e58 GsSortObject4
+80040554  *ABS*      80040554 modf
+00000008  .sdata     00001118 mode
+8001626c  *ABS*      8001626c SsUtSetReverbType
+800405fc  *ABS*      800405fc fmod
+80040d9c  *ABS*      80040d9c cos
+800283d8  *ABS*      800283d8 StoreImage
+00000000  .text      00000000 SetVideoMode
+8002843c  *ABS*      8002843c MoveImage
+8004107c  *ABS*      8004107c tanh
+00001090  .text      80141090 etext
+800435fc  *ABS*      800435fc memchr
+00000000  .sdata     00000000 _sys_init_bss_flag
+800151bc  *ABS*      800151bc SsSeqSetVol
+80020628  *ABS*      80020628 GsSortBoxFill
+00000000  .text      80140000 _ftext
+00000000  .text      00000000 _start
+80021de0  *ABS*      80021de0 GsDefDispBuff
+80044018  *ABS*      80044018 strstr
+80023314  *ABS*      80023314 GsGetLw
+80040cc4  *ABS*      80040cc4 sin
+80043b30  *ABS*      80043b30 rand
+8003d960  *ABS*      8003d960 atan2
+80042f78  *ABS*      80042f78 read
+0000bbd0  COMMON     0000bbd0 cross
+80043e00  *ABS*      80043e00 strncmp
+00000000  .sdata     00000000 _sys_init_sp
+80040740  *ABS*      80040740 pow
+80043e80  *ABS*      80043e80 strncpy
+80040ed4  *ABS*      80040ed4 sinh
+80026f04  *ABS*      80026f04 Krom2Tim
+800404bc  *ABS*      800404bc log10
+80042e28  *ABS*      80042e28 FlushCache
+80063f4c  *ABS*      80063f4c GsWSMATRIX
+8001095c  *ABS*      8001095c realloc
+8002d4d8  *ABS*      8002d4d8 ApplyMatrix
+8002527c  *ABS*      8002527c FntLoad
+800217e8  *ABS*      800217e8 GsSetClip
+80021f90  *ABS*      80021f90 GsSetFlatLight
+80043360  *ABS*      80043360 bcopy
+80044090  *ABS*      80044090 strtok
+8003f108  *ABS*      8003f108 __negdf2
+8004364c  *ABS*      8004364c memcmp
+00000000  .sdata     00000000 _sys_init_heapbase
+800231b0  *ABS*      800231b0 GsSetView2
+80043188  *ABS*      80043188 ResetRCnt
+8003e468  *ABS*      8003e468 __divdf3
+80043d8c  *ABS*      80043d8c strncat
+8002e4c8  *ABS*      8002e4c8 RotMatrixZ
+800280b0  *ABS*      800280b0 SetDispMask
+8003e3a0  *ABS*      8003e3a0 _dbl_shift
+000004c4  .text      000004c4 InitEnemyBox
+80013654  *ABS*      80013654 SsSetTempo
+8003c068  *ABS*      8003c068 CdReadSync
+8003ecb4  *ABS*      8003ecb4 __muldf3
+800139d4  *ABS*      800139d4 SsSeqClose
+80042f38  *ABS*      80042f38 ExitCriticalSection
+80062d0c  *ABS*      80062d0c GsLIOFF
+80014c10  *ABS*      80014c10 SsSeqPause
+8002cf70  *ABS*      8002cf70 ScaleMatrixL
+8001012c  *ABS*      8001012c TestCard
+8003c14c  *ABS*      8003c14c CdReadFile
+80020520  *ABS*      80020520 GsSortGLine
+80016340  *ABS*      80016340 SsUtReverbOff
+800216f0  *ABS*      800216f0 GsSetOffset
+80043738  *ABS*      80043738 memset
+00000000  .text      00000000 main
+800430e8  *ABS*      800430e8 GetRCnt
+80043b60  *ABS*      80043b60 srand
+8002cde0  *ABS*      8002cde0 ApplyMatrixLV
+80043450  *ABS*      80043450 getchar
+8003ff54  *ABS*      8003ff54 __truncdfsf2
+80063eb0  *ABS*      80063eb0 GsDISPENV
+8002665c  *ABS*      8002665c KanjiFntFlush
+800282e0  *ABS*      800282e0 ClearImage
+80014d64  *ABS*      80014d64 SsSeqPlay
+8002153c  *ABS*      8002153c GsGetActiveBuff
+8003f1c4  *ABS*      8003f1c4 exp
+80043764  *ABS*      80043764 putc
+8003fe10  *ABS*      8003fe10 __mulsf3
+00000004  .sdata     00001114 hit
+800226a4  *ABS*      800226a4 GsSortOt
+80043c4c  *ABS*      80043c4c strcmp
+8003b198  *ABS*      8003b198 CdSearchFile
+80040c3c  *ABS*      80040c3c tan
+80063e54  *ABS*      80063e54 GsDRAWENV
+80022a60  *ABS*      80022a60 GsSetWorkBase
+00000000  .sdata     00000000 _sys_ramsize
+800258fc  *ABS*      800258fc FntPrint
+800238ac  *ABS*      800238ac GsGetLws
+8003f0b8  *ABS*      8003f0b8 __nedf2
+8003c2b4  *ABS*      8003c2b4 CdReadExec
+80016438  *ABS*      80016438 SsUtSetReverbDelay
+8001f4b8  *ABS*      8001f4b8 GsSortFixBg16
+0000bc00  COMMON     0000bc00 enemy
+8003d754  *ABS*      8003d754 atan
+80044be0  *ABS*      80044be0 sprintf
+00000478  .text      00000478 InitClearScreen
+80043cf4  *ABS*      80043cf4 strcspn
+8003dbf8  *ABS*      8003dbf8 asin
+8003ccdc  *ABS*      8003ccdc VSyncCallback
+80063d40  *ABS*      80063d40 GsOUT_PACKET_P
+80010700  *ABS*      80010700 InitHeap
+80016360  *ABS*      80016360 SsUtSetReverbFeedback
+8002264c  *ABS*      8002264c GsClearOt
+0000096c  .text      0000096c InitGame
+8002c898  *ABS*      8002c898 CompMatrix
+000006ac  .text      000006ac ReadTIM
+8002814c  *ABS*      8002814c DrawSync
+00000518  .text      00000518 InitCrossHair
+800219e8  *ABS*      800219e8 GsInitCoordinate2
+8002297c  *ABS*      8002297c GsGetTimInfo
+80022628  *ABS*      80022628 GsDrawOt
+800208c4  *ABS*      800208c4 GsSortSprite
+8003ca68  *ABS*      8003ca68 VSync
+800100c8  *ABS*      800100c8 GetPadBuf
+8002def8  *ABS*      8002def8 RotMatrix
+80062d10  *ABS*      80062d10 GsLMODE
+80021868  *ABS*      80021868 GsSetClip2D
+8003d744  *ABS*      8003d744 GetVideoMode
+800255d8  *ABS*      800255d8 FntFlush
+00000000  .sdata     00000000 _sys_init_gp
+80021400  *ABS*      80021400 GsSortClear
+801414f0  *ABS*      801414f0 _edata
+8002d5b8  *ABS*      8002d5b8 ScaleMatrix
+8014d198  *ABS*      8014d198 _end
+8002d094  *ABS*      8002d094 PushMatrix
+800661e4  *ABS*      800661e4 PSDIDX
+8002c9f8  *ABS*      8002c9f8 MulMatrix0
+0000bc20  COMMON     0000bc20 cross_hair
+800658c8  *ABS*      800658c8 GsTON
+80062d14  *ABS*      80062d14 GsLIGNR
+80042ff8  *ABS*      80042ff8 Krom2RawAdd
+80063f9c  *ABS*      80063f9c CLIP2
+80010c90  *ABS*      80010c90 SsGetMute
+8002d588  *ABS*      8002d588 TransMatrix
+8002d2b8  *ABS*      8002d2b8 MulMatrix
+8002c778  *ABS*      8002c778 gteMIMefunc
+00000c54  .text      00000c54 DeInitGame
+0000019c  .text      0000019c exit
+0000000c  .scommon   0000000c buffer1
+80015d94  *ABS*      80015d94 SsVabTransfer
+0000bc50  COMMON     0000bc50 world_ordering_table
+800155f4  *ABS*      800155f4 SsVabClose
+800113e8  *ABS*      800113e8 SsSeqOpen
+80016320  *ABS*      80016320 SsUtReverbOn
+00000ca8  .text      00000ca8 UpdateScreen
+80020dc0  *ABS*      80020dc0 GsSortFastSprite
+800431c0  *ABS*      800431c0 atoi
+8001b2b4  *ABS*      8001b2b4 SsUtAllKeyOff
+80010f30  *ABS*      80010f30 SsSetSerialAttr
+80063da8  *ABS*      80063da8 GsDISPON
+80042fb8  *ABS*      80042fb8 firstfile
+00000000  .sdata     00001110 fire
+80043fb0  *ABS*      80043fb0 strspn
+8001b180  *ABS*      8001b180 SsUtSetVVol
+80042e08  *ABS*      80042e08 Load
+80043d5c  *ABS*      80043d5c strlen
+80015224  *ABS*      80015224 SsSeqGetVol
+80042f58  *ABS*      80042f58 open
+800135f4  *ABS*      800135f4 SsSeqSetAccelerando
+800433c0  *ABS*      800433c0 toupper
+8003e9a8  *ABS*      8003e9a8 __gedf2
+8002e188  *ABS*      8002e188 RotMatrixX
+8002dea8  *ABS*      8002dea8 TransposeMatrix
+80014dd4  *ABS*      80014dd4 SsPlayBack
+8001ae18  *ABS*      8001ae18 SsUtChangePitch
+80043c18  *ABS*      80043c18 strchr
+00000000  .sdata     00000000 _sys_init_heapsize
+800274cc  *ABS*      800274cc GetClut
+8003dd7c  *ABS*      8003dd7c acos
+80021660  *ABS*      80021660 GsSetDrawBuffClip
+8003f7a0  *ABS*      8003f7a0 hypot
+8003f140  *ABS*      8003f140 __subdf3
+80023cf4  *ABS*      80023cf4 GsLinkObject4
+801414f0  *ABS*      801414f0 _fbss
+8002e328  *ABS*      8002e328 RotMatrixY
+80010dcc  *ABS*      80010dcc SsGetSerialVol
+80042f98  *ABS*      80042f98 close
+8004014c  *ABS*      8004014c frexp
+8003f9bc  *ABS*      8003f9bc __addsf3
+80066274  *ABS*      80066274 GsNDIV
+80063d3c  *ABS*      80063d3c POSITION
+80043ef8  *ABS*      80043ef8 strpbrk
+80010924  *ABS*      80010924 free
+80021a90  *ABS*      80021a90 GsSetLsMatrix
+800163a0  *ABS*      800163a0 SsUtSetReverbDepth
+**MEMORY CONFIGURATION**
+
+name		origin   length   r_size   c_size    is    attributes
+*default*       00000000 ffffffff 00000000 8014d198 ()
+
+
+**LINK EDITOR MEMORY MAP**
+
+output   input     virtual
+section  section   address    tsize
+
+
+*ABS*             00000000     0     0 2**0 
+LOAD c:/projects/yaroze/psx/lib/libps.a
+LOAD main.o
+address
+LOAD c:/projects/yaroze/psx/lib/libps.a
+                  00000000 80100000 . =80100000
+
+.text             80140000  1090     0 2**4 load alloc reloc contents 
+                  80140000 00000000 _ftext =.
+ from *(.init)
+                  80140000 00000000 eprol =.
+ from *(.text)
+         .text    80140000   e90   e90 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  801403f4              CheckHit
+                  80140860              InitSprite
+                  801405e0              InitCross
+                  801404c4              InitEnemyBox
+                  80140000              main
+                  80140478              InitClearScreen
+                  8014096c              InitGame
+                  801406ac              ReadTIM
+                  80140518              InitCrossHair
+                  80140c54              DeInitGame
+                  80140ca8              UpdateScreen
+         .text    80140e90   1c0   1c0 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]startup.o(overhead 4056 bytes)
+                  8014103c              __main
+                  80140e90              _start
+                  8014102c              exit
+         .text    80141050    40    40 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]video.o(overhead 4056 bytes)
+                  80141050              SetVideoMode
+                  80141090 00001090 PROVIDE (__runtime_reloc_start, .)
+ from *(.rel.sdata)
+                  80141090 00001090 PROVIDE (__runtime_reloc_stop, .)
+ from *(.fini)
+                  80141090 00001090 etext =.
+                  80141090 00001090 _etext =.
+                  80141090 80141090 . =.
+
+.rdata            80141090   280     0 2**4 load alloc contents 
+ from *(.rdata)
+         .rdata   80141090   280   280 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80141310 80141310 _fdata =ALIGN(00000010)
+
+.data             80141310   150     0 2**4 load alloc contents 
+ from *(.data)
+         .data    80141310   150   150 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]startup.o(overhead 4056 bytes)
+constructors:
+                  80141460 80149460 _gp =(ALIGN(00000010)+00008000)
+
+.lit8    (no attached output section)
+ from *(.lit8)
+
+.lit4    (no attached output section)
+ from *(.lit4)
+
+.sdata            80141460    90     0 2**4 load alloc reloc contents 
+ from *(.sdata)
+         .sdata   80141460    10    10 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80141468              mode
+                  80141464              hit
+                  80141460              fire
+         .sdata   80141470    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef1.o(overhead 4056 bytes)
+                  80141470              _sys_ramsize
+         .sdata   80141480    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef2.o(overhead 4056 bytes)
+                  80141480              _sys_init_stacksize
+         .sdata   80141490    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef3.o(overhead 4056 bytes)
+                  80141490              _sys_init_sp
+         .sdata   801414a0    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef4.o(overhead 4056 bytes)
+                  801414a0              _sys_init_fp
+         .sdata   801414b0    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef5.o(overhead 4056 bytes)
+                  801414b0              _sys_init_gp
+         .sdata   801414c0    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef6.o(overhead 4056 bytes)
+                  801414c0              _sys_init_heapbase
+         .sdata   801414d0    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef7.o(overhead 4056 bytes)
+                  801414d0              _sys_init_heapsize
+         .sdata   801414e0    10    10 2**4  ecoff-littlemips [c:/projects/yaroze/psx/lib/libps.a]stdef8.o(overhead 4056 bytes)
+                  801414e0              _sys_init_bss_flag
+                  801414f0 801414f0 edata =.
+                  801414f0 801414f0 _edata =.
+                  801414f0 801414f0 _fbss =.
+
+.sbss             801414f0    10     0 2**4 alloc 
+ from *(.sbss)
+ from *(.scommon)
+         .scommon 801414f0    10    10 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  801414f0              prev_mode
+                  801414f4              output_buffer_index
+                  801414f8              buffer2
+                  801414fc              buffer1
+
+.bss              80141500  bc98     0 2**4 alloc 
+ from *(.bss)
+         .bss     80141500    20    20 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+ from *(COMMON)
+         COMMON   80141520  bc78  bc78 2**4  ecoff-littlemips main.o(overhead 4056 bytes)
+                  80141520              fnt_id
+                  80141550              gpu_work_area
+                  8014d0d0              clear
+                  8014d0e0              ordering_table
+                  8014d0f0              cross
+                  8014d120              enemy
+                  8014d140              cross_hair
+                  8014d170              world_ordering_table
+                  8014d198 8014d198 end =.
+                  8014d198 8014d198 _end =.
+OUTPUT(main ecoff-littlemips)

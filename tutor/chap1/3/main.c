@@ -1,0 +1,418 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: August 3, 1998
+// Description: Chapter 1 - Negcon Example
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h"	
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//-------------------------------------------------------------------------- 
+
+// screen resolution
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 256
+
+// image address
+#define TIM_ADDR (0x80090000)
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id
+GsSPRITE  sprite;
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Negcon Example
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {	          
+    
+	int done = 1;	
+
+   	InitGame();	
+	
+	InitYarozeSprite();
+
+	// main loop
+    while( done )
+      {	 		 	     
+				   
+         FntPrint(fnt_id[0]," Negcon Example ");
+         	
+	     if( NEGCON_PRESS(buffer1,NEGCON_LEFT) )
+	       {
+	         FntPrint(fnt_id[1]," LEFT ");
+		     sprite.x--;
+   	       }
+
+	     if( NEGCON_PRESS(buffer1,NEGCON_RIGHT) )
+	       {
+	         FntPrint(fnt_id[1]," RIGHT ");
+		     sprite.x++;
+	       }
+	       	
+	     if( NEGCON_PRESS(buffer1,NEGCON_DOWN) )
+	       {
+	         FntPrint(fnt_id[1]," DOWN ");
+		     sprite.y++;
+	       }
+
+	     if( NEGCON_PRESS(buffer1,NEGCON_UP) )
+	       {
+	         FntPrint(fnt_id[1]," UP ");
+		     sprite.y--;
+	       }
+
+		 if( NEGCON_PRESS(buffer1,NEGCON_START) )
+	  	   {
+	    	 FntPrint(fnt_id[1]," START ");
+			 done = 0;
+	  	   }
+
+		 if( NEGCON_PRESS(buffer1,NEGCON_A) )
+	       {
+	         FntPrint(fnt_id[1]," A ");
+	       }
+
+	     if( NEGCON_PRESS(buffer1,NEGCON_B) )
+	       {
+	         FntPrint(fnt_id[1]," B ");
+	       }
+
+	     if( NEGCON_PRESS(buffer1,NEGCON_R) )
+	       {
+	         FntPrint(fnt_id[1]," R ");
+	       }
+
+	     if( !NEGCON_PRESS(buffer1,PAD_NOKEY) )
+	       {
+	         FntPrint(fnt_id[1]," NO BUTTONS PRESSED ");
+	       }
+
+	     if( NEGCON_PRESS_TWIST(buffer1) > 127 )
+	         sprite.rotate += 4096;
+
+	     if( NEGCON_PRESS_TWIST(buffer1) < 127 )
+	         sprite.rotate -= 4096;	    
+	
+		 sprite.scalex += NEGCON_PRESS_II(buffer1);  
+	     sprite.scaley += NEGCON_PRESS_I(buffer1);       
+
+	     FntPrint(fnt_id[2]," \n twist:%d, I:%d, II:%d, L:%d ",
+	              NEGCON_PRESS_TWIST(buffer1),
+	              NEGCON_PRESS_I(buffer1),
+	              NEGCON_PRESS_II(buffer1),
+	              NEGCON_PRESS_L(buffer1));         	  
+	   		       	  		  
+		 UpdateScreen();
+
+      }// end while loop
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitYarozeSprite()
+// Description: Load TIM and setup sprite structure
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitYarozeSprite( void )
+ {
+
+	GsIMAGE *tim;
+	u_short tpage;
+
+   	tim   = ReadTIM((u_long*)TIM_ADDR);	
+	tpage = GetTPage(1,0,tim->px,tim->py);
+			
+	InitSprite( &sprite,(1<<24),100,100,64,64,tpage,0,0,tim->cx,tim->cy,
+	            0x80,0x80,0x80,32,32,ONE,ONE,0 );
+
+ }// end InitYarozeSprite
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: ReadTIM()
+// Description: Read a TIM and CLUT(if 4 bit or 8 bit) and transfer to VRAM
+// Parameters: u_long *addr: address of TIM
+// Returns: GsIMAGE: address of tim variable
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+GsIMAGE *ReadTIM( u_long *addr )
+ { 	
+   
+	static GsIMAGE tim;	 
+	RECT rect; 			
+			
+	// skip id and initialize image structure 
+	addr ++;
+	GsGetTimInfo(addr, &tim);	
+
+	// transfer pixel data to VRAM 
+	rect.x = tim.px;
+	rect.y = tim.py;
+	rect.w = tim.pw;
+	rect.h = tim.ph;
+	LoadImage(&rect, tim.pixel);
+
+	DrawSync(0);
+
+    // check if CLUT exists and transfer it to VRAM 
+ 	if( (tim.pmode >> 3) & 0x01 ) 
+ 	  {
+ 	  	rect.x = tim.cx;
+	  	rect.y = tim.cy;
+	  	rect.w = tim.cw;
+	  	rect.h = tim.ch;
+	  	LoadImage(&rect, tim.clut);
+	  }	
+	  
+    DrawSync(0);
+
+    printf(" IMAGE - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.px, tim.py,tim.pw,tim.ph );  
+    printf(" CLUT - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.cx, tim.cy,tim.cw,tim.ch );
+    printf(" image mode:%d \n", tim.pmode); 
+   
+
+    return(&tim);
+
+ }// end ReadTIM  
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitSprite()
+// Description: Setup sprite structure
+// Parameters: Lots!  Look at the Library Reference manual
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+   
+void InitSprite( GsSPRITE *sprite, u_long attribute, short x, short y, u_short w, u_short h,
+                 u_short tpage, u_char u, u_char v, short cx, short cy, u_char r, u_char g,
+                 u_char b, short mx, short my, short scalex, short scaley, long rotate )
+ {
+
+	sprite->attribute = attribute;
+	
+	sprite->x = x;
+	sprite->y = y;
+
+	sprite->w = w;
+	sprite->h = h;
+
+	sprite->tpage = tpage;
+
+	sprite->u = u;
+	sprite->v = v;
+
+	sprite->cx = cx;
+	sprite->cy = cy;;
+
+	sprite->r = r;
+	sprite->g = g;
+	sprite->b = b;
+
+	sprite->mx = mx;
+	sprite->my = my;
+
+	sprite->scalex = scalex;
+	sprite->scaley = scaley;
+	sprite->rotate = rotate;
+
+
+ }// end InitSprite 
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitGame()
+// Description: Initialise the graphics mode, joypad, ordering tables,
+//              textures, and objects
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitGame( void )
+ {
+	 int count;
+     
+	 printf("Starting InitGame() \n");
+	
+	 // load in the font pattern
+	 FntLoad(960,256);
+     printf("Fonts loaded: \n");
+
+	 fnt_id[0] = FntOpen(0,10,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[1] = FntOpen(0,20,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[2] = FntOpen(0,30,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[3] = FntOpen(0,40,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+
+	 fnt_id[4] = FntOpen(0,120,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[5] = FntOpen(0,130,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[6] = FntOpen(0,140,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[7] = FntOpen(0,150,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	  
+   	 // save current video mode
+	 prev_mode = GetVideoMode();
+
+	 // init graphic mode
+	 SetVideoMode( MODE_PAL );
+	 printf("Set video mode complete: \n");
+
+	 // init the controller buffers
+	 GetPadBuf(&buffer1,&buffer2); 
+	 printf("Set controller buffers complete: \n");
+
+	 // all reset, the drawing environment and display are initialised
+	 ResetGraph(0);
+
+	 GsInitGraph( SCREEN_WIDTH, SCREEN_HEIGHT,
+			      GsOFSGPU|GsNONINTER, 0, 0 );
+	 printf("Screen size setup complete: \n");
+
+	 // double buffer definition
+	 GsDefDispBuff( 0, 0, 0, SCREEN_HEIGHT );
+	 printf("Double buffer setup complete: \n");
+
+	  
+	 GsDISPENV.screen.x = 6;
+	 GsDISPENV.screen.y = 16;
+	 GsDISPENV.screen.w = 255;
+	 GsDISPENV.screen.h = 255;	
+	
+	 // set up the ordering table handlers
+	 for( count=0; count < 2; count++ )
+	    {
+		  world_ordering_table[count].length = 1;
+		  world_ordering_table[count].org = ordering_table[count];
+	    }
+
+	 // initialises the ordering table
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index]);
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index+1]);
+	 printf("WOT is setup and complete: \n");
+     printf("Game setup is complete: \n");
+
+ }// end InitGame
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: DeInitGame()
+// Description: De-init the game, sound, graphics, etc
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void DeInitGame( void )
+ {
+
+ 	 // set previous video mode
+	 SetVideoMode( prev_mode );
+
+	 // current drawing is canvelled and the command queue is flushed
+	 ResetGraph(3);	   
+
+	 printf("Graphics flushed: \n");
+	 printf("Game now de-int: \n");
+ 
+ }// end DeInitGame
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Function: UpdateScreen()
+// Description: Updates all the game objects and redraws the screen
+// Parameters: none
+// Returns: void
+// Notes: 
+//------------------------------------------------------------------------------
+
+void UpdateScreen( void )
+ {
+
+	int count;
+
+	// get the active buffer
+    output_buffer_index = GsGetActiveBuff();
+
+    // sets drawing command storage address
+    GsSetWorkBase((PACKET*)gpu_work_area[output_buffer_index]);
+
+    // initialises the ordering table
+    GsClearOt(0, 0, &world_ordering_table[output_buffer_index]);
+
+    // rendering done here
+    
+	for( count =0; count <8; count++ )
+         FntFlush(fnt_id[count]);        
+	
+	GsSortSprite(&sprite,&world_ordering_table[output_buffer_index],0);
+		
+    // wait for all drawing to be completed
+    DrawSync(0);
+
+    // wait for vertical synchronisation
+    VSync(0);    // 0: blocking until vertical synch occurs
+
+    // swap double buffers, (changes the display buffer and drawing buffer)
+    GsSwapDispBuff();
+
+    // registers drawing clear command in OT (e.g. clear to black)
+    GsSortClear(0x0, 0x0, 0x80,
+                &world_ordering_table[output_buffer_index]);
+
+	// start execution of the drawing command registered in OT
+    GsDrawOt(&world_ordering_table[output_buffer_index]);
+
+ }// end UpdateScreen 
+
+
+//----------------------------------EOF-------------------------------------
