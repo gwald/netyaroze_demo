@@ -1,0 +1,40 @@
+
+
+
+
+
+typedef struct
+(
+        char r, g, b, pad;
+        int stp;
+) Pixel;
+
+
+
+
+FUNCTIONS:
+
+
+CopyClutWithinMemory (u_long sourceAddress, u_long destinationAddress)
+
+CopyTextureWithinMemory
+
+
+
+
+
+UShortToPixel (u_short framePixel, Pixel* pixel)
+                        // put info into explicit struct
+
+CreateFramePixelFromExplicitPixel(const Pixel* source, u_short* output)
+                                // make ready for LoadImage
+
+
+
+AdjustPixel:
+        brightness (set absolutely, or ratio to before)
+        r, g, b ( as above )
+        stp set (set or toggle)
+
+Read r,g,b,stp,brightness from u_short
+

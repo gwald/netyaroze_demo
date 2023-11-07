@@ -1,0 +1,4 @@
+local dload sce7.tim 80090000
+local dload write12.tim 800a0000
+local dload psx2.tim 800b0000
+local load tuto4

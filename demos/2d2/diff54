@@ -1,0 +1,255 @@
+Comparing files TUTO1.C and tuto5.c
+****** TUTO1.C
+ *                                                                                                                      *
+ *                                              Tuto1.c                                                         *
+ *                                                                                                                  *          
+****** tuto5.c
+ *                                                                                                                      *
+ *                                              Tuto5.c                                                         *
+ *                                                                                                                  *          
+******
+
+****** TUTO1.C
+                                                                                                        *
+ *                              LPGE     27/01/97                                                       *               
+ *                                                                                                                      *
+****** tuto5.c
+                                                                                                        *
+ *                              LPGE     07/02/97                                                       *               
+ *                                                                                                                      *
+******
+
+****** TUTO1.C
+
+
+#define WAVE_TEXTURE_ADDRESS 0x80090000
+GsIMAGE WaveTextureInfo;
+
+#define FIRE_TEXTURE_ADDRESS 0x80091000
+GsIMAGE FireTextureInfo;
+
+#define MASCOTS_TEXTURE_ADDRESS 0x80092000
+****** tuto5.c
+
+#define MASCOTS_TEXTURE_ADDRESS 0x80092000
+******
+
+****** TUTO1.C
+
+#define ASCII_TEXTURE_ADDRESS 0x80099000
+GsIMAGE AsciiTextureInfo;
+
+#define WHITE_1_TEXTURE_ADDRESS 0x8009a000
+GsIMAGE White1TextureInfo;
+
+#define WHITE_2_TEXTURE_ADDRESS 0x8009b000
+GsIMAGE White2TextureInfo;
+
+****** tuto5.c
+
+#define DOTS_TEXTURE_ADDRESS 0x80093000
+GsIMAGE DotsTextureInfo;
+        
+
+        
+
+#define SCREEN_WIDTH 320                                // screen width and height
+#define SCREEN_HEIGHT 240
+
+******
+
+****** TUTO1.C
+
+        
+
+#define SCREEN_WIDTH 320                                // screen width and height
+#define SCREEN_HEIGHT 240
+
+****** tuto5.c
+
+
+#define PACKETMAX       2048            /* Max GPU packets */
+#define PACKETMAX2      (PACKETMAX*24)
+
+******
+
+****** TUTO1.C
+
+
+#define PACKETMAX       2048            /* Max GPU packets */
+#define PACKETMAX2      (PACKETMAX*24)
+
+****** tuto5.c
+
+         
+
+#define OT_LENGTH       9               
+
+******
+
+****** TUTO1.C
+
+         
+
+#define OT_LENGTH       9               
+
+****** tuto5.c
+
+
+static GsOT Wot[2];                     /* Handler of OT */
+static GsOT_TAG wtags[2][1<<OT_LENGTH]; 
+
+******
+
+****** TUTO1.C
+
+
+static GsOT Wot[2];                     /* Handler of OT */
+static GsOT_TAG wtags[2][1<<OT_LENGTH]; 
+
+
+         
+****** tuto5.c
+
+         
+******
+
+****** TUTO1.C
+
+                  
+****** tuto5.c
+
+void PrintClut (int x, int y, int bitMode);
+
+                  
+******
+
+****** TUTO1.C
+                                        
+
+           
+
+****** tuto5.c
+                                        
+        
+                                
+
+******
+
+****** TUTO1.C
+
+        ProperInitialiseTexture(WAVE_TEXTURE_ADDRESS, &WaveTextureInfo);
+        ProperInitialiseTexture(FIRE_TEXTURE_ADDRESS, &FireTextureInfo);
+        ProperInitialiseTexture(MASCOTS_TEXTURE_ADDRESS, &MascotsTextureInfo);
+        ProperInitialiseTexture(ASCII_TEXTURE_ADDRESS, &AsciiTextureInfo);
+        ProperInitialiseTexture(WHITE_1_TEXTURE_ADDRESS, &White1TextureInfo);
+        ProperInitialiseTexture(WHITE_2_TEXTURE_ADDRESS, &White2TextureInfo);
+
+****** tuto5.c
+
+
+        ProperInitialiseTexture(MASCOTS_TEXTURE_ADDRESS, &MascotsTextureInfo);
+        ProperInitialiseTexture(DOTS_TEXTURE_ADDRESS, &DotsTextureInfo);
+
+
+******
+
+****** TUTO1.C
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &WaveTextureInfo, -100, -100);
+        printf("id: %d\n", object->id);
+        
+        object = GetNextFreeObject();
+****** tuto5.c
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &MascotsTextureInfo, -50, -20);
+        printf("id: %d\n", object->id);
+
+        #if 0
+        object = GetNextFreeObject();
+******
+
+****** TUTO1.C
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &FireTextureInfo, 100, -100);
+        printf("id: %d\n", object->id);
+
+        object = GetNextFreeObject();
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &MascotsTextureInfo, -50, 10);
+        printf("id: %d\n", object->id);
+
+        object = GetNextFreeObject();
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &AsciiTextureInfo, -50, 150);
+        printf("id: %d\n", object->id);
+
+        object = GetNextFreeObject();
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &White1TextureInfo, -50, 200);
+        printf("id: %d\n", object->id);
+
+        object = GetNextFreeObject();
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &White2TextureInfo, 50, 200);
+        printf("id: %d\n", object->id);
+}
+****** tuto5.c
+        assert(object != NULL);
+        MakeLivingObjectOfTimFile(object, &DotsTextureInfo, -50, 80);
+        printf("id: %d\n", object->id);
+        #endif
+
+        PrintClut (MascotsTextureInfo.cx, MascotsTextureInfo.cy, 8);
+        PrintClut (DotsTextureInfo.cx, DotsTextureInfo.cy, 4);
+}
+******
+
+****** TUTO1.C
+****** tuto5.c
+
+
+
+
+
+void PrintClut (int x, int y, int bitMode)
+{
+        u_short clutBuffer1[256];
+        u_short clutBuffer2[16];
+        RECT rect;
+        int i;
+
+        assert(x >= 0);
+        assert(x < 1024);
+        assert(y >= 0);
+        assert(y < 512);
+        assert( (bitMode == 4) || (bitMode == 8) );
+
+        printf("Printing all CLUT values for clut\n");
+        printf("At %d %d, bit mode %d\n", x, y, bitMode);
+
+        switch(bitMode)
+                {
+                case 4:
+                        setRECT( &rect, x, y, 16, 1);
+                        StoreImage( &rect, (unsigned long *) clutBuffer2);
+                        for (i = 0; i < 16; i++)
+                                {
+                                printf("%d\n", clutBuffer2[i]);
+                                }
+                        break;
+                case 8:
+                        setRECT( &rect, x, y, 256, 1);
+                        StoreImage( &rect, (unsigned long *) clutBuffer1);
+                        for (i = 0; i < 256; i++)
+                                {
+                                printf("%d\n", clutBuffer1[i]);
+                                }
+                        break;
+                default:
+                        assert(FALSE);
+                }
+}
+******
+
+

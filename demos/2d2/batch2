@@ -1,0 +1,7 @@
+local dload wave09.tim 80090000
+local dload fire7.tim 80091000
+local dload mascots2.tim 80092000
+local dload ascii2.tim 80099000
+local dload white1.tim 8009a000
+local dload white2.tim 8009b000
+local load tuto2

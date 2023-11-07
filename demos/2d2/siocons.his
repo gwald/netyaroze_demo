@@ -1,0 +1,50 @@
+batch0
+tuto0
+write8.tim 800a0000
+write9.tim 800a0000
+write10.tim 800a0000
+tuto3
+dir write10.tim
+raw1.raw 80110000 2200
+write11.tim 800a0000
+more batch4
+batch4
+wave10.tim 80090000
+back99.tim 8009b000
+batch2
+80090000 25814
+test123.tim 80090000 25814
+log555
+white3.tim 8009b000
+log556
+tuto1
+log557
+white3.tim 8009a000
+more batch5
+white1.tim 8009a000
+white4.tim 8009b000
+tuto4
+more batch1
+dots.tim 80093000
+batch1
+logClut
+batch5
+tut5o
+tuto5
+batch3
+dir log*.*
+log14
+tut6o
+tut6p
+tuto6
+log55
+make
+log66
+log22
+log13
+log11
+tuto7
+log12
+tuto8
+ls
+tuto8.c 80140000

@@ -1,0 +1,4 @@
+local dload fire7.tim 80090000
+local dload dots.tim 80091000
+local dload mascots2.tim 80092000
+local load tuto5

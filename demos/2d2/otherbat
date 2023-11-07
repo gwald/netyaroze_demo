@@ -1,0 +1,11 @@
+local dload ten.tmd 80090000
+local dload theship.tmd 80091000
+local dload wave09.tim 80092000
+local dload fire7.tim 80093000
+local dload enemy.tmd 80094000
+local dload multi3.tim 80099000
+local dload mascots2.tim 80120000
+local dload ascii2.tim 80130000
+local dload lewis.vh 800a0000
+local dload lewis.vb 800b0000
+local load tuto12

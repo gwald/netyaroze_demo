@@ -1,0 +1,328 @@
+
+                                                    >>
+                                                    >>go
+IN MAIN
+iseAll: 0
+iseAll: 1
+ResetGraph:jtb=8004829c,env=800482e4
+iseAll: 2
+iseAll: 3
+iseAll: 5
+GsIMAGE: pmode 9
+px 640, py 320
+pw 102, ph 120
+cx 0, cy 481
+cw 256, ch 1
+GsIMAGE: pmode 8
+px 960, py 52
+pw 8, ph 32
+cx 0, cy 483
+cw 16, ch 1
+iseAll: 6
+GsIMAGE: pmode 9
+px 640, py 320
+pw 102, ph 120
+cx 0, cy 481
+cw 256, ch 1
+GsSPRITE: attribute 16777216
+GsSPRITE: x 0, y 0, w 204, h 120
+GsSPRITE: tpage 154, u 0, v 64
+GsSPRITE: cx 0, cy 481
+GsSPRITE: r 128, g 128, b 128
+GsSPRITE: mx 102, my 60
+GsSPRITE: scalex 4096, scaley 4096, rotate 0
+id: 0
+GsIMAGE: pmode 8
+px 960, py 52
+pw 8, ph 32
+cx 0, cy 483
+cw 16, ch 1
+GsSPRITE: attribute 0
+GsSPRITE: x 0, y 0, w 32, h 32
+GsSPRITE: tpage 15, u 0, v 52
+GsSPRITE: cx 0, cy 483
+GsSPRITE: r 128, g 128, b 128
+GsSPRITE: mx 16, my 16
+GsSPRITE: scalex 4096, scaley 4096, rotate 0
+id: 1
+Printing all CLUT values for clut
+At 0 481, bit mode 8
+0
+33792
+49317
+49548
+59028
+65535
+58143
+48639
+41210
+58752
+65420
+65157
+33039
+58783
+33436
+38815
+36174
+43479
+49820
+33070
+33337
+54952
+59280
+45440
+33372
+65504
+45596
+55103
+38068
+38240
+49797
+59279
+55532
+61750
+65180
+33825
+38400
+47939
+53119
+38495
+59380
+33044
+59916
+52544
+63319
+43357
+53919
+34840
+49408
+62922
+65328
+44052
+52477
+58911
+43226
+32786
+54847
+38066
+45530
+32793
+33311
+45887
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Printing all CLUT values for clut
+At 0 483, bit mode 4
+0
+16
+512
+528
+16384
+16400
+16896
+25368
+16912
+31
+992
+1023
+31744
+31775
+32736
+32767
+ResetGraph:jtb=8004829c,env=800482e4
+ResetGraph:jtb=8004829c,env=800482e4
+ResetGraph:jtb=8004829c,env=800482e4
+PS-X Control PAD Driver  Ver 3.0
+addr=8004d724
