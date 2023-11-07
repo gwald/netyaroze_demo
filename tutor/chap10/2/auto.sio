@@ -1,0 +1,3 @@
+local dload ../data/3dcoord.tim 80092000
+local load main
+go

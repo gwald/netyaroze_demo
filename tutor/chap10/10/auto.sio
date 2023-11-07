@@ -1,0 +1,4 @@
+local dload ../data/cubel.tmd 80090000
+local dload ../data/3dcoord.tim 80092000
+local load main
+go
