@@ -1,0 +1,12 @@
+Comparing files batch3 and batch4
+****** batch3
+local dload stone.tim 800a0000
+local load tuto3
+go
+****** batch4
+local dload stone.tim 800a0000
+local load tuto4
+go              
+******
+
+

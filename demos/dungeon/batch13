@@ -1,0 +1,16 @@
+local dload wall0.tmd 80090000
+local dload wall1.tmd 80091000
+local dload wall2.tmd 80092000
+local dload wall3.tmd 80093000
+local dload ten.tmd 80094000
+local dload yuka.tmd 80095000
+local dload theship.tmd 80096000
+local dload cube.tmd 80097000
+local dload stone.tim 800a0000
+local dload face_u.tmd 80015000
+local dload face_d.tmd 80016000
+local dload face_l.tmd 80017000
+local dload face_r.tmd 80018000
+local dload face_f.tmd 80019000
+local dload face_b.tmd 8001a000
+local load tuto13

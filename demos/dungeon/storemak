@@ -1,0 +1,36 @@
+CFLAGS	= -O2 -G0 -W -Wno-comment
+LINKER  = -Xlinker -Ttext -Xlinker 80140000
+RM	= del
+
+OBJECTS	=	tuto3.o pad.o tmd.o object.o sincos.o
+
+#all: test
+
+all: tuto3
+
+test	: $(OBJECTS) pad.h tmd.h sin.h
+	$(CC) $(LINKER) $(OBJECTS) -o $@
+	strip $@
+
+tuto0: $(OBJECTS) pad.h tmd.h sin.h asssert.h object.h dump.h
+	$(CC) $(LINKER) $(OBJECTS) -o tuto0
+	strip tuto0
+
+tuto1: $(OBJECTS) pad.h tmd.h sin.h asssert.h object.h dump.h
+	$(CC) $(LINKER) $(OBJECTS) -o tuto1
+	strip tuto1
+
+tuto2: $(OBJECTS) pad.h tmd.h asssert.h object.h dump.h sincos.h
+	$(CC) $(LINKER) $(OBJECTS) -o tuto2
+	strip tuto2
+
+tuto3: $(OBJECTS) pad.h tmd.h asssert.h object.h dump.h sincos.h
+	$(CC) $(LINKER) $(OBJECTS) -o tuto3
+	strip tuto3
+
+
+
+
+.c.o:
+	$(CC) $(CFLAGS) -funsigned-char -c $<
+

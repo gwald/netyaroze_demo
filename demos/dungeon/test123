@@ -1,0 +1,44 @@
+angle: 0.000000, sin: 0.000000, cos: 1.000000
+arcsin of sin: 0.000000, arccos of cos: 0.000000
+rasin of sin: 0 and 2048
+racos of cos: 0 and 4096
+
+angle: 0.785398, sin: 0.707106, cos: 0.707107
+arcsin of sin: 0.785398, arccos of cos: 0.785397
+rasin of sin: 511 and 1537
+racos of cos: 512 and 3584
+
+angle: 1.570795, sin: 1.000000, cos: 0.000001
+arcsin of sin: 1.570795, arccos of cos: 1.570795
+rasin of sin: 1003 and 1045
+racos of cos: 1024 and 3072
+
+angle: 2.356192, sin: 0.707108, cos: -0.707105
+arcsin of sin: 0.785400, arccos of cos: 2.356192
+rasin of sin: 511 and 1537
+racos of cos: 1535 and 2561
+
+angle: 3.141590, sin: 0.000003, cos: -1.000000
+arcsin of sin: 0.000003, arccos of cos: 3.141590
+rasin of sin: 0 and 2048
+racos of cos: 2027 and 2069
+
+angle: 3.926988, sin: -0.707104, cos: -0.707109
+arcsin of sin: -0.785395, arccos of cos: 2.356198
+rasin of sin: 3585 and 2559
+racos of cos: 1535 and 2561
+
+angle: 4.712385, sin: -1.000000, cos: -0.000004
+arcsin of sin: -1.570792, arccos of cos: 1.570800
+rasin of sin: 3093 and 3051
+racos of cos: 1024 and 3072
+
+angle: 5.497782, sin: -0.707110, cos: 0.707103
+arcsin of sin: -0.785403, arccos of cos: 0.785403
+rasin of sin: 3585 and 2559
+racos of cos: 512 and 3584
+
+angle: 6.283180, sin: -0.000005, cos: 1.000000
+arcsin of sin: -0.000005, arccos of cos: 0.000005
+rasin of sin: 0 and 2048
+racos of cos: 20 and 4076

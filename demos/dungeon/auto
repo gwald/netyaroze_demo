@@ -1,0 +1,10 @@
+local dload rsd\wall0.tmd 80090000
+local dload rsd\wall1.tmd 80091000
+local dload rsd\wall2.tmd 80092000
+local dload rsd\wall3.tmd 80093000
+local dload rsd\ten.tmd 80094000
+local dload rsd\yuka.tmd 80095000
+local dload tim\stone.tim 800a0000
+local load test
+go
+
