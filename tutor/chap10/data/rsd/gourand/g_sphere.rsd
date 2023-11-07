@@ -1,0 +1,7 @@
+# Created from "C:\PROJECTS\CURRENT\NY\DATA\RSD\GOURAND\TMP\G_SPHERE.DXF" by dxf2rsd(v2.7) -g -Y+Z -cl at 16:46 03/19/99
+@RSD940102
+PLY=G_SPHERE.ply
+MAT=G_SPHERE.mat
+GRP=G_SPHERE.grp
+# Number of Texture Files
+NTEX=0

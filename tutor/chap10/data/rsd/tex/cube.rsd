@@ -1,0 +1,6 @@
+@RSD940102
+PLY=cube.ply
+MAT=cube.mat
+GRP=cube.grp
+NTEX=1
+TEX[0]=Stone02.tim

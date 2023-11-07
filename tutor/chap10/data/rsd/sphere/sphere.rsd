@@ -1,0 +1,5 @@
+@RSD940102
+PLY=sphere.ply
+MAT=sphere.mat
+GRP=sphere.grp
+NTEX=0
