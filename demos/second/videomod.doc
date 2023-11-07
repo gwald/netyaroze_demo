@@ -1,0 +1,56 @@
+Video Mode and Net Yaroze
+-------------------------
+
+
+
+
+		There are two different video modes, PAL and NTSC;
+	many TVs support only one of these, though some support both.
+		
+
+
+		In Europe, PAL is the standard.
+
+
+
+		Signs that the program is running under the wrong videomode:
+
+	(1) everything is black and white
+	
+	(2) the screen height seems wrong, there are either black bars
+		above and below the screen, or some of the bottom of the picture
+		is not making it onto the screen.
+		
+		
+	How to deal with this:
+
+		(1)		in software, call GetVideoMode() to find	
+				what video mode you are currently in;
+				call SetVideoMode(MODE_PAL) or SetVideoMode(MODE_NTSC)
+				to change it.
+				
+				Note: whenever a Yaroze machine is reset, it reverts
+				to its default video mode; for European Yarozes,
+				this will be PAL.
+				
+		(2)		Even if you don't have the source code of a program,
+				you can often force it into a given mode
+				(most programs do not explicitly set it);
+				see the sample program directory vidmode\proper,
+				invoke the batch files <tellme>, <ntsc> and <pal> 
+				to find and set video mode respectively.
+
+		NOTE: both the above changes change video mode ONLY;
+		this is enough to guarantee correct colour.
+
+		The problem is that other aspects of game programs are
+		dependent on video mode and need altering as it changes;
+		e.g. whether the bottom left of frame buffer can be used
+		for textures, the screen resolution and the screen offset.
+		To ensure that a game looks good under both modes, a small
+		amount of care must be taken; it is usually not hard.
+		
+		Refer to the sample program 3dtunnel to see how to make 
+		a program that looks fine under both video modes.
+		
+		 
