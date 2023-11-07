@@ -1,0 +1,38 @@
+FAST_COMPILE_FLAGS = -Wall
+
+OPTIMISE_FLAGS = -Wall -O2
+
+FAST_COMPILE_FLAGS = -Wall
+
+DEBUG_C_FLAGS = -Wall -g
+
+CFLAGS = $(FAST_COMPILE_FLAGS)
+
+## CFLAGS options: -W, -Wall, -O2, -O3, -g, ....
+
+
+## create a mapfile, load executable at 80090000
+LINKER  = -Xlinker -Map -Xlinker mapfile -Xlinker -Ttext -Xlinker 80090000
+
+
+
+OBJECTS = main.o objctl.o todanim.o pad.o
+
+	## global target
+all: main
+
+
+main: $(OBJECTS) makefile
+	gcc $(LINKER) $(OBJECTS) -o main
+
+
+### ADD THIS AS LAST COMMAND TO STRIP MAIN	
+### strip main
+
+
+
+.c.o:
+	gcc -c -funsigned-char -c $<
+    #gcc -c $(CFLAGS) -funsigned-char -c $<
+
+

@@ -1,0 +1,2 @@
+local dload te.tmd      800c0000
+local dload jaanken.tod 800e0000
