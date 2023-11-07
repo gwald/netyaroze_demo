@@ -1,0 +1,4841 @@
+# 1 "tuto18.c"
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+	   	  
+
+
+# 1 "g:/program/psx/include.35/stdio.h" 1 3
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+typedef unsigned int size_t;   
+
+
+ 
+
+
+
+
+extern int printf(char *fmt, ...);  
+extern int sprintf(char *buffer, char *fmt, ...);
+
+extern char getc(int);		 
+extern char getchar(void);
+extern char *gets(char *);
+extern void putc(char, int);	 
+extern void putchar(char);
+extern void puts(char *);
+
+
+
+
+
+# 19 "tuto18.c" 2
+
+# 1 "g:/program/psx/include.35/rand.h" 1 3
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+extern int  rand(void);
+extern void srand(unsigned int);
+
+
+
+
+
+# 20 "tuto18.c" 2
+
+# 1 "c:/blackpsx/include/libps.h" 1 3
+ 
+
+
+
+
+
+
+
+
+
+
+
+# 1 "g:/program/psx/include.35/sys/types.h" 1 3
+ 
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+
+
+typedef	unsigned char	u_char;
+
+
+
+typedef	unsigned short	u_short;
+
+
+
+typedef	unsigned int	u_int;
+
+
+
+typedef	unsigned long	u_long;
+
+
+
+typedef	unsigned short	ushort;		 
+
+# 53 "g:/program/psx/include.35/sys/types.h" 3
+
+
+typedef	struct	_physadr { int r[1]; } *physadr;
+typedef	struct	label_t	{
+	int	val[12];
+} label_t;
+
+typedef	struct	_quad { long val[2]; } quad;
+typedef	long	daddr_t;
+typedef	char *	caddr_t;
+typedef	long *	qaddr_t;	 
+typedef	u_long	ino_t;
+typedef	long	swblk_t;
+
+
+
+
+
+
+typedef	long	time_t;
+typedef	short	dev_t;
+typedef	long	off_t;
+typedef	u_short	uid_t;
+typedef	u_short	gid_t;
+
+
+
+
+# 13 "c:/blackpsx/include/libps.h" 2 3
+
+
+ 
+
+
+
+ 
+typedef struct {
+	short x, y;		 
+	short w, h;		 
+} RECT;
+
+typedef struct  {
+	short	m[3][3];	 
+	long    t[3];		 
+} MATRIX;
+
+typedef struct {		 
+	long	vx, vy;
+	long	vz, pad;
+} VECTOR;
+	
+typedef struct {		 	
+	short	vx, vy;
+	short	vz, pad;
+} SVECTOR;
+	       
+typedef struct {		 	
+	u_char	r, g, b, cd;
+} CVECTOR;
+	       
+typedef struct {
+	VECTOR  scale;
+	SVECTOR rotate;
+	VECTOR  trans;
+} GsCOORD2PARAM;
+
+typedef struct _GsCOORDINATE2 {
+	unsigned long flg;
+	MATRIX  coord;
+	MATRIX  workm;
+	GsCOORD2PARAM *param;
+	struct _GsCOORDINATE2 *super;
+	struct _GsCOORDINATE2 *sub;
+} GsCOORDINATE2;
+
+typedef struct {
+	MATRIX  view;
+	GsCOORDINATE2 *super;
+} GsVIEW2;
+
+typedef struct {
+	long    vpx, vpy, vpz;
+	long    vrx, vry, vrz;
+	long    rz;
+	GsCOORDINATE2 *super;
+} GsRVIEW2;
+
+typedef struct {
+	int     vx, vy, vz;
+	unsigned char r, g, b;
+} GsF_LIGHT;
+
+
+typedef struct {
+	unsigned p:24;
+	unsigned char num:8;
+} GsOT_TAG;
+
+typedef struct {
+	unsigned long length;
+	GsOT_TAG *org;
+	unsigned long offset;
+	unsigned long point;
+	GsOT_TAG *tag;
+} GsOT;
+
+typedef struct {
+	unsigned long attribute; 
+	GsCOORDINATE2 *coord2;	 
+	unsigned long *tmd;
+	unsigned long id;	 
+} GsDOBJ2;
+
+typedef struct {
+	unsigned long attribute;
+	short   x, y;
+	unsigned short w, h;
+	unsigned short tpage;
+	unsigned char u, v;
+	short   cx, cy;
+	unsigned char r, g, b;
+	short   mx, my;
+	short   scalex, scaley;
+	long    rotate;
+} GsSPRITE;
+
+typedef struct {
+	unsigned char u, v;
+	unsigned short cba;
+	unsigned short flag;
+	unsigned short tpage;
+} GsCELL;
+
+typedef struct {
+	unsigned char cellw, cellh;
+	unsigned short ncellw, ncellh;
+	GsCELL *base;
+	unsigned short *index;
+} GsMAP;
+
+typedef struct {
+	unsigned long attribute;
+	short   x, y;
+	short   w, h;
+	short   scrollx, scrolly;
+	unsigned char r, g, b;
+	GsMAP  *map;
+	short   mx, my;
+	short   scalex, scaley;
+	long    rotate;
+} GsBG;
+
+typedef struct {
+	unsigned long attribute;
+	short   x0, y0;
+	short   x1, y1;
+	unsigned char r, g, b;
+} GsLINE;
+
+typedef struct {
+	unsigned long attribute;
+	short   x0, y0;
+	short   x1, y1;
+	unsigned char r0, g0, b0;
+	unsigned char r1, g1, b1;
+} GsGLINE;
+
+typedef struct {
+	unsigned long attribute;
+	short   x, y;
+	unsigned short w, h;
+	unsigned char r, g, b;
+} GsBOXF;
+
+typedef struct {
+	short   dqa;
+	long    dqb;
+	unsigned char rfc, gfc, bfc;
+} GsFOGPARAM;
+
+typedef struct {
+	unsigned long pmode;
+	short   px, py;
+	unsigned short pw, ph;
+	unsigned long *pixel;
+	short   cx, cy;
+	unsigned short cw, ch;
+	unsigned long *clut;
+} GsIMAGE;
+
+typedef struct {
+	short   offx, offy;
+} _GsPOSITION;
+
+typedef struct {
+	u_long	tag;
+	u_long	code[15];
+} DR_ENV;
+	       
+typedef struct {
+	RECT	clip;		 
+	short	ofs[2];		 
+	RECT	tw;		 
+	u_short tpage;		 	
+	u_char	dtd;		 
+	u_char	dfe;		 
+	u_char	isbg;		 
+	u_char	r0, g0, b0;	 
+	DR_ENV	dr_env;		 
+} DRAWENV;
+	       
+typedef struct {
+	RECT	disp;		 
+	RECT	screen;		 
+	u_char	isinter;	 
+	u_char	isrgb24;	 
+	u_char	pad0, pad1;	 
+} DISPENV;
+
+
+ 
+typedef struct {
+	unsigned short left;     
+	unsigned short right;    
+} SndVolume;
+
+ 
+typedef struct {
+	u_char minute;		 
+	u_char second;		 
+	u_char sector;		 
+	u_char track;		 
+} CdlLOC;
+
+typedef struct {
+	CdlLOC	pos;		 
+	u_long	size;		 
+	char	name[16];	 
+} CdlFILE;
+
+struct EXEC {                   
+	unsigned long pc0;      
+	unsigned long gp0;      
+	unsigned long t_addr;   
+	unsigned long t_size;   
+	unsigned long d_addr;   
+	unsigned long d_size;   
+	unsigned long b_addr;   
+	unsigned long b_size;   
+	unsigned long s_addr;
+	unsigned long s_size;
+	unsigned long sp,fp,gp,ret,base;
+};
+
+struct DIRENTRY {
+	char name[20];
+	long attr;
+	long size;
+	struct DIRENTRY *next;
+	long head;
+	char system[4];
+};
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+typedef unsigned char PACKET;
+
+ 
+
+
+extern RECT CLIP2;		 
+extern int GsLIGHT_MODE;	 
+extern short PSDOFSX[2], PSDOFSY[2];	 
+extern short PSDIDX;		 
+extern u_long PSDCNT;		 
+extern _GsPOSITION POSITION;	 
+extern DRAWENV GsDRAWENV;	 
+extern DISPENV GsDISPENV;	 
+extern MATRIX GsLSMATRIX;	 
+extern MATRIX GsWSMATRIX;	 
+extern MATRIX GsLIGHTWSMATRIX;	 
+extern MATRIX GsIDMATRIX;	 
+extern MATRIX GsIDMATRIX2;	 
+extern PACKET *GsOUT_PACKET_P;	 
+extern u_long GsLMODE, GsLIGNR, GsLIOFF, GsNDIV;
+extern u_long GsTON, GsDISPON;
+
+extern int math_errno;
+
+ 
+
+
+
+ 
+int VSync(int mode);
+int VSyncCallback(void (*f)()) ;
+extern DISPENV *PutDispEnv(DISPENV *env);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
+extern int DrawSync(int mode);
+extern int FntOpen(int x, int y, int w, int h, int isbg, int n);
+extern void KanjiFntClose(void);
+extern int KanjiFntOpen(int x, int y, int w, int h, int dx, int dy, int cx, int cy, int isbg, int n);
+extern int Krom2Tim(u_char *sjis, u_long *taddr, int dx, int dy, int cdx, int cdy, u_int fg, u_int bg);
+extern int Krom2Tim2(u_char *sjis, u_long *taddr, int dx, int dy, int cdx, int cdy, u_int fg, u_int bg);
+extern int LoadImage(RECT *rect, u_long *p);
+extern int MoveImage(RECT *rect, int x, int y);
+extern int ResetGraph(int mode);
+extern int StoreImage(RECT *rect, u_long *p);
+extern u_long *FntFlush(int id);
+extern u_long *KanjiFntFlush(int id);
+extern u_short GetClut(int x, int y) ;
+extern u_short GetTPage(int tp, int abr, int x, int y) ;
+extern void FntLoad(int tx, int ty);
+extern void SetDispMask(int mask);
+extern int FntPrint();
+extern int KanjiFntPrint();
+extern	void    GsInit3D(void);
+extern	void    GsInitGraph(unsigned short x, unsigned short y, unsigned short intmode, unsigned short dith, unsigned short varmmode);
+extern	void    GsMapModelingData(unsigned long *p);
+extern	void    GsSetProjection(long h);
+extern	int     GsSetFlatLight(int id, GsF_LIGHT * lt);
+extern	void    GsSetLightMode(int mode);
+extern	void    GsSetFogParam(GsFOGPARAM * fogparm);
+extern	void    GsSetAmbient(long r, long g, long b);
+extern	void    GsDrawOt(GsOT * ot);
+extern	void    GsSetWorkBase(PACKET * outpacketp);
+extern	void    GsSortObject4(GsDOBJ2 * objp, GsOT * ot, int shift, u_long * scratch);
+extern	void    GsSortSprite(GsSPRITE * sp, GsOT * ot, unsigned short pri);
+extern	void    GsSortFastSprite(GsSPRITE * sp, GsOT * ot, unsigned short pri);
+extern	void    GsInitFixBg16(GsBG * bg, u_long * work);
+extern	void    GsSortFixBg16(GsBG * bg, u_long * work, GsOT * otp, unsigned short pri);
+extern	void    GsSortLine(GsLINE * lp, GsOT * ot, unsigned short pri);
+extern	void    GsSortGLine(GsGLINE * lp, GsOT * ot, unsigned short pri);
+extern	void    GsSortBoxFill(GsBOXF * bp, GsOT * ot, unsigned short pri);
+extern	void    GsClearOt(unsigned short offset, unsigned short point, GsOT * otp);
+extern	GsOT   *GsSortOt(GsOT * ot_src, GsOT * ot_dest);
+extern	void    GsDefDispBuff(unsigned short x0, unsigned short y0, unsigned short x1, unsigned short y1);
+extern	void    GsGetTimInfo(unsigned long *im, GsIMAGE * tim);
+extern	void    GsSwapDispBuff(void);
+extern	int     GsGetActiveBuff(void);
+extern	void    GsSetDrawBuffClip(void);
+extern	void    GsSetDrawBuffOffset(void);
+extern	void    GsSetClip(RECT * clip);
+extern	void    GsSetOffset(long x, long y);
+extern	void    GsSetOrign(long x, long y);
+extern	void    GsInitCoordinate2(GsCOORDINATE2 * super, GsCOORDINATE2 * base);
+extern	void    GsGetLw(GsCOORDINATE2 * m, MATRIX * out);
+extern	void    GsGetLs(GsCOORDINATE2 * m, MATRIX * out);
+extern	void    GsGetLws(GsCOORDINATE2 * m, MATRIX * outw, MATRIX * outs);
+extern	void    GsLinkObject4(unsigned long tmd_base, GsDOBJ2 * objp, int n);
+extern	void    GsSetLightMatrix(MATRIX * mp);
+extern	int     GsSetRefView2(GsRVIEW2 * pv);
+extern	int     GsSetView2(GsVIEW2 * pv);
+extern	void    GsSetLsMatrix(MATRIX * mp);
+extern	void    GsSetClip2D(RECT * rectp);
+extern	PACKET *GsGetWorkBase();
+extern	void    GsSortClear(unsigned char r, unsigned char g , unsigned char b, GsOT *);
+extern	void    GsScaleScreen(SVECTOR * scale);
+extern MATRIX *MulMatrix0(MATRIX *m0,MATRIX *m1,MATRIX *m2);
+extern VECTOR *ApplyMatrix(MATRIX *m,SVECTOR *v0,VECTOR *v1);
+extern VECTOR *ApplyMatrixSV(MATRIX *m,SVECTOR *v0,SVECTOR *v1);
+extern VECTOR *ApplyMatrixLV(MATRIX *m,VECTOR *v0,VECTOR *v1);
+extern MATRIX *RotMatrix(SVECTOR *r,MATRIX *m);
+extern MATRIX *RotMatrixX(long r,MATRIX *m);
+extern MATRIX *RotMatrixY(long r,MATRIX *m);
+extern MATRIX *RotMatrixZ(long r,MATRIX *m);
+extern MATRIX *TransMatrix(MATRIX *m,VECTOR *v);
+extern MATRIX *ScaleMatrix(MATRIX *m,VECTOR *v);
+extern MATRIX *ScaleMatrixL(MATRIX *m,VECTOR *v);
+extern MATRIX *TransposeMatrix(MATRIX *m0,MATRIX *m1);
+extern MATRIX *CompMatrix(MATRIX *m0,MATRIX *m1,MATRIX *m2);
+extern void PushMatrix();
+extern void PopMatrix();
+extern void gteMIMefunc(SVECTOR *otp, SVECTOR *dfp, long n, long p);
+
+ 
+extern void  SsVabClose (short);          
+extern short SsVabTransfer (unsigned char *, unsigned char *, short, short);
+extern short SsSeqOpen (unsigned long*, short); 
+extern void  SsSeqClose (short);                       
+extern void  SsSeqPlay (short, char, short);    
+extern void  SsSeqPause (short);                    
+extern void  SsSeqReplay (short);                  
+extern void  SsSeqStop (short);                   
+extern void  SsSeqSetVol (short, short, short);  
+extern void  SsSeqGetVol (short, short, short*, short*);
+extern void  SsSeqSetNext (short, short);             
+extern void  SsSeqSetRitardando (short, long, long);   
+extern void  SsSeqSetAccelerando (short, long, long);  
+extern void  SsSetMVol (short, short);              
+extern void  SsGetMVol (SndVolume*);             
+extern void  SsSetMute (char);                        
+extern char  SsGetMute (void);                        
+extern void  SsSetTempo (short, short, short);
+extern short SsIsEos (short, short);
+extern void  SsPlayBack (short, short, short);
+extern void  SsSetSerialAttr (char, char, char);     
+extern char  SsGetSerialAttr (char, char);           
+extern void  SsSetSerialVol (char, short, short);    
+extern void  SsGetSerialVol (char, SndVolume*); 
+extern short SsUtKeyOn (short, short, short, short, short, short, short);
+extern short SsUtKeyOff (short, short, short, short, short);
+extern short SsUtPitchBend (short, short, short, short, short);
+extern short SsUtChangePitch (short, short, short, short, short, short, short);
+extern short SsUtSetVVol (short, short, short);
+extern short SsUtGetVVol (short, short*, short*);
+extern void  SsUtReverbOn (void);
+extern void  SsUtReverbOff (void);
+extern short SsUtSetReverbType (short);
+extern short SsUtGetReverbType (void);
+extern void  SsUtSetReverbDepth (short, short);
+extern void  SsUtSetReverbFeedback (short);
+extern void  SsUtSetReverbDelay (short);
+extern void  SsUtAllKeyOff (short);
+
+ 
+extern double pow(double, double);
+extern double exp(double);
+extern double log(double);
+extern double log10(double);
+extern double floor(double);
+extern double ceil(double);
+extern double fmod(double,double);
+extern double modf(double,double *);
+extern double sin(double);
+extern double cos(double);
+extern double tan(double);
+extern double asin(double);
+extern double acos(double);
+extern double atan(double);
+extern double atan2(double, double);
+extern double sinh(double);
+extern double cosh(double);
+extern double tanh(double);
+extern double sqrt(double);
+extern double hypot(double, double);
+extern double ldexp(double, int);
+extern double frexp(double, int *);
+extern double atof(char *);
+extern double strtod(char *, char **);
+extern int printf2(char *, ...);
+extern int sprintf2(char *, char *, ...);
+
+ 
+extern void GetPadBuf(volatile unsigned char **, volatile unsigned char **);
+extern long GetRCnt(unsigned long);
+extern long ResetRCnt(unsigned long);
+extern long StartRCnt(unsigned long);
+extern int open(char *, int);
+extern int close(int);
+extern int lseek(int, unsigned int, int);
+extern int read(int, char *, int);
+extern int write(int, char *, int);
+extern struct DIRENTRY * firstfile(char *, struct DIRENTRY *);
+extern struct DIRENTRY * nextfile(struct DIRENTRY *);
+extern int delete(char *);
+extern int format(char *);
+extern int rename(char *, char *);
+extern long LoadTest(char *, struct EXEC *);
+extern long Load(char *, struct EXEC *);
+extern long Exec(struct EXEC *, long, char **);
+extern void FlushCashe(void);
+extern long _get_errno(void);
+extern int CdReadFile(char *file, u_long *addr, int nbyte);
+extern int CdReadSync(int mode, u_char *result);
+extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
+extern struct EXEC *CdReadExec(char *file);
+extern int CdPlay(int mode, int *tracks, int offset);
+extern void EnterCriticalSection(void);
+extern void ExitCriticalSection(void);
+extern long TestCard(long);
+extern long GetVideoMode(void);
+extern long SetVideoMode(long mode);
+
+ 
+
+
+
+ 
+
+# 21 "tuto18.c" 2
+
+# 1 "sincos.h" 1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+	   
+	 
+	
+int rsin_sub(int angle);
+int rsin (int angle);
+int rcos (int angle);
+double quickSin (int angle);
+double quickCos (int angle);
+
+
+	 
+extern short SinCosTable[];
+# 22 "tuto18.c" 2
+
+# 1 "tangent.h" 1
+ 
+
+
+
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 6 "tangent.h" 2
+
+
+int rtan (int angle);
+
+
+
+extern int TangentLUT[];
+# 23 "tuto18.c" 2
+
+# 1 "asincos.h" 1
+
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 3 "asincos.h" 2
+
+
+
+
+    
+	 
+void rasin (int value, int* smallerAngle, int* largerAngle);
+int rasin2 (int value);
+
+
+
+	 
+void racos (int value, int* smallerAngle, int* largerAngle);
+int racos2 (int value);
+	
+
+	
+
+
+
+extern int ArcSinTable[];
+
+extern int ArcCosTable[];
+# 24 "tuto18.c" 2
+
+# 1 "atan.h" 1
+
+
+
+
+
+int ratan (int x, int y);
+int ratan2 (int value);
+int SUBratan (int x, int z);
+int ratan_zero (int x, int z);
+
+
+extern int ArcTangentTable[256];
+
+
+# 25 "tuto18.c" 2
+
+# 1 "pad.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void	PadInit( long mode );
+long	PadRead( int id );
+void	PadStop( void );
+long	PadRead2( short port );
+# 26 "tuto18.c" 2
+
+# 1 "tmd.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+
+
+
+
+	 
+	 
+void LinkObjectHandlerToTmdObject (GsDOBJ2 *objectHandler, 
+					int whichObjectInTmdFile, u_long tmdAddress);
+
+  	 
+	 
+	 
+	 
+void LinkArrayOfTmdsToObjectHandlerArray (int numberOfObjects,
+		GsDOBJ2* handlerArray, u_long* addressesArray);
+
+
+	 
+int CountNumberOfObjectsInTmdFile (u_long tmdAddress);
+# 27 "tuto18.c" 2
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 28 "tuto18.c" 2
+
+# 1 "object.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 1 "tmd.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+
+
+
+
+	 
+	 
+void LinkObjectHandlerToTmdObject (GsDOBJ2 *objectHandler, 
+					int whichObjectInTmdFile, u_long tmdAddress);
+
+  	 
+	 
+	 
+	 
+void LinkArrayOfTmdsToObjectHandlerArray (int numberOfObjects,
+		GsDOBJ2* handlerArray, u_long* addressesArray);
+
+
+	 
+int CountNumberOfObjectsInTmdFile (u_long tmdAddress);
+# 15 "object.h" 2
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 16 "object.h" 2
+
+# 1 "dump.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 49 "dump.h"
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+
+
+# 131 "dump.h"
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 159 "dump.h"
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+# 17 "object.h" 2
+
+
+
+	
+	
+
+
+
+	
+
+
+
+
+
+	 
+
+
+
+
+	 
+
+
+
+
+
+
+
+
+
+
+typedef struct
+{
+	int id;
+	int alive;		  
+	int type;		 
+	int subType;
+	int which;	
+	
+	int displayFlag;		 
+
+	GsIMAGE* imageInfo;
+	GsSPRITE sprite;
+	int scaleX, scaleY;
+		
+	GsDOBJ2	handler;
+	u_long modelAddress;
+	int whichModel;
+
+	int scalingFlag;
+	VECTOR scalingVector;			 
+
+	int movementTypeFlag;		 
+
+	VECTOR position;		 
+	VECTOR velocity;		
+	int movementMomentumFlag;
+	int movementSpeed;
+
+	SVECTOR rotate;			 
+	VECTOR twist;			 
+	int rotationMomentumFlag;
+	int rotationSpeed;
+
+	GsCOORDINATE2 coord;	  
+	int superCoordinateObjectID;
+	MATRIX matrix;			 
+
+	int inOrbit;		 
+	int centralBodyID;		 
+	int angle;		    
+	int angleIncrement;	   
+	int whichWay;		   
+	int radius;			   
+	VECTOR firstVector;		   
+	VECTOR secondVector;	   
+
+	int specialMovement;		 
+	
+	int lifeTime;
+	int specialTimeLimit;
+	
+	int initialHealth;
+	int currentHealth;
+	
+	int strategyFlag;
+	int currentActionFlag;
+	int numberFramesOfThisAction;
+	
+	int meritRating;
+	
+	int allegiance;	
+	
+	int firingRate;
+	int framesSinceLastFire;
+	int shotSpeed;	
+} ObjectHandler;
+
+
+
+extern ObjectHandler* ObjectArray[1024 ];
+
+
+
+
+		 
+
+
+
+ 
+
+void InitialiseObjectClass (void);
+int FindNextLowestObjectID (int objectID);
+int FindNextHighestObjectID (int objectID);
+int FindNextUnusedObjectID (void);
+int CountNumberObjectSlotsLeft (void);
+int CountNumberOfLivingObjects (void);
+void LinkAllObjectsToModelsOrSprites (void);
+void LinkAllObjectsToTheirCoordinateSystems (void);
+
+ 
+		
+void BringObjectToLife (ObjectHandler* object, int type,
+		u_long modelAddress, int whichModel, 
+			int superCoordinateObjectID);
+void KillAnObject (ObjectHandler* object);
+void RegisterObjectIntoObjectArray (ObjectHandler* object);
+void RemoveObjectFromObjectArray (ObjectHandler* object);
+void InitSingleObject (ObjectHandler* object);
+void HighlightObject (ObjectHandler* object);
+void UnHighlightObject (ObjectHandler* object);
+void SetObjectScaling (ObjectHandler* object, int scaleX,
+						int scaleY, int scaleZ);
+void SortObjectSize (ObjectHandler* object);
+
+
+
+
+ 
+
+
+void InitGsSprite (GsSPRITE* sprite);
+
+void LinkObjectToSprite (ObjectHandler* object);
+
+void FindTopLeftOfTexturePage (GsIMAGE* imageInfo, 
+									int* x, int* y, int* u, int* v);
+
+
+# 29 "tuto18.c" 2
+
+# 1 "dump.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 49 "dump.h"
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+
+
+# 131 "dump.h"
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 159 "dump.h"
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+# 30 "tuto18.c" 2
+
+
+
+
+
+
+
+
+typedef struct 
+{
+	int x, y, z;
+	int w, h, d;    
+} CUBOID;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+GsIMAGE MainTextureInfo;
+ 
+
+GsIMAGE StarsTextureInfo;
+
+
+GsIMAGE CircleTextureInfo;
+
+
+GsIMAGE DotsTextureInfo;
+
+
+GsIMAGE FireTextureInfo;
+
+
+GsIMAGE MultipleTextureInfo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+static GsOT Wot[2];			 
+static GsOT_TAG wtags[2][1<< 9 ]; 
+
+
+	 
+		
+static GsRVIEW2 view;
+int ViewPointX, ViewPointZ;
+
+int ProjectionDistance;	
+
+	 
+int VeryCloseDistance;
+int SimpleClipDistance;
+
+int ViewMode;
+
+
+
+
+
+
+
+
+
+
+
+
+
+u_long framesSinceLastViewSwitch;
+u_long ViewChangePauseTime;	
+
+int ViewpointZDistance, ViewpointYDistance, ViewpointXDistance;
+
+
+
+GsF_LIGHT TheLights[3];	
+
+
+
+
+static PACKET packetArea[2][(2048 *24) ];  
+
+
+ 
+
+GsFOGPARAM fogparam;
+
+GsLINE line;
+
+GsLINE ArrowLines[3];
+
+GsBOXF box[2];
+
+short lightmode;
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+int MainMode;
+
+
+
+
+
+
+
+
+
+int frameNumber = 0;
+int QuitFrameNumber = -1;
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ObjectHandler PlayersShip;
+
+
+ObjectHandler TheBullets[50 ];
+
+
+
+ObjectHandler TheShips[6 ];
+
+
+
+ObjectHandler TheCubes[20 ];
+
+
+
+ObjectHandler TheSquares[400 ];
+
+
+
+ObjectHandler TheSpheres[24 ];
+
+
+
+
+
+
+
+
+	 
+ObjectHandler* DisplayedObjects[1024 ];
+
+
+
+	 
+GsSPRITE OvalSprite;
+
+
+
+
+
+GsSPRITE BlipSprites[6 ];
+ 	 
+
+
+
+	 
+
+
+
+
+
+
+
+  
+
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+	 
+
+
+
+char TextStrings[20 ][50 ];	
+
+
+int LevelNumber = 1;
+
+int NumberEnemiesLeft = 6 ;
+
+
+
+
+
+			 
+	 
+
+VECTOR scalingVector;		 
+
+
+	 
+GsSPRITE Background1, Background2;
+
+	 
+u_long FurthestBack = (1<< 9 )-1;
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+GsSPRITE TestSprite1, TestSprite2;
+
+		  
+
+
+
+
+ 
+
+
+
+
+void main (void);
+
+u_short SortSpriteObjectPosition (ObjectHandler* object);
+
+
+
+
+int PerformWorldClipping (ObjectHandler** firstArray, ObjectHandler** secondArray);
+
+int FindClipDistanceFromViewMode (void);
+
+void UpdateBackground (void);
+
+void SortBlipSprites (GsOT* ot);
+
+void CheckForEndOfLevel (void);
+int CountNumberOfEnemiesLeft (void);
+
+
+void DealWithControllerPad(void);
+void PlayerFiresAShot (void);
+void EnemyShipFiresAShot (ObjectHandler* enemy);
+  
+
+
+void InitialiseAll(void);
+
+void InitialiseBackgroundSprite (GsSPRITE* sprite);
+void InitialiseOvalSprite (void);
+void InitialiseTestSprite1 (void);
+void InitialiseTestSprite2 (void);
+void InitialiseBlipSprites (void);
+
+void InitialiseObjects (void);
+
+	  
+
+void InitialiseShipAccordingToStrategy (ObjectHandler* object);
+
+
+
+void HandleAllObjects (void);
+
+void DealWithSquareAttribute (ObjectHandler* object);
+int FindSubdivisionDistanceFromViewMode (void);
+
+void SortCubeSpriteDimming (ObjectHandler* object);
+
+
+
+void UpdateObjectCoordinates (VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem, MATRIX* matrix);
+void UpdateObjectCoordinates2 (SVECTOR* rotationVector,
+							VECTOR* translationVector,
+							GsCOORDINATE2* coordSystem);
+void UpdateObjectCoordinates3 (SVECTOR* rotation, VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem);
+void UpdateObjectCoordinates4 (SVECTOR* rotation, VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem);
+			
+
+
+void InitialiseView(void);
+void UpdateTheView (void);
+void InitialiseLighting(void);
+
+
+
+
+int InitialiseTexture(long addr);
+long* InitialiseModel(long* adrs);
+
+void ProperInitialiseTexture (long address, GsIMAGE* imageInfo);
+
+
+  	   
+	   
+void PositionSomewhereNotInAWall (ObjectHandler* object);
+void PositionSomewhere (ObjectHandler* object);
+
+
+void HandleEnemyBehaviour (ObjectHandler* object);
+
+void HandleWaitingShipsBehaviour (ObjectHandler* object);
+void HandleStationaryTrackingShipsBehaviour (ObjectHandler* object);
+void HandleSeekingShipBehaviour (ObjectHandler* object);
+
+
+
+
+
+void HandlePlayersDeath (void);
+void HandleEnemysDeath (ObjectHandler* object);
+
+int CheckCollisions (void); 
+
+int ObjectsVeryClose (ObjectHandler* first, ObjectHandler* second);
+
+void ExplodeObject (ObjectHandler* object);
+
+void DummyGuiLoopForTextPrinting (int numberOfStrings, int quitKey);
+
+void ResetAll (void);
+
+void HandleLevelTransition (void);
+
+
+
+
+void HandleSphereClass (void);
+void HandleSpheresBehaviour (ObjectHandler* sphere);
+
+
+int CountNumberOfSpheres (void);
+int FindNextFreeSphereID (void);
+
+
+int CountNumberOfLivingTypedObjects (int type);
+
+void HandleShipClass (void);
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 483 "tuto18.c"
+
+
+int allOnes;
+
+
+# 496 "tuto18.c"
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+void main( void )
+{
+	int	i;
+	int	hsync = 0;
+	GsDOBJ2 *op;
+	int side;			   
+	MATRIX	tmpls, tmplw;
+	ObjectHandler** pointer;
+	ObjectHandler* object;
+	int x, y, z;
+	int numberToDisplay;
+	u_short singleZ;
+	u_short zValue;
+
+
+	printf("IN MAIN\n");
+	InitialiseAll();
+
+
+   
+
+	side = GsGetActiveBuff();
+
+	while(1)
+		{
+		if (QuitFrameNumber == frameNumber)
+			break;
+
+		 
+		 
+
+		FntPrint("frame: %d\n", frameNumber);
+		FntPrint("player health: %d\n", PlayersShip.currentHealth);	 
+		FntPrint("player score: %d\n", PlayersShip.meritRating);
+		FntPrint("level: %d\n", LevelNumber);
+
+		FntPrint("enemies left: %d\n", NumberEnemiesLeft);
+		if (frameNumber % 20 == 0)
+			{
+			NumberEnemiesLeft = CountNumberOfEnemiesLeft();
+			}				
+	
+		FntPrint("ship pos: \n%d %d %d\n", 
+			PlayersShip.position.vx, 
+			PlayersShip.position.vy,
+			PlayersShip.position.vz);
+			 
+		x = PlayersShip.position.vx / 128 ;   
+		y = PlayersShip.position.vy / 128 ;
+		z = PlayersShip.position.vz / 128 ;
+		FntPrint("ship grid: %d %d %d\n", x, y, z);	
+		
+		FntPrint("enemy 0 at\n%d %d %d\n", 
+			TheShips[0].position.vx, 
+			TheShips[0].position.vy, 
+			TheShips[0].position.vz);	 
+		
+		frameNumber++;
+
+		DealWithControllerPad();			
+
+		GsSetWorkBase((PACKET*)packetArea[side]);
+
+		GsClearOt(0,0,&Wot[side]);
+
+		UpdateBackground();
+		HandleAllObjects();
+
+		GsSetRefView2(&view);	 
+
+		numberToDisplay = PerformWorldClipping(ObjectArray, DisplayedObjects);
+		FntPrint("num to display: %d\n", numberToDisplay);
+
+			 
+		GsSortSprite( &Background1, &Wot[side], FurthestBack);
+		GsSortSprite( &Background2, &Wot[side], FurthestBack);
+
+			 
+		 
+		 
+
+			 
+		GsSortFastSprite( &OvalSprite, &Wot[side], 3);
+
+		SortBlipSprites(&Wot[side]);
+	
+		for (i = 0; i < numberToDisplay; i++) 
+			{		
+			object = DisplayedObjects[i];
+
+			if (object->displayFlag == 0 )
+				{
+				GsGetLs(&(object->coord), &tmpls);
+				   
+				GsSetLightMatrix(&tmpls);
+					
+				GsSetLsMatrix(&tmpls);
+					
+				GsSortObject4( &(object->handler), 
+						&Wot[side], 
+							3, ((u_long *)(0x1f800000+ 0 *4)) );
+				}
+			else
+				{
+				zValue = SortSpriteObjectPosition( DisplayedObjects[i]);
+				GsSortSprite( &DisplayedObjects[i]->sprite, &Wot[side], zValue);
+				}	 
+			}
+
+		hsync = VSync(0);		  
+								 
+		ResetGraph(1);
+		GsSwapDispBuff();
+		GsSortClear(0,0,4,&Wot[side]);
+		GsDrawOt(&Wot[side]);
+		side ^= 1;
+		FntFlush(-1);
+		}
+
+	ResetGraph(3);
+}
+
+
+
+
+ 
+ 
+	 
+	 
+u_short SortSpriteObjectPosition (ObjectHandler* object)
+{
+	VECTOR screen;
+	int visualX, visualY;
+	u_short zValue;
+
+	PushMatrix();
+
+	ApplyMatrixLV( &GsWSMATRIX, &object->position, &screen);
+
+	screen.vx += GsWSMATRIX.t[0];
+	screen.vy += GsWSMATRIX.t[1];
+	screen.vz += GsWSMATRIX.t[2];
+
+	if (screen.vz == 0)			    
+		return 0;	    
+
+	visualX = object->sprite.w * ProjectionDistance / screen.vz;	
+	visualY = object->sprite.h * ProjectionDistance / screen.vz;	
+
+	object->sprite.x = ((screen.vx * ProjectionDistance / screen.vz) - visualX/2);
+	object->sprite.y = ((screen.vy * ProjectionDistance / screen.vz) - visualY/2);
+
+	object->sprite.scalex = object->scaleX * ProjectionDistance / screen.vz; 
+	object->sprite.scaley = object->scaleY * ProjectionDistance / screen.vz; 
+
+	PopMatrix();
+
+		 
+	if (screen.vz < ProjectionDistance/2)
+		object->sprite.attribute |= (1<<31) ;			  
+	else
+		{	u_long onlyNthBitOn, allButNthBitOn;	int i;	onlyNthBitOn = 1 << (  31 );	allButNthBitOn = allOnes ^ onlyNthBitOn;	( object->handler.attribute ) &= allButNthBitOn;	} 		 
+
+	zValue = (u_short) (screen.vz >> 6);	  
+
+# 689 "tuto18.c"
+
+
+	return zValue;			    
+}
+
+
+	
+
+
+
+	 
+	 
+	 
+int PerformWorldClipping (ObjectHandler** firstArray, ObjectHandler** secondArray)
+{
+	int numberDisplayedObjects = 0;
+	int i;
+	ObjectHandler *object, **pointer;
+	int viewXoffset, viewYoffset;
+
+
+	viewXoffset = ViewpointZDistance * rsin(PlayersShip.rotate.vy) >> 12;
+	viewYoffset = ViewpointZDistance * rcos(PlayersShip.rotate.vy) >> 12;
+
+		
+		 
+		 
+	ViewPointX = PlayersShip.position.vx + viewXoffset;
+	ViewPointZ = PlayersShip.position.vz + viewYoffset;
+
+	SimpleClipDistance = FindClipDistanceFromViewMode();
+	
+	for (i = 0; i < 1024 ; i++)
+		{
+		if (firstArray[i] != 0 )
+			if (firstArray[i]->alive == 1 )
+				{
+				if (abs(firstArray[i]->position.vx - ViewPointX) < (SimpleClipDistance * 128 )
+					&& abs(firstArray[i]->position.vz - ViewPointZ) < (SimpleClipDistance * 128 ) )
+						{
+						secondArray[numberDisplayedObjects] = firstArray[i];
+						numberDisplayedObjects++;
+						}
+				}
+		}
+		
+	return numberDisplayedObjects;	
+}	
+
+
+
+
+int FindClipDistanceFromViewMode (void)
+{
+	int distance;
+
+	switch(ViewMode)
+		{
+		case 1 :	distance = 5; 	break;
+		case 2 :	distance = 4; 	break;
+		case 3 :	distance = 4; 	break;
+		case 4 :	distance = 4; 	break;
+		case 5 :	distance = 4; 	break;
+		case 6 :	distance = 10; 	break;
+		case 7 :	distance = 15; 	break;
+		case 8 :	distance = 3; 	break;
+		case 9 :	distance = 3; 	break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	757, "tuto18.c"), exit(1), 0) ) ;				 
+		}
+
+	return distance;
+}
+
+
+	 
+	 
+void UpdateBackground (void)
+{
+	int angle, twist;
+
+	angle = PlayersShip.rotate.vy;
+	twist = PlayersShip.twist.vy;
+
+	if (twist == 0)
+		return;
+
+	switch(angle)
+		{
+		case 0: case 1024: case 2048: case 3072:	    
+			if (twist < 0)			  
+				{
+				if (Background1.x == - 320 /2)
+					Background2.x = Background1.x - 320 ;
+				else if (Background2.x == - 320 /2)
+					Background1.x = Background2.x - 320 ;
+				else
+					{
+					printf("b1  x %d, b2 x %d\n", Background1.x, Background2.x);
+					( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	788, "tuto18.c"), exit(1), 0) ) ;
+					}
+				}
+			else					  
+				{
+				if (Background1.x == - 320 /2)
+					Background2.x = Background1.x + 320 ;
+				else if (Background2.x == - 320 /2)
+					Background1.x = Background2.x + 320 ;
+				else
+					{
+					printf("b1  x %d, b2 x %d\n", Background1.x, Background2.x);
+					( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	800, "tuto18.c"), exit(1), 0) ) ;
+					}
+				}
+			break;
+		}
+
+		 
+	Background1.x -= twist * 320  / 1024;
+	Background2.x -= twist * 320  / 1024;
+}
+
+
+
+
+
+
+
+int ScannerRange = 5 * 128 ;
+VECTOR worldZaxis, worldXaxis;	    
+
+void SortBlipSprites (GsOT* ot)
+{
+	int i;
+	int wx, wz;		 
+	int ox, oz;		 
+	int xInCircle, zInCircle;
+	int cyclePoint;
+	
+		 
+	cyclePoint = frameNumber % 30; 
+
+	worldZaxis.vx = rsin(PlayersShip.rotate.vy);
+	worldZaxis.vy = 0;
+	worldZaxis.vz = -rcos(PlayersShip.rotate.vy);
+
+	worldXaxis.vx = worldZaxis.vz;
+	worldXaxis.vy = 0;
+	worldXaxis.vz = -worldZaxis.vx;
+
+		 
+	for (i = 0; i < 6 ; i++)
+		{
+		if (TheShips[i].alive != 1 )
+			continue;
+
+			 
+		wx = TheShips[i].position.vx - PlayersShip.position.vx;
+		wz = TheShips[i].position.vz - PlayersShip.position.vz;
+
+		 
+
+			 
+		ox = ((wx * worldXaxis.vx) + (wz * worldZaxis.vx)) / 4096 ;
+		oz = ((wx * worldXaxis.vz) + (wz * worldZaxis.vz)) / 4096 ;
+
+		 
+
+		if ( ((ox * ox) + (oz * oz)) < (ScannerRange * ScannerRange) )   
+			{
+			xInCircle = ox * 22  / ScannerRange;
+			zInCircle = oz * 17  / ScannerRange;
+				
+			 
+
+			BlipSprites[i].x = - 320 /2 + 25  + 8 + xInCircle - 2;
+			BlipSprites[i].y = - 240 /2 + 25  + 19 - zInCircle - 2;
+
+			BlipSprites[i].r = 16 + (5 * cyclePoint);
+
+			GsSortFastSprite( &BlipSprites[i], ot, 1);
+			}
+		}
+
+
+
+
+# 907 "tuto18.c"
+
+}
+		   
+
+
+
+
+
+void CheckForEndOfLevel (void)
+{
+	int i;
+	int boolean = 1 ;
+
+	for (i = 0; i < 6 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			boolean = 0 ;
+			break;
+			}
+		}
+	
+	if (boolean == 1 )
+		HandleLevelTransition();
+}
+
+
+
+
+int CountNumberOfEnemiesLeft (void)
+{
+	int count = 0;
+	int i;
+
+	for (i = 0; i < 6 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			count++;
+			}
+		}
+
+	return count;
+}
+
+
+
+				
+
+
+
+
+void DealWithControllerPad (void)
+{
+	long	pad;
+	static int framesSinceLastModeToggle = 0;
+	int speedMultiplier = 1;
+	int i;
+	static int quitCount = 0;
+	int quitTime = 30;
+  
+	pad = PadRead(0);
+
+		 
+	if (pad & (1<<11)   && pad & (1<< 8)  )
+		{
+		QuitFrameNumber = frameNumber + 1;
+		}	
+
+		 
+	if (pad & (1<< 8)   && pad & (1<< 0)  )
+		{
+		int frameCount;	 
+		frameCount = VSync(-1);
+		while (frameCount + 25 > VSync(-1))
+			{
+			;
+			}
+		return;
+		}
+
+
+
+	
+
+
+
+
+
+
+	if (pad & (1<< 8)  )
+		{
+		if (pad & (1<<15) )
+			view.vpz -= 5;
+		if (pad & (1<<13) )
+			view.vpz += 5;
+		if (pad & (1<<12) )
+			view.vpy -= 5;
+		if (pad & (1<<14) )
+			view.vpy += 5;
+		if (pad & (1<< 4) )
+			view.vpx -= 5;
+		if (pad & (1<< 6) )
+			view.vpx += 5;
+		if (pad & (1<< 3)  )
+			{
+			ProjectionDistance -= 5;
+			GsSetProjection(ProjectionDistance);
+			}
+		if (pad & (1<< 1)  )
+			{
+			ProjectionDistance += 5;
+			GsSetProjection(ProjectionDistance);
+			}
+		return;
+		}
+
+
+	
+
+
+		 
+	switch(MainMode)
+		{
+		case 0 :
+				 
+			if (pad & (1<<12) )
+				PlayersShip.velocity.vz -= PlayersShip.movementSpeed * speedMultiplier;
+			if (pad & (1<<14) )
+				PlayersShip.velocity.vz += PlayersShip.movementSpeed * speedMultiplier;
+
+				 
+			if (pad & (1<< 0)  )
+				{
+				if (PlayersShip.framesSinceLastFire > PlayersShip.firingRate)
+					{
+					PlayerFiresAShot();
+					PlayersShip.framesSinceLastFire = 0;
+					}
+				}
+			PlayersShip.framesSinceLastFire++;
+
+				 
+			if (pad & (1<< 7) )
+				PlayersShip.twist.vy -= PlayersShip.rotationSpeed * speedMultiplier;
+			if (pad & (1<< 5) )
+				PlayersShip.twist.vy += PlayersShip.rotationSpeed * speedMultiplier;
+
+				 
+			if (PlayersShip.rotate.vy < 0)
+				PlayersShip.rotate.vy += 4096;
+			else if (PlayersShip.rotate.vy > 4095)
+				PlayersShip.rotate.vy -= 4096;
+
+				 
+			if (pad & (1<< 3)   && framesSinceLastViewSwitch > ViewChangePauseTime)
+				{
+				if (ViewMode == (9 ) )
+					ViewMode = 1 ;
+				else
+					ViewMode++;
+				framesSinceLastViewSwitch = 0;
+				UpdateTheView();
+				}
+			if (pad & (1<< 1)   && framesSinceLastViewSwitch > ViewChangePauseTime)
+				{
+				if (ViewMode == 1 )
+					ViewMode = (9 ) ;
+				else
+					ViewMode--;
+				framesSinceLastViewSwitch = 0;
+				UpdateTheView();
+				}
+			framesSinceLastViewSwitch++;
+
+			if (pad & (1<< 2)  )				 
+				{
+				ViewMode = 1 ;
+				UpdateTheView();
+				framesSinceLastViewSwitch = 0;
+				}
+
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1091, "tuto18.c"), exit(1), 0) ) ;
+		}
+
+		 
+	if (pad & (1<<11)  )
+		{
+		while (pad & (1<<11)  )
+			{
+			pad = PadRead(0);
+			}
+		}
+}
+
+
+
+
+
+VECTOR bulletsVelocityWrtSelf;
+
+void PlayerFiresAShot (void)
+{
+	int bulletID = -1;
+	int i;	
+
+		 
+	for (i = 0; i < 50 ; i++)
+		{
+		if (TheBullets[i].alive == 0 )
+			{
+			bulletID = i;
+			break;
+			}
+		}
+
+	if (bulletID == -1)		 
+		return;
+	else
+		{
+		 
+
+		TheBullets[bulletID].alive = 1 ;
+		TheBullets[bulletID].lifeTime = 0;
+		TheBullets[bulletID].allegiance = 0 ;			
+		
+			 
+		TheBullets[bulletID].velocity.vx 
+				= ((PlayersShip.shotSpeed * PlayersShip.coord.coord.m[2][0]) / 4096);
+		TheBullets[bulletID].velocity.vy = 0;
+		TheBullets[bulletID].velocity.vz 
+				= -((PlayersShip.shotSpeed * PlayersShip.coord.coord.m[2][2]) / 4096);
+		   		
+		TheBullets[bulletID].movementMomentumFlag = 1 ; 
+		
+					 
+		TheBullets[bulletID].position.vx = PlayersShip.position.vx;
+		TheBullets[bulletID].position.vy = PlayersShip.position.vy;
+		TheBullets[bulletID].position.vz = PlayersShip.position.vz;
+		}
+}
+
+
+
+
+
+
+
+
+
+void EnemyShipFiresAShot (ObjectHandler* enemy)
+{
+	int bulletID = -1;
+	int i;	
+
+		 
+	for (i = 0; i < 50 ; i++)
+		{
+		if (TheBullets[i].alive == 0 )
+			{
+			bulletID = i;
+			break;
+			}
+		}
+
+	if (bulletID == -1)		 
+		return;
+	else
+		{
+	   	 
+
+		TheBullets[bulletID].alive = 1 ;
+		TheBullets[bulletID].lifeTime = 0;
+		TheBullets[bulletID].allegiance = 2 ;			
+		
+			 
+		TheBullets[bulletID].velocity.vx 
+				= ((enemy->shotSpeed * enemy->coord.coord.m[2][0]) / 4096);
+		TheBullets[bulletID].velocity.vy = 0;
+		TheBullets[bulletID].velocity.vz 
+				= -((enemy->shotSpeed * enemy->coord.coord.m[2][2]) / 4096);
+		   		
+		TheBullets[bulletID].movementMomentumFlag = 1 ; 
+		
+					 
+		TheBullets[bulletID].position.vx = enemy->position.vx;
+		TheBullets[bulletID].position.vy = enemy->position.vy;
+		TheBullets[bulletID].position.vz = enemy->position.vz;
+		}
+}
+
+
+
+ 
+
+
+
+
+
+ 
+
+	 
+	 
+
+
+
+
+
+
+
+void InitialiseAll (void)
+{	
+	int i;
+
+
+	printf("iseAll: 0\n");
+	PadInit(0);
+
+
+	for (i = 0; i < 32; i++)	
+		allOnes |= 1 << i;
+
+
+		 
+	scalingVector.vx = 7659;
+	scalingVector.vy = 7059;
+	scalingVector.vz = 7779;
+
+	 
+
+
+
+	GsInitGraph(320 ,240 ,1 | 4 ,1,0);
+	if( 240 <480 )
+		GsDefDispBuff(0,0,0,240 );
+	else
+		GsDefDispBuff(0,0,0,0);
+
+	GsInit3D();		   
+	 
+
+	Wot[0].length= 9 ;	
+	Wot[0].org=wtags[0];	   
+	Wot[1].length= 9 ;
+	Wot[1].org=wtags[1];
+
+	GsClearOt(0,0,&Wot[0]);
+	GsClearOt(0,0,&Wot[1]);
+
+		
+	 
+	
+
+
+	InitialiseView();
+	 
+	InitialiseLighting();		   
+
+
+		 
+	ProperInitialiseTexture(0x800a0000 , &MainTextureInfo);
+	ProperInitialiseTexture(0x800b0000 , &StarsTextureInfo);
+	ProperInitialiseTexture(0x800b9000 , &CircleTextureInfo);
+	ProperInitialiseTexture(0x800ba000 , &DotsTextureInfo);
+	ProperInitialiseTexture(0x800bb000 , &FireTextureInfo);
+	ProperInitialiseTexture(0x800d0000 , &MultipleTextureInfo);
+
+
+		 
+	InitialiseBackgroundSprite( &Background1);
+	InitialiseBackgroundSprite( &Background2);
+		 
+	InitialiseOvalSprite();
+		 
+	InitialiseBlipSprites();
+
+
+	 
+	 
+   
+
+	 
+
+	 
+	
+
+	 
+
+	InitialiseObjects();
+		 
+	MainMode = 0 ;
+
+	FntLoad( 960, 256);
+	FntOpen( 0, 0, 256, 200, 0, 512);		   
+}
+
+
+
+
+
+
+
+void InitialiseBackgroundSprite (GsSPRITE* sprite)
+{
+	InitGsSprite(sprite);
+
+	sprite->tpage = GetTPage(0, 0, 640, 256);
+	sprite->x = - 320 /2;
+	sprite->y = - 240 /2;
+	sprite->w = 256;
+	sprite->h = 256;
+	sprite->scalex = 4096  * 320 /256;	    
+	sprite->cx = 0;
+	sprite->cy = 481;
+}
+
+
+
+
+
+
+
+
+
+void InitialiseOvalSprite (void)
+{
+	InitGsSprite( &OvalSprite);
+
+	OvalSprite.tpage = GetTPage(1, 0, 960, 0);		 
+	 
+	 
+	OvalSprite.attribute |= 1<<24;			 
+	OvalSprite.x = - 320 /2 + 8;
+	OvalSprite.y = - 240 /2 + 19;
+	OvalSprite.w = 48;
+	OvalSprite.h = 48;
+	OvalSprite.cx = 0;
+	OvalSprite.cy = 482;
+}
+
+
+void InitialiseTestSprite1 (void)
+{
+	InitGsSprite( &TestSprite1);
+
+	TestSprite1.tpage = GetTPage(1, 0, 960, 0);		 
+	TestSprite1.attribute |= 1<<24;			 
+	TestSprite1.x = -50;
+	TestSprite1.y = -50;
+	TestSprite1.w = 32;
+	TestSprite1.h = 32;
+	TestSprite1.u = 0;
+	TestSprite1.v = 150;
+	TestSprite1.cx = 0;
+	TestSprite1.cy = 487;
+}
+
+
+void InitialiseTestSprite2 (void)
+{
+	InitGsSprite( &TestSprite2);
+
+	TestSprite2.tpage = GetTPage(1, 0, 640, 0);		 
+	TestSprite2.attribute |= 1<<24;			 
+	TestSprite2.x = 50;
+	TestSprite2.y = -50;
+	TestSprite2.w = 128;
+	TestSprite2.h = 128;
+	TestSprite2.u = 0;
+	TestSprite2.v = 64;
+	TestSprite2.cx = 0;
+	TestSprite2.cy = 485;
+}
+
+
+
+
+ 
+
+
+
+	 
+void InitialiseBlipSprites (void)
+{
+	int i;
+
+	for (i = 0; i < 6 ; i++)
+		{
+		InitGsSprite( &BlipSprites[i]);
+		BlipSprites[i].tpage = GetTPage(0, 0, 960, 0);
+		BlipSprites[i].w = 2;
+		BlipSprites[i].h = 2;
+		BlipSprites[i].u = 11;		
+		BlipSprites[i].v = 52;	    
+		BlipSprites[i].cx = 0;
+		BlipSprites[i].cy = 483;
+		}
+}
+
+
+
+
+void InitialiseObjects (void)
+{
+	int i;
+	int x, z;
+	int model;
+
+	 
+
+	InitialiseObjectClass();
+	 
+
+
+
+
+
+	InitSingleObject(&PlayersShip);
+
+	BringObjectToLife (&PlayersShip, 0 , 
+					0x80096000 , 0, 1001 );	
+	RegisterObjectIntoObjectArray(&PlayersShip);
+
+	PositionSomewhere(&PlayersShip);
+
+	PlayersShip.initialHealth = 1000;
+	PlayersShip.currentHealth = 1000;
+	PlayersShip.allegiance = 0 ;
+
+	PlayersShip.movementSpeed = 22;
+	PlayersShip.rotationSpeed = 4096 /64;
+	PlayersShip.firingRate = 12;
+	PlayersShip.framesSinceLastFire = 0;
+	PlayersShip.shotSpeed = 75;
+	 
+
+	
+	 
+		
+
+	for (i = 0; i < 50 ; i++)
+		{
+		InitSingleObject(&TheBullets[i]);
+
+		BringObjectToLife(&TheBullets[i], 1 , 
+			0x80097000 , 0, 1001 );
+
+		TheBullets[i].displayFlag = 1 ;
+		TheBullets[i].imageInfo = &FireTextureInfo;
+
+		RegisterObjectIntoObjectArray(&TheBullets[i]);
+		}
+	 
+
+
+
+	for (i = 0; i < 20 ; i++)
+		{
+		InitSingleObject(&TheCubes[i]);
+
+		BringObjectToLife(&TheCubes[i], 3 , 
+			0x80097000 , 0, 1001 );
+
+		TheCubes[i].displayFlag = 1 ;
+		TheCubes[i].imageInfo = &MultipleTextureInfo;
+		TheCubes[i].scaleX = 2 * 4096 ;
+		TheCubes[i].scaleY = 2 * 4096 ;
+
+		RegisterObjectIntoObjectArray(&TheCubes[i]);
+		}
+	 
+
+
+	  
+		 
+
+
+
+
+	for (i = 0; i < 6 ; i++)
+		{
+		InitSingleObject(&TheShips[i]);
+
+		BringObjectToLife(&TheShips[i], 2 , 
+			0x80096000 , 0, 1001 );		
+				
+		TheShips[i].initialHealth = 10;
+		TheShips[i].currentHealth = 10;
+			
+		TheShips[i].firingRate = 12;
+		TheShips[i].framesSinceLastFire = 0;
+		TheShips[i].shotSpeed = 75; 
+
+			 
+		TheShips[i].strategyFlag = 3 ;  
+
+		InitialiseShipAccordingToStrategy(&TheShips[i]);
+
+		PositionSomewhere(&TheShips[i]);
+		TheShips[i].allegiance = 2 ;
+
+		RegisterObjectIntoObjectArray(&TheShips[i]);
+		}
+	 
+
+
+
+
+# 1537 "tuto18.c"
+
+
+
+
+
+
+		 
+	for (i = 0; i < 400 ; i++)
+		{
+		InitSingleObject(&TheSquares[i]);
+
+		BringObjectToLife(&TheSquares[i], 4 , 
+			0x80094000 , 0, 1001 ); 
+	
+		x = i / 20 ;			
+		z = i % 20 ;
+
+		TheSquares[i].position.vx = x * 128 ;
+		TheSquares[i].position.vy = 0;
+		TheSquares[i].position.vz = z * 128 ;
+
+		TheSquares[i].rotate.vx = 4096 /2;
+
+		UpdateObjectCoordinates2(&TheSquares[i].rotate,  
+							&TheSquares[i].position, &TheSquares[i].coord);
+
+		RegisterObjectIntoObjectArray(&TheSquares[i]);
+		}
+	 
+
+ 
+   
+			
+
+
+
+	LinkAllObjectsToModelsOrSprites();
+	 
+
+	LinkAllObjectsToTheirCoordinateSystems();
+	 
+
+
+
+
+	for (i = 0; i < 50 ; i++)
+		{
+		TheBullets[i].alive = 0 ;		 
+		}
+	for (i = 0; i < 20 ; i++)
+		{
+		TheCubes[i].alive = 0 ;		 
+
+			 
+		TheCubes[i].sprite.w /= 4;
+		TheCubes[i].sprite.h /= 4;
+		TheCubes[i].sprite.u += 32;
+		TheCubes[i].sprite.v += 64;
+
+			 
+		TheCubes[i].sprite.rotate = (rand() % 360) * 4096;
+		}
+	for (i = 0; i < 24 ; i++)
+		{
+		TheSpheres[i].alive = 0 ;		 
+		}
+	for (i = 0; i < 6 ; i++)
+		{
+		TheShips[i].alive = 0 ;		 
+		}
+
+
+	printf("8\n");
+}
+
+
+
+	 
+
+
+void InitialiseShipAccordingToStrategy (ObjectHandler* object)
+{
+		 
+	object->movementSpeed = 22;
+	object->rotationSpeed = 4096 /64;		
+
+	switch(object->strategyFlag)
+		{
+		case 0 :	 
+			object->specialTimeLimit = 400 + (100 * (rand() % 4));
+			object->firingRate = 6;
+			break;
+		case 1 :
+			object->firingRate = 5;	
+			break;	
+		case 2 :
+			object->firingRate = 7;
+			break;
+		case 3 :
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1638, "tuto18.c"), exit(1), 0) ) ;
+		}
+}
+
+
+
+
+ 
+
+
+
+void HandleAllObjects (void)
+{
+	ObjectHandler* object;
+	int gridX, gridY, gridZ;
+	int i;
+	int x, y, z;
+
+	x = PlayersShip.position.vx;
+	y = PlayersShip.position.vy;
+	z = PlayersShip.position.vz;
+
+	CheckCollisions();
+
+	 
+
+	HandleShipClass();
+
+	for (i = 0; i < 1024 ; i++)
+		{
+		if (ObjectArray[i] != 0 )
+			{
+			if (ObjectArray[i]->alive == 1 )
+				{
+				object = ObjectArray[i];
+				object->lifeTime++;
+
+				switch(object->type)
+					{
+					case 0 :
+						UpdateObjectCoordinates3 (&object->rotate, &object->twist,
+							&object->position, &object->velocity,
+							&object->coord);
+							
+					   	object->rotate.vx += object->twist.vx;
+						object->rotate.vy += object->twist.vy;
+						object->rotate.vz += object->twist.vz;
+						
+						SortObjectSize(object);
+
+						{	if (( object->position.vx ) < (  0 ))	( object->position.vx ) = (  0 );	else if (( object->position.vx ) > (  (20 -1) * 128  ))	( object->position.vx ) = (  (20 -1) * 128  );	} ;
+						 
+						{	if (( object->position.vz ) < (  0 ))	( object->position.vz ) = (  0 );	else if (( object->position.vz ) > (  (20 -1) * 128  ))	( object->position.vz ) = (  (20 -1) * 128  );	} ;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+
+						if (object->currentHealth < 1)
+							{
+							HandlePlayersDeath();
+							goto endOfHandleAllObjects;
+							}
+						break;
+					case 1 :
+						UpdateObjectCoordinates2(&object->rotate,  
+							&object->position, &object->coord);
+
+						SortObjectSize(object);
+
+							 
+						object->rotate.vx += object->twist.vx;
+						object->rotate.vy += object->twist.vy;
+						object->rotate.vz += object->twist.vz;
+
+							 
+						object->position.vx += object->velocity.vx;
+						object->position.vy += object->velocity.vy;
+						object->position.vz += object->velocity.vz;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+
+							 
+						gridX = object->position.vx / 128 ;	 
+						gridY = object->position.vy / 128 ;
+						gridZ = object->position.vz / 128 ;
+
+							 
+						if (object->lifeTime > 50)
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							{	u_long onlyNthBitOn, allButNthBitOn;	int i;	onlyNthBitOn = 1 << (  31 );	allButNthBitOn = allOnes ^ onlyNthBitOn;	( object->sprite.attribute ) &= allButNthBitOn;	} ;
+							}
+
+						if (gridX < 0 || gridX >= 20 
+							|| gridY < 0 || gridY >= 10 
+							|| gridZ < 0 || gridZ >= 20 )
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							{	u_long onlyNthBitOn, allButNthBitOn;	int i;	onlyNthBitOn = 1 << (  31 );	allButNthBitOn = allOnes ^ onlyNthBitOn;	( object->sprite.attribute ) &= allButNthBitOn;	} ;
+							}
+						break;
+					case 3 :
+						UpdateObjectCoordinates2(&object->rotate,  
+							&object->position, &object->coord);
+
+						SortObjectSize(object);
+
+							 
+						object->rotate.vx += object->twist.vx;
+						object->rotate.vy += object->twist.vy;
+						object->rotate.vz += object->twist.vz;
+
+							 
+						object->position.vx += object->velocity.vx;
+						object->position.vy += object->velocity.vy;
+						object->position.vz += object->velocity.vz;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+
+							 
+						object->sprite.rotate += 10 * 4096;
+
+							 
+						if (object->lifeTime > 25)
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							{	u_long onlyNthBitOn, allButNthBitOn;	int i;	onlyNthBitOn = 1 << (  31 );	allButNthBitOn = allOnes ^ onlyNthBitOn;	( object->sprite.attribute ) &= allButNthBitOn;	} ;
+							}
+
+							 
+						if (object->lifeTime % 5 == 0)
+							{
+							SortCubeSpriteDimming(object);
+							}
+							
+						gridX = object->position.vx / 128 ;	   
+						gridY = object->position.vy / 128 ;
+						gridZ = object->position.vz / 128 ; 
+
+						if (gridX < 0 || gridX >= 20 
+							|| gridY < 0 || gridY >= 10 
+							|| gridZ < 0 || gridZ >= 20 )
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							{	u_long onlyNthBitOn, allButNthBitOn;	int i;	onlyNthBitOn = 1 << (  31 );	allButNthBitOn = allOnes ^ onlyNthBitOn;	( object->sprite.attribute ) &= allButNthBitOn;	} ;
+							}
+						break;
+					case 2 :
+						HandleEnemyBehaviour(object);
+
+						UpdateObjectCoordinates(&object->twist, &object->position, 
+								&object->velocity, &object->coord, &object->matrix);
+
+						SortObjectSize(object);
+
+						{	if (( object->position.vx ) < (  0 ))	( object->position.vx ) = (  0 );	else if (( object->position.vx ) > (  (20 -1) * 128  ))	( object->position.vx ) = (  (20 -1) * 128  );	} ;
+						 
+						{	if (( object->position.vz ) < (  0 ))	( object->position.vz ) = (  0 );	else if (( object->position.vz ) > (  (20 -1) * 128  ))	( object->position.vz ) = (  (20 -1) * 128  );	} ;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+								
+						if (object->currentHealth < 1)
+							HandleEnemysDeath(object);
+						break;
+					case 5 :
+						HandleSpheresBehaviour(object);
+						
+						UpdateObjectCoordinates4 (&object->rotate, &object->twist,
+							&object->position, &object->velocity,
+							&object->coord);
+							
+					   	object->rotate.vx += object->twist.vx;
+						object->rotate.vy += object->twist.vy;
+						object->rotate.vz += object->twist.vz;
+						
+						SortObjectSize(object);
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+						break;
+					case 4 :				
+						DealWithSquareAttribute(object);
+						break;
+					default:
+						( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1884, "tuto18.c"), exit(1), 0) ) ;
+					}
+				}
+			}
+		}
+
+endOfHandleAllObjects:
+	;
+}
+
+
+
+
+
+void DealWithSquareAttribute (ObjectHandler* object)
+{					
+	VeryCloseDistance = FindSubdivisionDistanceFromViewMode();
+
+	if (abs(object->position.vx - ViewPointX) < (VeryCloseDistance * 128 )
+			&& abs(object->position.vz - ViewPointZ) < (VeryCloseDistance * 128 ))
+		{
+		object->handler.attribute |= (1<<9) ;
+		 
+		}
+	else
+		{
+		{	u_long onlyNthBitOn, allButNthBitOn;	int i;	onlyNthBitOn = 1 << (  31 );	allButNthBitOn = allOnes ^ onlyNthBitOn;	( object->handler.attribute ) &= allButNthBitOn;	}  
+		}
+}
+
+
+
+int FindSubdivisionDistanceFromViewMode (void)
+{
+	int distance;
+
+	switch(ViewMode)
+		{
+		case 1 :	distance = 2; 	break;
+		case 2 :	distance = 2; 	break;
+		case 3 :	distance = 2; 	break;
+		case 4 :	distance = 2; 	break;
+		case 5 :	distance = 2; 	break;
+		case 6 :	distance = 2; 	break;
+		case 7 :	distance = 5; 	break;
+		case 8 :	distance = 3; 	break;
+		case 9 :	distance = 3; 	break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1932, "tuto18.c"), exit(1), 0) ) ;				 
+		}
+
+	return distance;
+}
+
+
+
+
+ 
+	 
+ 
+void SortCubeSpriteDimming (ObjectHandler* object)
+{
+	 
+	 
+	
+	object->sprite.r = 128 - (5 * object->lifeTime);
+	object->sprite.g = 128 - (5 * object->lifeTime);
+	object->sprite.b = 128 - (5 * object->lifeTime);	 
+	
+		 
+	object->scaleX = (2 * 4096 ) - (object->lifeTime * 160);		 
+	object->scaleY = (2 * 4096 ) - (object->lifeTime * 160); 		  
+}
+	
+	
+
+
+
+   
+
+
+
+VECTOR realMovement;
+MATRIX xMatrix, yMatrix, zMatrix;
+SVECTOR xVector, yVector, zVector;
+
+
+
+	 
+void UpdateObjectCoordinates (VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem, MATRIX* matrix)
+{	
+		 
+	ApplyMatrixLV(matrix, velocity, &realMovement);
+
+		 
+	position->vx += realMovement.vx;
+	position->vy += realMovement.vy;
+	position->vz += realMovement.vz;
+
+	xVector.vx = twist->vx;
+	xVector.vy = 0;
+	xVector.vz = 0;
+	yVector.vx = 0;
+	yVector.vy = twist->vy;
+	yVector.vz = 0;
+	zVector.vx = 0;
+	zVector.vy = 0;
+	zVector.vz = twist->vz;
+
+	RotMatrix(&xVector, &xMatrix);
+	RotMatrix(&yVector, &yMatrix);
+	RotMatrix(&zVector, &zMatrix);
+
+		 
+		 
+
+	MulMatrix0(matrix, &xMatrix, matrix);
+	MulMatrix0(matrix, &yMatrix, matrix);
+	MulMatrix0(matrix, &zMatrix, matrix);
+
+	coordSystem->coord = *matrix;
+	
+		 
+	coordSystem->coord.t[0] = position->vx;
+	coordSystem->coord.t[1] = position->vy;
+	coordSystem->coord.t[2] = position->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+
+
+MATRIX tempMatrix;
+
+	 
+void UpdateObjectCoordinates2 (SVECTOR* rotationVector,
+							VECTOR* translationVector,
+							GsCOORDINATE2* coordSystem)
+{
+		 
+	RotMatrix(rotationVector, &tempMatrix);
+
+		 
+	coordSystem->coord = tempMatrix;
+	
+		 
+	coordSystem->coord.t[0] = translationVector->vx;
+	coordSystem->coord.t[1] = translationVector->vy;
+	coordSystem->coord.t[2] = translationVector->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+VECTOR realMovement;
+
+
+	 
+void UpdateObjectCoordinates3 (SVECTOR* rotation, VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem)
+{ 
+		 
+	RotMatrix(rotation, &tempMatrix);
+
+		 
+	ApplyMatrixLV(&tempMatrix, velocity, &realMovement);
+	   
+		 
+	coordSystem->coord = tempMatrix;
+	
+		 
+	position->vx += realMovement.vx;
+	position->vy += realMovement.vy;
+	position->vz += realMovement.vz;
+  
+		 
+	coordSystem->coord.t[0] = position->vx;
+	coordSystem->coord.t[1] = position->vy;
+	coordSystem->coord.t[2] = position->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+
+
+	
+	 
+	 
+void UpdateObjectCoordinates4 (SVECTOR* rotation, VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem)
+{ 
+		 
+	RotMatrix(rotation, &tempMatrix);
+
+		 
+	ApplyMatrixLV(&tempMatrix, velocity, &realMovement);
+	   
+		 
+	coordSystem->coord = tempMatrix;
+	
+		 
+	position->vx += realMovement.vx;
+	position->vy += realMovement.vy;
+	position->vz += realMovement.vz;
+		
+		 
+	if (position->vy + 22  >= 0)
+		{
+		position->vy -= 2 * (position->vy + 22 );
+		velocity->vy = -velocity->vy;
+		}
+  
+		 
+	coordSystem->coord.t[0] = position->vx;
+	coordSystem->coord.t[1] = position->vy;
+	coordSystem->coord.t[2] = position->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+void InitialiseView( void )
+{
+	ProjectionDistance = 192;
+
+	GsSetProjection(ProjectionDistance);  
+
+	ViewpointZDistance = 220;
+	ViewpointYDistance = -40;
+	ViewpointXDistance = 0;
+
+		 
+	VeryCloseDistance = 2;
+	SimpleClipDistance = 5;
+
+	ViewMode = 1 ;
+	framesSinceLastViewSwitch = 0;
+	ViewChangePauseTime = 15;
+
+	view.vrx = 0; view.vry = 0; view.vrz = 0; 
+
+	view.vpx = ViewpointXDistance; 
+	view.vpy = ViewpointYDistance; 
+	view.vpz = ViewpointZDistance;
+	
+	view.rz = 0;
+	view.super = &PlayersShip.coord;
+
+	GsSetRefView2(&view);
+}
+
+
+
+
+void UpdateTheView (void)
+{
+	switch(ViewMode)
+		{
+		case 1 :
+			ViewpointZDistance = 220;
+			ViewpointYDistance = -40;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 192;
+			break;
+		case 2 : 
+			ViewpointZDistance = 220;
+			ViewpointYDistance = 0;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 192;
+			break;
+		case 3 : 
+			ViewpointZDistance = 220;
+			ViewpointYDistance = 20;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 192;
+			break;
+		case 4 : 
+			ViewpointZDistance = 155;
+			ViewpointYDistance = 0;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 192;
+			break;
+		case 5 : 
+			ViewpointZDistance = 155;
+			ViewpointYDistance = -340;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 192;
+			break;
+		case 6 : 
+			ViewpointZDistance = 155;
+			ViewpointYDistance = -1600;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 192;
+			break;
+		case 7 : 
+			ViewpointZDistance = 80;
+			ViewpointYDistance = -25;
+			ViewpointXDistance = 0;
+			ProjectionDistance = 32;
+			break;
+		case 8 : 
+			ViewpointZDistance = 0;
+			ViewpointYDistance = 0;
+			ViewpointXDistance = 200;
+			ProjectionDistance = 192;
+			break;
+		case 9 : 
+			ViewpointZDistance = 0;
+			ViewpointYDistance = 0;
+			ViewpointXDistance = -200;
+			ProjectionDistance = 192;
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2224, "tuto18.c"), exit(1), 0) ) ;
+		}
+
+	view.vpx = ViewpointXDistance;
+	view.vpy = ViewpointYDistance; 
+	view.vpz = ViewpointZDistance;
+
+	GsSetProjection(ProjectionDistance);
+
+	 
+}
+	   
+
+	
+
+
+
+void InitialiseLighting(void)
+{
+
+	TheLights[0].vx = 1; TheLights[0].vy= 1; TheLights[0].vz= 1;
+
+	TheLights[0].r = TheLights[0].g = TheLights[0].b = 0x80;
+
+	GsSetFlatLight(0, &TheLights[0]);
+
+
+	TheLights[1].vx = -1; TheLights[1].vy= -1; TheLights[1].vz= 1;
+
+	TheLights[1].r = TheLights[1].g = TheLights[1].b = 0x80;
+
+	GsSetFlatLight(1, &TheLights[1]);
+
+
+
+
+# 2277 "tuto18.c"
+
+
+
+
+	GsSetAmbient(4096 /4, 4096 /4, 4096 /4);
+
+
+
+
+	lightmode = 0;	 
+	GsSetLightMode(lightmode);
+}
+
+
+
+
+
+
+int InitialiseTexture(long addr)
+{
+	RECT rect;
+	GsIMAGE tim1;
+
+	GsGetTimInfo((u_long *)(addr+4),&tim1);
+
+	rect.x=tim1.px;	
+	rect.y=tim1.py;		
+	rect.w=tim1.pw;	
+	rect.h=tim1.ph;	
+
+
+	LoadImage(&rect,tim1.pixel);
+
+	if((tim1.pmode>>3)&0x01) {
+		rect.x=tim1.cx;	
+		rect.y=tim1.cy;	
+		rect.w=tim1.cw;	
+		rect.h=tim1.ch;	
+
+		LoadImage(&rect,tim1.clut);
+	}
+	DrawSync(0);
+	return(0);
+}
+
+
+
+
+long* InitialiseModel( long* adrs )
+{
+	long *dop;
+
+	dop=adrs;
+	dop++;
+	GsMapModelingData(dop);
+	dop++;
+	dop++;
+	return( dop );
+}
+
+
+
+
+
+	 
+	 
+	 
+void ProperInitialiseTexture (long address, GsIMAGE* imageInfo)
+{
+	RECT rect;
+
+		 
+	GsGetTimInfo( (u_long *)(address+4), imageInfo);
+
+	rect.x = imageInfo->px;	
+	rect.y = imageInfo->py;		
+	rect.w = imageInfo->pw;	
+	rect.h = imageInfo->ph;	
+
+	LoadImage(	&rect, imageInfo->pixel);
+
+		 
+		 
+	if ( (imageInfo->pmode>>3)&0x01) 
+		{
+		rect.x = imageInfo->cx;	
+		rect.y = imageInfo->cy;	
+		rect.w = imageInfo->cw;	
+		rect.h = imageInfo->ch;	
+
+		LoadImage( &rect, imageInfo->clut);
+		}
+
+		 
+	DrawSync(0);
+}
+
+
+
+   
+	
+	 
+
+
+
+	 
+void PositionSomewhereNotInAWall (ObjectHandler* object)
+{
+	int gridX, gridY, gridZ;
+	int xOffset, yOffset, zOffset;
+	int success = 0 ;
+ 
+		 
+	object->position.vx = (rand() % 20 ) * 128 ;
+	object->position.vy = (rand() % 10 ) * 128 ;
+	object->position.vz = (rand() % 20 ) * 128 ;
+}
+
+
+
+void PositionSomewhere (ObjectHandler* object)
+{
+	object->position.vx = (rand() % 20 ) * 128 ;
+	object->position.vy = - 128 /2;
+	object->position.vz = (rand() % 20 ) * 128 ;
+}
+
+
+
+	  
+
+
+
+	 
+void HandleEnemyBehaviour (ObjectHandler* object)
+{
+	object->framesSinceLastFire++;
+
+	switch(object->strategyFlag)
+		{
+		case 0 :	 			
+			HandleWaitingShipsBehaviour(object);
+			break;
+		case 1 :				
+			HandleStationaryTrackingShipsBehaviour(object);
+			break;
+		case 2 :
+			HandleSeekingShipBehaviour(object);
+			break;
+		case 3 :		 
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2429, "tuto18.c"), exit(1), 0) ) ;
+		}
+}
+
+
+
+
+
+
+
+
+	 
+	 
+	 
+void HandleWaitingShipsBehaviour (ObjectHandler* object)
+{
+	int x, y, z;
+
+	( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2447, "tuto18.c"), exit(1), 0) ) ;			 
+
+		 
+		 
+
+	x = PlayersShip.position.vx - object->position.vx;
+	y = PlayersShip.position.vy - object->position.vy;
+	z = PlayersShip.position.vz - object->position.vz;
+
+	if (abs(x) < 200  
+		&& abs(y) < 200 
+		&& abs(z) < 200 )
+		{
+		printf("activating sleeper\n");
+		object->strategyFlag = 2 ;
+		}
+
+	if (object->lifeTime > object->specialTimeLimit)
+		{
+		printf("activating sleeper\n");
+		object->strategyFlag = 2 ;
+		}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+	 
+	 
+void HandleStationaryTrackingShipsBehaviour (ObjectHandler* object)
+{
+	VECTOR worldVector, objectVector;
+	int dx, dz;
+		
+		 
+	worldVector.vx = PlayersShip.position.vx - object->position.vx;
+	worldVector.vy = PlayersShip.position.vy - object->position.vy;
+	worldVector.vz = PlayersShip.position.vz - object->position.vz;
+
+		 
+		 
+		 
+	objectVector.vx = -(worldVector.vx * object->coord.coord.m[0][0]
+						+ worldVector.vy * object->coord.coord.m[1][0]
+						+ worldVector.vz * object->coord.coord.m[2][0]) / 4096 ;
+	objectVector.vy = (worldVector.vx * object->coord.coord.m[0][1]
+						+ worldVector.vy * object->coord.coord.m[1][1]
+						+ worldVector.vz * object->coord.coord.m[2][1]) / 4096 ;
+	objectVector.vz = (worldVector.vx * object->coord.coord.m[0][2]
+						+ worldVector.vy * object->coord.coord.m[1][2]
+						+ worldVector.vz * object->coord.coord.m[2][2]) / 4096 ;	
+
+	dx = objectVector.vx;
+	dz = -objectVector.vz;	 
+
+
+
+
+
+
+
+
+	if (dx == 0)
+		{
+		if (dz > 0)		 
+			{	
+			if (dz < 300 )
+				{
+				 
+				if (object->framesSinceLastFire > object->firingRate)			 
+						{
+						EnemyShipFiresAShot(object);
+						object->framesSinceLastFire = 0;
+						}
+			   	}
+			else
+				{			 
+				 
+				 
+				}
+			}
+		else		 
+			{
+			 
+			object->twist.vy += object->rotationSpeed;
+			}
+		}
+	else if ( (abs(dx)* 10 ) <= dz && dz > 0)
+		{
+		 
+		if (dz < 300 )
+				{
+				 
+				if (object->framesSinceLastFire > object->firingRate)			 
+						{
+						EnemyShipFiresAShot(object);
+						object->framesSinceLastFire = 0;
+						}
+			   	}
+			else
+				{
+				 
+				 
+				}
+
+		}	
+	else
+		{
+		if (dx > 0)
+			{
+			 
+			object->twist.vy += object->rotationSpeed;
+			}
+		else
+			{
+			 
+			object->twist.vy -= object->rotationSpeed;
+			}
+		}
+	 
+}
+
+
+
+
+
+
+	 
+void HandleSeekingShipBehaviour (ObjectHandler* object)
+{
+	VECTOR worldVector, objectVector;
+	int dx, dz;
+		
+		 
+	worldVector.vx = PlayersShip.position.vx - object->position.vx;
+	worldVector.vy = PlayersShip.position.vy - object->position.vy;
+	worldVector.vz = PlayersShip.position.vz - object->position.vz;
+
+		 
+		 
+		 
+	objectVector.vx = -(worldVector.vx * object->coord.coord.m[0][0]
+						+ worldVector.vy * object->coord.coord.m[1][0]
+						+ worldVector.vz * object->coord.coord.m[2][0]) / 4096 ;
+	objectVector.vy = (worldVector.vx * object->coord.coord.m[0][1]
+						+ worldVector.vy * object->coord.coord.m[1][1]
+						+ worldVector.vz * object->coord.coord.m[2][1]) / 4096 ;
+	objectVector.vz = (worldVector.vx * object->coord.coord.m[0][2]
+						+ worldVector.vy * object->coord.coord.m[1][2]
+						+ worldVector.vz * object->coord.coord.m[2][2]) / 4096 ;	
+
+	dx = objectVector.vx;
+	dz = -objectVector.vz;	 
+
+
+
+
+
+
+
+
+	if (dx == 0)
+		{
+		if (dz > 0)		 
+			{	
+			if (dz < 300 )
+				{
+				 
+				if (object->framesSinceLastFire > object->firingRate)			 
+						{
+						EnemyShipFiresAShot(object);
+						object->framesSinceLastFire = 0;
+						}
+			   	}
+			else
+				{			 
+				 
+				object->velocity.vz -= object->movementSpeed;
+				 
+				}
+			}
+		else		 
+			{
+			 
+			object->twist.vy += object->rotationSpeed;
+			}
+		}
+	else if ( (abs(dx)* 10 ) <= dz && dz > 0)
+		{
+		 
+		if (dz < 300 )
+				{
+				 
+				if (object->framesSinceLastFire > object->firingRate)			 
+						{
+						EnemyShipFiresAShot(object);
+						object->framesSinceLastFire = 0;
+						}
+			   	}
+			else
+				{
+				 
+				object->velocity.vz -= object->movementSpeed;
+				 
+				}
+
+		}	
+	else
+		{
+		if (dx > 0)
+			{
+			 
+			object->twist.vy += object->rotationSpeed;
+			}
+		else
+			{
+			 
+			object->twist.vy -= object->rotationSpeed;
+			}
+		}
+	 
+}
+
+
+							
+			
+
+
+
+			 
+void HandlePlayersDeath (void)
+{
+	 
+	ExplodeObject(&PlayersShip);
+	
+	 
+
+	sprintf(TextStrings[0], "You have died\n");
+	sprintf(TextStrings[1], "Your score: %d\n", PlayersShip.meritRating);
+	sprintf(TextStrings[2], "Press start\nto play again\n");
+
+	DummyGuiLoopForTextPrinting(3, (1<<11)  );
+
+	ResetAll();
+
+	PlayersShip.currentHealth = 10;
+	PlayersShip.alive = 1 ;
+}
+
+
+
+
+void HandleEnemysDeath (ObjectHandler* object)
+{
+		 
+	PlayersShip.meritRating 
+		+= (object->initialHealth * (object->strategyFlag + 1));
+
+	ExplodeObject(object);
+}
+
+
+
+
+
+	 
+int CheckCollisions (void)
+{
+	ObjectHandler* object;
+	int i, j;
+
+	for (i = 0; i < 6 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			if (ObjectsVeryClose(&TheShips[i], &PlayersShip))
+				{
+					 
+				printf("Player and Enemy collision\n");
+				PlayersShip.currentHealth--;
+				TheShips[i].currentHealth--;
+				}
+			}
+		}
+
+	for (i = 0; i < 24 ; i++)
+		{
+		if (TheSpheres[i].alive == 1 )
+			{
+			if (ObjectsVeryClose(&TheSpheres[i], &PlayersShip))
+				{
+					 
+				printf("Player and sphere collision\n");
+				PlayersShip.currentHealth--;
+				TheSpheres[i].alive = 0 ;
+				}
+			}
+		}
+
+	for (i = 0; i < 50 ; i++)
+		{
+		if (TheBullets[i].alive == 1  && TheBullets[i].allegiance == 2 )
+			{
+			if (ObjectsVeryClose(&TheBullets[i], &PlayersShip))
+				{
+				printf("Player and bullet collision\n");
+				PlayersShip.currentHealth--;
+				}
+			}
+		} 
+
+	for (i = 0; i < 6 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			for (j = 0; j < 50 ; j++)
+				{
+				if (TheBullets[j].alive == 1  && TheBullets[j].allegiance == 0 )
+					{
+					if (ObjectsVeryClose(&TheBullets[j], &TheShips[i]))
+						{
+						printf("ship and bullet collision\n");
+						printf("cube %d, ship %d\n", j, i);
+						TheShips[i].currentHealth--;
+						}
+					}
+				}
+			}
+		}
+
+	for (i = 0; i < 24 ; i++)
+		{
+		if (TheSpheres[i].alive == 1 )
+			{
+			for (j = 0; j < 50 ; j++)
+				{
+				if (TheBullets[j].alive == 1  && TheBullets[j].allegiance == 0 )
+					{
+					if (ObjectsVeryClose(&TheBullets[j], &TheSpheres[i]))
+						{
+						printf("sphere and bullet collision\n");
+						printf("cube %d, sphere %d\n", j, i);
+						TheSpheres[i].alive = 0 ;
+						}
+					}
+				}
+			}
+		}
+}
+
+
+	  
+
+
+
+
+
+int ObjectsVeryClose (ObjectHandler* first, ObjectHandler* second)
+{
+	if (abs(first->position.vx - second->position.vx) > 32 )
+		return 0 ;
+	if (abs(first->position.vy - second->position.vy) > 32 )
+		return 0 ;
+	if (abs(first->position.vz - second->position.vz) > 32 )
+		return 0 ;
+
+	return 1 ; 
+}
+
+
+
+
+
+void ExplodeObject (ObjectHandler* object)
+{
+	int cubeID;
+	int whichAxis, sign;
+	int i, j;
+	
+	object->alive = 0 ;
+
+		 
+	for (i = 0; i < 6; i++)
+		{
+		cubeID = -1;	
+
+			 
+		for (j = 0; j < 20 ; j++)
+			{
+			if (TheCubes[j].alive == 0 )
+				{
+				cubeID = j;
+				break;
+				}
+			}
+
+		if (cubeID == -1)		 
+			continue;
+		else
+			{
+			TheCubes[cubeID].alive = 1 ;
+			TheCubes[cubeID].lifeTime = 0;
+				
+				 
+			TheCubes[cubeID].position.vx = object->position.vx;
+			TheCubes[cubeID].position.vy = object->position.vy;
+			TheCubes[cubeID].position.vz = object->position.vz;
+
+			whichAxis = i/2;
+			if (i%2 == 0)
+				sign = -1;
+			else
+				sign = 1;
+
+			TheCubes[cubeID].movementMomentumFlag = 1 ;
+
+				 
+				 
+
+				 
+			TheCubes[cubeID].velocity.vx = sign * (object->coord.coord.m[whichAxis][0] >> 9);
+			TheCubes[cubeID].velocity.vy = sign * (object->coord.coord.m[whichAxis][1] >> 9);
+			TheCubes[cubeID].velocity.vz = sign * (object->coord.coord.m[whichAxis][2] >> 9); 
+			}
+		}
+}
+
+
+
+   	
+
+	 
+	 
+	 
+
+void DummyGuiLoopForTextPrinting (int numberOfStrings, int quitKey)
+{
+	int	i;
+	int	hsync = 0;
+	GsDOBJ2 *op;
+	int side;			   
+	int localFrameCounter = 0;
+	long pad;
+
+	side = GsGetActiveBuff();
+
+	for (;;)
+		{
+		localFrameCounter++;
+
+		pad = PadRead(0);
+
+		if (pad & quitKey && localFrameCounter > 60)
+			break;		 
+	  
+		GsSetWorkBase((PACKET*)packetArea[side]);
+		GsClearOt(0,0,&Wot[side]);
+		
+		hsync = VSync(2);
+		ResetGraph(1);
+		GsSwapDispBuff();
+		GsSortClear(0,0,4,&Wot[side]);
+		GsDrawOt(&Wot[side]);
+		side ^= 1;
+
+		for (i = 0; i < numberOfStrings; i++)
+			{
+			FntPrint(TextStrings[i]);
+			}
+		
+		FntFlush(-1);
+		}	
+}
+
+
+
+
+
+	 
+	 
+	 
+void ResetAll (void)
+{
+	int i;
+
+
+	( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2946, "tuto18.c"), exit(1), 0) ) ;			 
+
+
+
+	BringObjectToLife (&PlayersShip, 0 , 
+					0x80096000 , 0, 1001 );
+	PositionSomewhereNotInAWall(&PlayersShip);
+	PlayersShip.initialHealth = 1000;
+	PlayersShip.currentHealth = 1000;
+	PlayersShip.allegiance = 0 ;
+
+	PlayersShip.movementSpeed = 2;
+	PlayersShip.rotationSpeed = 55;
+	PlayersShip.firingRate = 4;
+	PlayersShip.framesSinceLastFire = 0;
+	PlayersShip.movementMomentumFlag = 1 ;
+
+
+		
+
+	for (i = 0; i < 50 ; i++)
+		{
+		InitSingleObject(&TheBullets[i]);
+
+		BringObjectToLife(&TheBullets[i], 1 , 
+			0x80097000 , 0, 1001 );
+
+		SetObjectScaling(&TheBullets[i], 4096 >>5, 4096 >>5, 4096 >>5);
+		}
+
+
+
+	for (i = 0; i < 20 ; i++)
+		{
+		InitSingleObject(&TheCubes[i]);
+
+		BringObjectToLife(&TheCubes[i], 3 , 
+			0x80097000 , 0, 1001 );
+
+		SetObjectScaling(&TheCubes[i], 4096 >>3, 4096 >>3, 4096 >>3);
+		}
+
+
+	  
+	for (i = 0; i < 6 ; i++)
+		{
+		InitSingleObject(&TheShips[i]);
+
+		BringObjectToLife(&TheShips[i], 2 , 
+			0x80096000 , 0, 1001 );
+
+		TheShips[i].initialHealth = 1;
+		TheShips[i].currentHealth = 1; 
+
+			 
+		TheShips[i].strategyFlag = rand() % (3 -1);
+
+		PositionSomewhereNotInAWall(&TheShips[i]);
+		TheShips[i].allegiance = 2 ;
+
+		TheShips[i].position.vy += 20;
+		}
+
+
+
+  
+
+
+	for (i = 0; i < 50 ; i++)
+		{
+		TheBullets[i].alive = 0 ;		 
+		}
+	for (i = 0; i < 20 ; i++)
+		{
+		TheCubes[i].alive = 0 ;		 
+		}
+
+
+
+	InitialiseView();
+	InitialiseLighting();
+
+
+	MainMode = 0 ;
+}
+
+
+
+
+
+
+
+void HandleLevelTransition (void)
+{
+	int levelBonus;
+
+	levelBonus = LevelNumber * 50;
+	LevelNumber++;			 
+
+	PlayersShip.meritRating += levelBonus;
+
+	sprintf(TextStrings[0], "Finished level %d\n", LevelNumber-1);
+	sprintf(TextStrings[1], "level bonus: %d\n", levelBonus);
+	sprintf(TextStrings[2], "Your score: %d\n", PlayersShip.meritRating);
+	sprintf(TextStrings[3], "Press start for\nthe next level\n");
+
+	DummyGuiLoopForTextPrinting(4, (1<<11)  );
+
+	ResetAll();
+}
+			
+	  
+
+
+
+
+
+
+
+
+
+
+void HandleSphereClass (void)
+{
+	int id;
+	ObjectHandler* sphere;
+	int angle;
+
+
+
+
+
+
+
+
+
+		 
+	if ( (CountNumberOfSpheres() < 3 ) 
+		&& (rand() % 250  == 0) )
+		{
+		 
+		
+		id = FindNextFreeSphereID();
+		( ( id != -1 ) ? 1 :	( printf("Assertion failure! " "id != -1"	"At line %d of file '%s'.\n",	3089, "tuto18.c"), exit(1), 0) ) ;
+
+		sphere = &TheSpheres[id];
+		sphere->alive = 1 ;
+
+		PositionSomewhere(sphere);
+			 
+		sphere->position.vy = - 128  - 22 ;
+
+			 
+		angle = rand() % 4096 ;
+		sphere->velocity.vx = sphere->movementSpeed * rsin(angle) >> 12;
+		sphere->velocity.vy = 0;
+		sphere->velocity.vz = sphere->movementSpeed * rcos(angle) >> 12;
+		sphere->movementMomentumFlag = 1 ;
+		}	
+}
+
+
+
+
+
+
+	 
+
+
+void HandleSpheresBehaviour (ObjectHandler* sphere)
+{
+	int x, z;
+		
+	x = sphere->position.vx;
+	z = sphere->position.vz;
+
+		 
+	if (x < 22 )
+		{
+		sphere->position.vx -= 2 * (x - 22 );
+		 
+		sphere->velocity.vx = -sphere->velocity.vx;
+		}
+	else if (x > (20  * 128 )- 22 )
+		{
+		sphere->position.vx -= 2 * (x + 22  - (20  * 128 ));
+		 
+		sphere->velocity.vx = -sphere->velocity.vx;
+		}
+
+	if (z < 22 ) 
+		{
+		sphere->position.vz -= 2 * (z - 22 );
+		 
+		sphere->velocity.vz = -sphere->velocity.vz;
+		}
+	else if (z > (20  * 128 )- 22  )
+		{
+		sphere->position.vz -= 2 * (z + 22  - (20  * 128 ));
+		 
+		sphere->velocity.vz = -sphere->velocity.vz;
+		}
+
+	if (frameNumber % 2  == 0)
+		sphere->velocity.vy += 1 ;
+}
+	
+	
+
+	 
+int CountNumberOfSpheres (void)
+{
+	int i;	  
+	int count = 0;
+
+	for (i = 0; i < 24 ; i++)
+		{
+		if (TheSpheres[i].alive == 1 )
+			count++;
+		}
+	
+	return count;
+}
+
+
+
+int FindNextFreeSphereID (void)
+{
+	int id = -1;
+	int i;
+
+	for (i = 0; i < 24 ; i++)
+		{
+		if (TheSpheres[i].alive != 1 )
+			{
+			id = i;
+			break;
+			}
+		}
+	
+	return id;
+}
+
+
+
+
+
+
+int CountNumberOfLivingTypedObjects (int type)
+{
+	int count = 0;
+	int i;
+
+	for (i = 0; i < 1024 ; i++)
+		{
+		if (ObjectArray[i] != 0 )
+			{
+			if (ObjectArray[i]->alive == 1 
+				&& ObjectArray[i]->type == type)
+					{
+					count++;
+					}
+			}
+		}
+
+	return count;
+}
+
+
+
+
+
+
+
+void HandleShipClass (void)
+{
+	int numberOfShips;	
+
+	numberOfShips = CountNumberOfLivingTypedObjects(2 );
+
+	if (numberOfShips == 0 && ((rand() % 120 ) == 0) )
+		{
+		TheShips[0].alive = 1 ;
+		TheShips[0].currentHealth = 10;
+		printf("count AFTER creation: %d\n", CountNumberOfLivingTypedObjects(2 ) );
+
+		PositionSomewhere(&TheShips[0]);
+
+		if (rand() % 2 == 0)
+			{
+			TheShips[0].strategyFlag = 1 ;
+			printf("creating sitting tracker\n");
+			}
+		else
+			{
+			TheShips[0].strategyFlag = 2 ;
+			printf("creating seeker\n");
+			}
+		}
+}
+
+
+
+	
+
+

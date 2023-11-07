@@ -1,0 +1,4261 @@
+# 1 "tuto2.c"
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+
+
+# 1 "g:/program/psx/include.35/stdio.h" 1 3
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+typedef unsigned int size_t;   
+
+
+ 
+
+
+
+
+extern int printf(char *fmt, ...);  
+extern int sprintf(char *buffer, char *fmt, ...);
+
+extern char getc(int);		 
+extern char getchar(void);
+extern char *gets(char *);
+extern void putc(char, int);	 
+extern void putchar(char);
+extern void puts(char *);
+
+
+
+
+
+# 17 "tuto2.c" 2
+
+# 1 "g:/program/psx/include.35/rand.h" 1 3
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+extern int  rand(void);
+extern void srand(unsigned int);
+
+
+
+
+
+# 18 "tuto2.c" 2
+
+# 1 "c:/blackpsx/include/libps.h" 1 3
+ 
+
+
+
+
+
+
+
+
+
+
+
+# 1 "g:/program/psx/include.35/sys/types.h" 1 3
+ 
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+
+
+typedef	unsigned char	u_char;
+
+
+
+typedef	unsigned short	u_short;
+
+
+
+typedef	unsigned int	u_int;
+
+
+
+typedef	unsigned long	u_long;
+
+
+
+typedef	unsigned short	ushort;		 
+
+# 53 "g:/program/psx/include.35/sys/types.h" 3
+
+
+typedef	struct	_physadr { int r[1]; } *physadr;
+typedef	struct	label_t	{
+	int	val[12];
+} label_t;
+
+typedef	struct	_quad { long val[2]; } quad;
+typedef	long	daddr_t;
+typedef	char *	caddr_t;
+typedef	long *	qaddr_t;	 
+typedef	u_long	ino_t;
+typedef	long	swblk_t;
+
+
+
+
+
+
+typedef	long	time_t;
+typedef	short	dev_t;
+typedef	long	off_t;
+typedef	u_short	uid_t;
+typedef	u_short	gid_t;
+
+
+
+
+# 13 "c:/blackpsx/include/libps.h" 2 3
+
+
+ 
+
+
+
+ 
+typedef struct {
+	short x, y;		 
+	short w, h;		 
+} RECT;
+
+typedef struct  {
+	short	m[3][3];	 
+	long    t[3];		 
+} MATRIX;
+
+typedef struct {		 
+	long	vx, vy;
+	long	vz, pad;
+} VECTOR;
+	
+typedef struct {		 	
+	short	vx, vy;
+	short	vz, pad;
+} SVECTOR;
+	       
+typedef struct {		 	
+	u_char	r, g, b, cd;
+} CVECTOR;
+	       
+typedef struct {
+	VECTOR  scale;
+	SVECTOR rotate;
+	VECTOR  trans;
+} GsCOORD2PARAM;
+
+typedef struct _GsCOORDINATE2 {
+	unsigned long flg;
+	MATRIX  coord;
+	MATRIX  workm;
+	GsCOORD2PARAM *param;
+	struct _GsCOORDINATE2 *super;
+	struct _GsCOORDINATE2 *sub;
+} GsCOORDINATE2;
+
+typedef struct {
+	MATRIX  view;
+	GsCOORDINATE2 *super;
+} GsVIEW2;
+
+typedef struct {
+	long    vpx, vpy, vpz;
+	long    vrx, vry, vrz;
+	long    rz;
+	GsCOORDINATE2 *super;
+} GsRVIEW2;
+
+typedef struct {
+	int     vx, vy, vz;
+	unsigned char r, g, b;
+} GsF_LIGHT;
+
+
+typedef struct {
+	unsigned p:24;
+	unsigned char num:8;
+} GsOT_TAG;
+
+typedef struct {
+	unsigned long length;
+	GsOT_TAG *org;
+	unsigned long offset;
+	unsigned long point;
+	GsOT_TAG *tag;
+} GsOT;
+
+typedef struct {
+	unsigned long attribute; 
+	GsCOORDINATE2 *coord2;	 
+	unsigned long *tmd;
+	unsigned long id;	 
+} GsDOBJ2;
+
+typedef struct {
+	unsigned long attribute;
+	short   x, y;
+	unsigned short w, h;
+	unsigned short tpage;
+	unsigned char u, v;
+	short   cx, cy;
+	unsigned char r, g, b;
+	short   mx, my;
+	short   scalex, scaley;
+	long    rotate;
+} GsSPRITE;
+
+typedef struct {
+	unsigned char u, v;
+	unsigned short cba;
+	unsigned short flag;
+	unsigned short tpage;
+} GsCELL;
+
+typedef struct {
+	unsigned char cellw, cellh;
+	unsigned short ncellw, ncellh;
+	GsCELL *base;
+	unsigned short *index;
+} GsMAP;
+
+typedef struct {
+	unsigned long attribute;
+	short   x, y;
+	short   w, h;
+	short   scrollx, scrolly;
+	unsigned char r, g, b;
+	GsMAP  *map;
+	short   mx, my;
+	short   scalex, scaley;
+	long    rotate;
+} GsBG;
+
+typedef struct {
+	unsigned long attribute;
+	short   x0, y0;
+	short   x1, y1;
+	unsigned char r, g, b;
+} GsLINE;
+
+typedef struct {
+	unsigned long attribute;
+	short   x0, y0;
+	short   x1, y1;
+	unsigned char r0, g0, b0;
+	unsigned char r1, g1, b1;
+} GsGLINE;
+
+typedef struct {
+	unsigned long attribute;
+	short   x, y;
+	unsigned short w, h;
+	unsigned char r, g, b;
+} GsBOXF;
+
+typedef struct {
+	short   dqa;
+	long    dqb;
+	unsigned char rfc, gfc, bfc;
+} GsFOGPARAM;
+
+typedef struct {
+	unsigned long pmode;
+	short   px, py;
+	unsigned short pw, ph;
+	unsigned long *pixel;
+	short   cx, cy;
+	unsigned short cw, ch;
+	unsigned long *clut;
+} GsIMAGE;
+
+typedef struct {
+	short   offx, offy;
+} _GsPOSITION;
+
+typedef struct {
+	u_long	tag;
+	u_long	code[15];
+} DR_ENV;
+	       
+typedef struct {
+	RECT	clip;		 
+	short	ofs[2];		 
+	RECT	tw;		 
+	u_short tpage;		 	
+	u_char	dtd;		 
+	u_char	dfe;		 
+	u_char	isbg;		 
+	u_char	r0, g0, b0;	 
+	DR_ENV	dr_env;		 
+} DRAWENV;
+	       
+typedef struct {
+	RECT	disp;		 
+	RECT	screen;		 
+	u_char	isinter;	 
+	u_char	isrgb24;	 
+	u_char	pad0, pad1;	 
+} DISPENV;
+
+
+ 
+typedef struct {
+	unsigned short left;     
+	unsigned short right;    
+} SndVolume;
+
+ 
+typedef struct {
+	u_char minute;		 
+	u_char second;		 
+	u_char sector;		 
+	u_char track;		 
+} CdlLOC;
+
+typedef struct {
+	CdlLOC	pos;		 
+	u_long	size;		 
+	char	name[16];	 
+} CdlFILE;
+
+struct EXEC {                   
+	unsigned long pc0;      
+	unsigned long gp0;      
+	unsigned long t_addr;   
+	unsigned long t_size;   
+	unsigned long d_addr;   
+	unsigned long d_size;   
+	unsigned long b_addr;   
+	unsigned long b_size;   
+	unsigned long s_addr;
+	unsigned long s_size;
+	unsigned long sp,fp,gp,ret,base;
+};
+
+struct DIRENTRY {
+	char name[20];
+	long attr;
+	long size;
+	struct DIRENTRY *next;
+	long head;
+	char system[4];
+};
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+typedef unsigned char PACKET;
+
+ 
+
+
+extern RECT CLIP2;		 
+extern int GsLIGHT_MODE;	 
+extern short PSDOFSX[2], PSDOFSY[2];	 
+extern short PSDIDX;		 
+extern u_long PSDCNT;		 
+extern _GsPOSITION POSITION;	 
+extern DRAWENV GsDRAWENV;	 
+extern DISPENV GsDISPENV;	 
+extern MATRIX GsLSMATRIX;	 
+extern MATRIX GsWSMATRIX;	 
+extern MATRIX GsLIGHTWSMATRIX;	 
+extern MATRIX GsIDMATRIX;	 
+extern MATRIX GsIDMATRIX2;	 
+extern PACKET *GsOUT_PACKET_P;	 
+extern u_long GsLMODE, GsLIGNR, GsLIOFF, GsNDIV;
+extern u_long GsTON, GsDISPON;
+
+extern int math_errno;
+
+ 
+
+
+
+ 
+int VSync(int mode);
+int VSyncCallback(void (*f)()) ;
+extern DISPENV *PutDispEnv(DISPENV *env);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern int ClearImage(RECT *rect, u_char r, u_char g, u_char b);
+extern int DrawSync(int mode);
+extern int FntOpen(int x, int y, int w, int h, int isbg, int n);
+extern int KanjiFntOpen(int x, int y, int w, int h, int dx, int dy, int cx, int cy, int isbg, int n);
+extern int Krom2Tim(u_char *sjis, u_long *taddr, int dx, int dy, int cdx, int cdy, u_int fg, u_int bg);
+extern int LoadImage(RECT *rect, u_long *p);
+extern int MoveImage(RECT *rect, int x, int y);
+extern int ResetGraph(int mode);
+extern int StoreImage(RECT *rect, u_long *p);
+extern u_long *FntFlush(int id);
+extern u_long *KanjiFntFlush(int id);
+extern u_short GetClut(int x, int y) ;
+extern u_short GetTPage(int tp, int abr, int x, int y) ;
+extern void FntLoad(int tx, int ty);
+extern void SetDispMask(int mask);
+extern int FntPrint();
+extern int KanjiFntPrint();
+extern	void    GsInit3D(void);
+extern	void    GsInitGraph(unsigned short x, unsigned short y, unsigned short intmode, unsigned short dith, unsigned short varmmode);
+extern	void    GsMapModelingData(unsigned long *p);
+extern	void    GsSetProjection(long h);
+extern	int     GsSetFlatLight(int id, GsF_LIGHT * lt);
+extern	void    GsSetLightMode(int mode);
+extern	void    GsSetFogParam(GsFOGPARAM * fogparm);
+extern	void    GsSetAmbient(long r, long g, long b);
+extern	void    GsDrawOt(GsOT * ot);
+extern	void    GsSetWorkBase(PACKET * outpacketp);
+extern	void    GsSortObject4(GsDOBJ2 * objp, GsOT * ot, int shift, u_long * scratch);
+extern	void    GsSortSprite(GsSPRITE * sp, GsOT * ot, unsigned short pri);
+extern	void    GsSortFastSprite(GsSPRITE * sp, GsOT * ot, unsigned short pri);
+extern	void    GsInitFixBg16(GsBG * bg, u_long * work);
+extern	void    GsSortFixBg16(GsBG * bg, u_long * work, GsOT * otp, unsigned short pri);
+extern	void    GsSortLine(GsLINE * lp, GsOT * ot, unsigned short pri);
+extern	void    GsSortGLine(GsGLINE * lp, GsOT * ot, unsigned short pri);
+extern	void    GsSortBoxFill(GsBOXF * bp, GsOT * ot, unsigned short pri);
+extern	void    GsClearOt(unsigned short offset, unsigned short point, GsOT * otp);
+extern	GsOT   *GsSortOt(GsOT * ot_src, GsOT * ot_dest);
+extern	void    GsDefDispBuff(unsigned short x0, unsigned short y0, unsigned short x1, unsigned short y1);
+extern	void    GsGetTimInfo(unsigned long *im, GsIMAGE * tim);
+extern	void    GsSwapDispBuff(void);
+extern	int     GsGetActiveBuff(void);
+extern	void    GsSetDrawBuffClip(void);
+extern	void    GsSetDrawBuffOffset(void);
+extern	void    GsSetClip(RECT * clip);
+extern	void    GsSetOffset(long x, long y);
+extern	void    GsSetOrign(long x, long y);
+extern	void    GsInitCoordinate2(GsCOORDINATE2 * super, GsCOORDINATE2 * base);
+extern	void    GsGetLw(GsCOORDINATE2 * m, MATRIX * out);
+extern	void    GsGetLs(GsCOORDINATE2 * m, MATRIX * out);
+extern	void    GsGetLws(GsCOORDINATE2 * m, MATRIX * outw, MATRIX * outs);
+extern	void    GsLinkObject4(unsigned long tmd_base, GsDOBJ2 * objp, int n);
+extern	void    GsSetLightMatrix(MATRIX * mp);
+extern	int     GsSetRefView2(GsRVIEW2 * pv);
+extern	int     GsSetView2(GsVIEW2 * pv);
+extern	void    GsSetLsMatrix(MATRIX * mp);
+extern	void    GsSetClip2D(RECT * rectp);
+extern	PACKET *GsGetWorkBase();
+extern	void    GsSortClear(unsigned char r, unsigned char g , unsigned char b, GsOT *);
+extern	void    GsScaleScreen(SVECTOR * scale);
+extern MATRIX *MulMatrix0(MATRIX *m0,MATRIX *m1,MATRIX *m2);
+extern VECTOR *ApplyMatrix(MATRIX *m,SVECTOR *v0,VECTOR *v1);
+extern VECTOR *ApplyMatrixSV(MATRIX *m,SVECTOR *v0,SVECTOR *v1);
+extern VECTOR *ApplyMatrixLV(MATRIX *m,VECTOR *v0,VECTOR *v1);
+extern MATRIX *RotMatrix(SVECTOR *r,MATRIX *m);
+extern MATRIX *RotMatrixX(long r,MATRIX *m);
+extern MATRIX *RotMatrixY(long r,MATRIX *m);
+extern MATRIX *RotMatrixZ(long r,MATRIX *m);
+extern MATRIX *TransMatrix(MATRIX *m,VECTOR *v);
+extern MATRIX *ScaleMatrix(MATRIX *m,VECTOR *v);
+extern MATRIX *ScaleMatrixL(MATRIX *m,VECTOR *v);
+extern MATRIX *TransposeMatrix(MATRIX *m0,MATRIX *m1);
+extern MATRIX *CompMatrix(MATRIX *m0,MATRIX *m1,MATRIX *m2);
+extern void PushMatrix();
+extern void PopMatrix();
+extern void gteMIMefunc(SVECTOR *otp, SVECTOR *dfp, long n, long p);
+
+ 
+extern void  SsVabClose (short);          
+extern short SsVabTransfer (unsigned char *, unsigned char *, short, short);
+extern short SsSeqOpen (unsigned long*, short); 
+extern void  SsSeqClose (short);                       
+extern void  SsSeqPlay (short, char, short);    
+extern void  SsSeqPause (short);                    
+extern void  SsSeqReplay (short);                  
+extern void  SsSeqStop (short);                   
+extern void  SsSeqSetVol (short, short, short);  
+extern void  SsSeqGetVol (short, short, short*, short*);
+extern void  SsSeqSetNext (short, short);             
+extern void  SsSeqSetRitardando (short, long, long);   
+extern void  SsSeqSetAccelerando (short, long, long);  
+extern void  SsSetMVol (short, short);              
+extern void  SsGetMVol (SndVolume*);             
+extern void  SsSetMute (char);                        
+extern char  SsGetMute (void);                        
+extern void  SsSetTempo (short, short, short);
+extern short SsIsEos (short, short);
+extern void  SsPlayBack (short, short, short);
+extern void  SsSetSerialAttr (char, char, char);     
+extern char  SsGetSerialAttr (char, char);           
+extern void  SsSetSerialVol (char, short, short);    
+extern void  SsGetSerialVol (char, SndVolume*); 
+extern short SsUtKeyOn (short, short, short, short, short, short, short);
+extern short SsUtKeyOff (short, short, short, short, short);
+extern short SsUtPitchBend (short, short, short, short, short);
+extern short SsUtChangePitch (short, short, short, short, short, short, short);
+extern short SsUtSetVVol (short, short, short);
+extern short SsUtGetVVol (short, short*, short*);
+extern void  SsUtReverbOn (void);
+extern void  SsUtReverbOff (void);
+extern short SsUtSetReverbType (short);
+extern short SsUtGetReverbType (void);
+extern void  SsUtSetReverbDepth (short, short);
+extern void  SsUtSetReverbFeedback (short);
+extern void  SsUtSetReverbDelay (short);
+extern void  SsUtAllKeyOff (short);
+
+ 
+extern double pow(double, double);
+extern double exp(double);
+extern double log(double);
+extern double log10(double);
+extern double floor(double);
+extern double ceil(double);
+extern double fmod(double,double);
+extern double modf(double,double *);
+extern double sin(double);
+extern double cos(double);
+extern double tan(double);
+extern double asin(double);
+extern double acos(double);
+extern double atan(double);
+extern double atan2(double, double);
+extern double sinh(double);
+extern double cosh(double);
+extern double tanh(double);
+extern double sqrt(double);
+extern double hypot(double, double);
+extern double ldexp(double, int);
+extern double frexp(double, int *);
+extern double atof(char *);
+extern double strtod(char *, char **);
+extern int printf2(char *, ...);
+extern int sprintf2(char *, char *, ...);
+
+ 
+extern void GetPadBuf(volatile unsigned char **, volatile unsigned char **);
+extern long GetRCnt(unsigned long);
+extern long ResetRCnt(unsigned long);
+extern long StartRCnt(unsigned long);
+extern int open(char *, int);
+extern int close(int);
+extern int lseek(int, unsigned int, int);
+extern int read(int, char *, int);
+extern int write(int, char *, int);
+extern struct DIRENTRY * firstfile(char *, struct DIRENTRY *);
+extern struct DIRENTRY * nextfile(struct DIRENTRY *);
+extern int delete(char *);
+extern int format(char *);
+extern int rename(char *, char *);
+extern long LoadTest(char *, struct EXEC *);
+extern long Load(char *, struct EXEC *);
+extern long Exec(struct EXEC *, long, char **);
+extern void FlushCashe(void);
+extern long _get_errno(void);
+extern int CdReadFile(char *file, u_long *addr, int nbyte);
+extern int CdReadSync(int mode, u_char *result);
+extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
+extern struct EXEC *CdReadExec(char *file);
+extern int CdPlay(int mode, int *tracks, int offset);
+extern void EnterCriticalSection(void);
+extern void ExitCriticalSection(void);
+extern long TestCard(long);
+
+ 
+
+
+
+ 
+
+# 19 "tuto2.c" 2
+
+# 1 "sincos.h" 1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+	   
+	 
+	
+int rsin_sub(int angle);
+int rsin (int angle);
+int rcos (int angle);
+double quickSin (int angle);
+double quickCos (int angle);
+
+
+	 
+extern short SinCosTable[];
+# 20 "tuto2.c" 2
+
+# 1 "tangent.h" 1
+ 
+
+
+
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 6 "tangent.h" 2
+
+
+int rtan (int angle);
+
+
+
+extern int TangentLUT[];
+# 21 "tuto2.c" 2
+
+# 1 "asincos.h" 1
+
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 3 "asincos.h" 2
+
+
+
+
+    
+	 
+void rasin (int value, int* smallerAngle, int* largerAngle);
+int rasin2 (int value);
+
+
+
+	 
+void racos (int value, int* smallerAngle, int* largerAngle);
+int racos2 (int value);
+	
+
+	
+
+
+
+extern int ArcSinTable[];
+
+extern int ArcCosTable[];
+# 22 "tuto2.c" 2
+
+# 1 "atan.h" 1
+
+
+
+
+
+int ratan (int x, int y);
+int ratan2 (int value);
+int SUBratan (int x, int z);
+int ratan_zero (int x, int z);
+
+
+extern int ArcTangentTable[256];
+
+
+# 23 "tuto2.c" 2
+
+# 1 "pad.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void	PadInit( long mode );
+long	PadRead( int id );
+void	PadStop( void );
+long	PadRead2( short port );
+# 24 "tuto2.c" 2
+
+# 1 "tmd.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+
+
+
+
+	 
+	 
+void LinkObjectHandlerToTmdObject (GsDOBJ2 *objectHandler, 
+					int whichObjectInTmdFile, u_long tmdAddress);
+
+  	 
+	 
+	 
+	 
+void LinkArrayOfTmdsToObjectHandlerArray (int numberOfObjects,
+		GsDOBJ2* handlerArray, u_long* addressesArray);
+
+
+	 
+int CountNumberOfObjectsInTmdFile (u_long tmdAddress);
+# 25 "tuto2.c" 2
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 26 "tuto2.c" 2
+
+# 1 "object.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 1 "tmd.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+
+
+
+
+	 
+	 
+void LinkObjectHandlerToTmdObject (GsDOBJ2 *objectHandler, 
+					int whichObjectInTmdFile, u_long tmdAddress);
+
+  	 
+	 
+	 
+	 
+void LinkArrayOfTmdsToObjectHandlerArray (int numberOfObjects,
+		GsDOBJ2* handlerArray, u_long* addressesArray);
+
+
+	 
+int CountNumberOfObjectsInTmdFile (u_long tmdAddress);
+# 15 "object.h" 2
+
+# 1 "asssert.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+# 16 "object.h" 2
+
+
+
+	
+	
+
+
+
+	
+
+
+
+
+
+	 
+
+
+
+
+
+
+
+
+
+
+typedef struct
+{
+	int id;
+	int alive;		  
+	int type;		 
+	int subType;
+	int which;	
+		
+	GsDOBJ2	handler;
+	u_long modelAddress;
+	int whichModel;
+
+	int scalingFlag;
+	VECTOR scalingVector;			 
+
+	int movementTypeFlag;		 
+
+	VECTOR position;		 
+	VECTOR velocity;		
+	int movementMomentumFlag;
+	int movementSpeed;
+
+	SVECTOR rotate;			 
+	VECTOR twist;			 
+	int rotationMomentumFlag;
+	int rotationSpeed;
+
+	GsCOORDINATE2 coord;	  
+	int superCoordinateObjectID;
+	MATRIX matrix;			 
+
+	int inOrbit;		 
+	int centralBodyID;		 
+	int angle;		    
+	int angleIncrement;	   
+	int whichWay;		   
+	int radius;			   
+	VECTOR firstVector;		   
+	VECTOR secondVector;	   
+
+	int specialMovement;		 
+	
+	int lifeTime;
+	int specialTimeLimit;
+	
+	int initialHealth;
+	int currentHealth;
+	
+	int strategyFlag;
+	int currentActionFlag;
+	int numberFramesOfThisAction;
+	
+	int meritRating;
+	
+	int allegiance;	
+	
+	int firingRate;
+	int framesSinceLastFire;	
+} ObjectHandler;
+
+
+
+extern ObjectHandler* ObjectArray[256 ];
+
+
+
+
+		 
+
+
+
+ 
+
+void InitialiseObjectClass (void);
+int FindNextLowestObjectID (int objectID);
+int FindNextHighestObjectID (int objectID);
+int FindNextUnusedObjectID (void);
+int CountNumberObjectSlotsLeft (void);
+int CountNumberOfLivingObjects (void);
+void LinkAllObjectsToModels (void);
+void LinkAllObjectsToTheirCoordinateSystems (void);
+
+ 
+		
+void BringObjectToLife (ObjectHandler* object, int type,
+		u_long modelAddress, int whichModel, 
+			int superCoordinateObjectID);
+void KillAnObject (ObjectHandler* object);
+void RegisterObjectIntoObjectArray (ObjectHandler* object);
+void RemoveObjectFromObjectArray (ObjectHandler* object);
+void InitSingleObject (ObjectHandler* object);
+void HighlightObject (ObjectHandler* object);
+void UnHighlightObject (ObjectHandler* object);
+void SetObjectScaling (ObjectHandler* object, int scaleX,
+						int scaleY, int scaleZ);
+void SortObjectSize (ObjectHandler* object);
+
+
+# 27 "tuto2.c" 2
+
+# 1 "dump.h" 1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 49 "dump.h"
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+
+
+# 131 "dump.h"
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 159 "dump.h"
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+# 28 "tuto2.c" 2
+
+
+
+
+
+
+
+
+typedef struct 
+{
+	int x, y, z;
+	int w, h, d;    
+} CUBOID;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static GsOT	Sot[2];			 
+static GsOT_TAG	stags[2][16];		
+static GsOT Wot[2];			 
+static GsOT_TAG wtags[2][1<< 9 ]; 
+static GsDOBJ2	Models[1200 ]; 	 
+static GsCOORDINATE2 DWorld[1200 ];
+
+SVECTOR Rotations[1200 ];
+
+
+
+	 
+		
+static GsRVIEW2 view;	
+
+int ViewAdjustment = 20;		
+
+
+static GsF_LIGHT TheLights[3];		
+
+
+int ReferenceDistance, ViewpointZDistance, ViewpointYDistance;
+
+static PACKET packetArea[2][(2048 *24) ];  
+
+static int nModels;
+
+long* dop1;
+long* dop2;
+long* dop3;
+long* dop4;
+long* dop5;
+long* dop6;
+
+
+
+GsFOGPARAM fogparam;
+
+GsLINE line;
+
+GsLINE ArrowLines[3];
+
+GsBOXF box[2];
+
+short lightmode;
+
+
+
+
+
+
+
+
+
+
+
+
+
+static char worldmaps[15 ][15 ][15 ];
+static GsCOORDINATE2 World[15 ][15 ][15 ];
+
+
+
+
+
+int MainMode;
+
+
+
+
+
+
+
+
+
+int frameNumber = 0;
+int QuitFrameNumber = -1;
+
+
+
+
+ 
+
+
+
+
+
+ObjectHandler PlayersShip;
+
+
+ObjectHandler TheBullets[50 ];
+
+
+
+ObjectHandler TheShips[1 ];
+
+
+
+ObjectHandler TheCubes[20 ];
+
+
+
+ 	 
+
+
+
+	 
+
+
+
+
+
+
+
+  
+
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+	 
+
+
+
+char TextStrings[20 ][50 ];	
+
+
+int LevelNumber = 1;
+
+int NumberEnemiesLeft = 1 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		 
+
+	 
+
+
+int WorldType;
+
+
+
+
+
+
+ 
+
+
+
+
+void main (void);
+
+void CheckForEndOfLevel (void);
+int CountNumberOfEnemiesLeft (void);
+
+
+
+void NewDrawWorldMaps( GsOT* ot );
+
+
+void DealWithControllerPad(void);
+void PlayerFiresAShot (void);
+void EnemyShipFiresAShot (ObjectHandler* enemy);
+
+void move_lighting_spot(void);
+void NewMoveLightingSpot (void);
+
+
+void InitialiseAll(void);
+void InitialiseObjects (void);
+void InitialiseShipAccordingToStrategy (ObjectHandler* object);
+
+void HandleAllObjects (void);
+
+
+
+void UpdateObjectCoordinates (VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem, MATRIX* matrix);
+void UpdateObjectCoordinates2 (SVECTOR* rotationVector,
+							VECTOR* translationVector,
+							GsCOORDINATE2* coordSystem);
+void UpdateObjectCoordinates3 (SVECTOR* rotation, VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem);
+
+
+void UpdateModelCoords (SVECTOR* rotationVector,
+									GsCOORDINATE2* coordSystem);
+
+
+int CollisionWithWalls (VECTOR* position, VECTOR* movement);	
+
+int NotSafe (CUBOID* rectangle);
+
+
+
+
+void InitialiseView(void);
+void InitialiseLighting(void);
+
+
+
+
+int InitialiseTexture(long addr);
+long* InitialiseModel(long* adrs);
+void GenerateRandomWorld(void);
+void GenerateSetWorld (void);
+
+
+
+int calc_world_data(void);
+int NewCalculateWorldData (void);
+int MinOfFour (int a, int b, int c, int d);
+int MaxOfFour (int a, int b, int c, int d);
+
+
+
+
+
+int calc_model_data(int n, int px, int py, int pz, int fact, int atrb);
+
+int collision( int x, int y );
+
+
+void PrintObject (ObjectHandler* object);
+
+void PositionSomewhereNotInAWall (ObjectHandler* object);
+
+
+void HandleEnemyBehaviour (ObjectHandler* object);
+
+void HandleWaitingShipsBehaviour (ObjectHandler* object);
+void HandleStationaryTrackingShipsBehaviour (ObjectHandler* object);
+void HandleSeekingShipBehaviour (ObjectHandler* object);
+
+
+
+
+
+void HandlePlayersDeath (void);
+void HandleEnemysDeath (ObjectHandler* object);
+
+int CheckCollisions (void); 
+
+int ObjectsVeryClose (ObjectHandler* first, ObjectHandler* second);
+
+void ExplodeObject (ObjectHandler* object);
+
+void DummyGuiLoopForTextPrinting (int numberOfStrings, int quitKey);
+
+void ResetAll (void);
+
+void HandleLevelTransition (void);
+
+
+
+   
+void GetPlusZAxisFromMatrix (MATRIX* matrix, VECTOR* vector);
+void GetPlusYAxisFromMatrix (MATRIX* matrix, VECTOR* vector);
+void GetPlusXAxisFromMatrix (MATRIX* matrix, VECTOR* vector);
+
+
+void GetMinusZAxisFromMatrix (MATRIX* matrix, VECTOR* vector);
+void GetMinusYAxisFromMatrix (MATRIX* matrix, VECTOR* vector);
+void GetMinusXAxisFromMatrix (MATRIX* matrix, VECTOR* vector);
+	
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+void main( void )
+{
+	int	i;
+	int	hsync = 0;
+	GsDOBJ2 *op;
+	int side;			   
+	MATRIX	tmpls, tmplw;
+	ObjectHandler** pointer;
+	ObjectHandler* object;
+	int x, y, z;
+
+
+	printf("IN MAIN\n");
+	InitialiseAll();
+
+   
+
+	side = GsGetActiveBuff();
+
+	while(1)
+		{
+		if (QuitFrameNumber == frameNumber)
+			break;
+
+		if (frameNumber % 100 == 0)
+			CheckForEndOfLevel();			
+
+		FntPrint("Num models: %d\nHsync = %d\n",nModels,hsync );
+		FntPrint("frame: %d\n", frameNumber);
+		FntPrint("player health: %d\n", PlayersShip.currentHealth);	 
+		FntPrint("player score: %d\n", PlayersShip.meritRating);
+		FntPrint("level: %d\n", LevelNumber);
+
+		FntPrint("enemies left: %d\n", NumberEnemiesLeft);
+		if (frameNumber % 20 == 0)
+			{
+			NumberEnemiesLeft = CountNumberOfEnemiesLeft();
+			}
+
+		 
+				
+	
+		FntPrint("ship pos: \n%d %d %d\n", 
+			PlayersShip.position.vx, 
+			PlayersShip.position.vy,
+			PlayersShip.position.vz);
+			 
+		x = PlayersShip.position.vx / 128 ;	 
+		y = PlayersShip.position.vy / 128 ;
+		z = PlayersShip.position.vz / 128 ;
+		FntPrint("ship grid: %d %d %d\n", x, y, z);		 
+		
+		FntPrint("enemy: %d %d %d\n",
+			TheShips[0].position.vx, TheShips[0].position.vy, TheShips[0].position.vz);				
+
+		frameNumber++;
+
+		DealWithControllerPad();
+
+		if (view.super == 0  )
+			move_lighting_spot();
+		else
+			NewMoveLightingSpot();
+
+		
+		nModels = NewCalculateWorldData();			
+
+		GsSetRefView2(&view);
+
+		GsSetWorkBase((PACKET*)packetArea[side]);
+
+		GsClearOt(0,0,&Wot[side]);
+		GsClearOt(0,0,&Sot[side]);
+
+
+		op = Models;
+		for( i=0; i<nModels; i++ ) 
+			{
+			UpdateModelCoords (&Rotations[i],
+									op->coord2);
+			GsGetLws(op->coord2,&tmplw, &tmpls);	
+			GsSetLightMatrix(&tmplw);	
+			GsSetLsMatrix(&tmpls);	   
+			GsSortObject4(op,&Wot[side],3,((u_long *)(0x1f800000+ 0 *4)) );
+			op++;
+			}
+
+
+		HandleAllObjects();
+
+		pointer = &(ObjectArray[0]);
+		for (i = 0; i < 256 ; i++) 
+			{
+			if (*pointer != 0 )
+				{
+				if ( (*pointer)->alive == 1 )
+					{
+					object = *pointer;
+
+					GsGetLs(&(object->coord), &tmpls);
+			   
+					GsSetLightMatrix(&tmpls);
+				
+					GsSetLsMatrix(&tmpls);
+				
+					GsSortObject4( &(object->handler), 
+						&Wot[side], 
+							3, ((u_long *)(0x1f800000+ 0 *4)) );
+					}	 
+				}
+			pointer++;
+			}
+
+			 
+		 
+		 
+
+		hsync = VSync(0);		  
+								 
+		ResetGraph(1);
+		GsSwapDispBuff();
+		GsSortClear(0,0,4,&Wot[side]);
+		GsDrawOt(&Wot[side]);
+		GsDrawOt(&Sot[side]);
+		side ^= 1;
+		FntFlush(-1);
+		}
+
+	ResetGraph(3);
+}
+
+
+
+
+void CheckForEndOfLevel (void)
+{
+	int i;
+	int boolean = 1 ;
+
+	for (i = 0; i < 1 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			boolean = 0 ;
+			break;
+			}
+		}
+	
+	if (boolean == 1 )
+		HandleLevelTransition();
+}
+
+
+
+
+int CountNumberOfEnemiesLeft (void)
+{
+	int count = 0;
+	int i;
+
+	for (i = 0; i < 1 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			count++;
+			}
+		}
+
+	return count;
+}
+
+
+
+
+
+
+	
+
+
+
+
+VECTOR shipDirection;
+VECTOR nearestEnemyDirection;
+VECTOR goingEast, goingWest;
+
+
+# 677 "tuto2.c"
+
+
+
+
+
+
+
+
+
+
+void DealWithControllerPad (void)
+{
+	long	pad;
+	static int framesSinceLastModeToggle = 0;
+	int speedMultiplier;
+  
+	pad = PadRead(0);
+
+	
+	if (pad & (1<< 8)  )
+		speedMultiplier = 5;
+	else
+		speedMultiplier = 1;
+
+
+		 
+	switch(MainMode)
+		{
+		case 0 :
+				 
+			if (pad & (1<<12) )
+				PlayersShip.velocity.vz -= PlayersShip.movementSpeed * speedMultiplier;
+			if (pad & (1<<14) )
+				PlayersShip.velocity.vz += PlayersShip.movementSpeed * speedMultiplier;
+
+				 
+			if (pad & (1<< 0)  )
+				{
+				if (PlayersShip.framesSinceLastFire > PlayersShip.firingRate)
+					{
+					PlayerFiresAShot();
+					PlayersShip.framesSinceLastFire = 0;
+					}
+				}
+			PlayersShip.framesSinceLastFire++;
+
+				 
+			if (pad & (1<< 4) )
+				PlayersShip.twist.vx += PlayersShip.rotationSpeed * speedMultiplier;
+			if (pad & (1<< 6) )
+				PlayersShip.twist.vx -= PlayersShip.rotationSpeed * speedMultiplier;
+			if (pad & (1<< 7) )
+				PlayersShip.twist.vz += PlayersShip.rotationSpeed * speedMultiplier;
+			if (pad & (1<< 5) )
+				PlayersShip.twist.vz -= PlayersShip.rotationSpeed * speedMultiplier;
+
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	735, "tuto2.c"), exit(1), 0) ) ;
+		}
+
+# 749 "tuto2.c"
+
+
+
+		 
+	if (pad & (1<< 8)   && pad & (1<< 1)  )
+		{
+		int frameCount;	 
+		frameCount = VSync(-1);
+		while (frameCount + 25 > VSync(-1))
+			{
+			;
+			}
+		}
+
+		 
+	if (pad & (1<<11)   && pad & (1<< 8)  )
+		{
+		QuitFrameNumber = frameNumber + 1;
+		}
+
+
+		 
+	if (pad & (1<<11)  )
+		{
+		while (pad & (1<<11)  )
+			{
+			pad = PadRead(0);
+			}
+		}
+}
+
+
+
+
+
+VECTOR bulletsVelocityWrtSelf;
+VECTOR bogus;
+
+void PlayerFiresAShot (void)
+{
+	int bulletID = -1;
+	int i;	
+
+		 
+	for (i = 0; i < 50 ; i++)
+		{
+		if (TheBullets[i].alive == 0 )
+			{
+			bulletID = i;
+			break;
+			}
+		}
+
+	if (bulletID == -1)		 
+		return;
+	else
+		{
+		TheBullets[bulletID].alive = 1 ;
+		TheBullets[bulletID].lifeTime = 0;
+		TheBullets[bulletID].allegiance = 0 ;
+
+			 
+		TheBullets[bulletID].rotationMomentumFlag = 1 ;
+		TheBullets[bulletID].twist.vx = rand() % 20;
+		TheBullets[bulletID].twist.vy = rand() % 20;
+			
+		
+			 
+		bulletsVelocityWrtSelf.vx = 0;
+		bulletsVelocityWrtSelf.vy = 0;
+		bulletsVelocityWrtSelf.vz = -30;
+
+		ApplyMatrixLV(&PlayersShip.matrix, 
+				&bulletsVelocityWrtSelf, &(TheBullets[bulletID].velocity) );
+		   		
+		TheBullets[bulletID].movementMomentumFlag = 1 ; 
+		
+					 
+		TheBullets[bulletID].position.vx = PlayersShip.position.vx;
+		TheBullets[bulletID].position.vy = PlayersShip.position.vy;
+		TheBullets[bulletID].position.vz = PlayersShip.position.vz;
+		}
+}
+
+
+
+
+
+
+
+MATRIX enemyShipMatrix;
+
+void EnemyShipFiresAShot (ObjectHandler* enemy)
+{
+	int bulletID = -1;
+	int i;	
+
+		 
+	for (i = 0; i < 50 ; i++)
+		{
+		if (TheBullets[i].alive == 0 )
+			{
+			bulletID = i;
+			break;
+			}
+		}
+
+	if (bulletID == -1)		 
+		return;
+	else
+		{
+		TheBullets[bulletID].alive = 1 ;
+		TheBullets[bulletID].lifeTime = 0;
+		TheBullets[bulletID].allegiance = 2 ;
+
+			 
+		TheBullets[bulletID].rotationMomentumFlag = 1 ;
+		TheBullets[bulletID].twist.vx = rand() % 20;
+		TheBullets[bulletID].twist.vy = rand() % 20;
+	
+			 
+		bulletsVelocityWrtSelf.vx = 0;
+		bulletsVelocityWrtSelf.vy = 0;
+		bulletsVelocityWrtSelf.vz = -30;
+
+		RotMatrix(&enemy->rotate, &enemyShipMatrix);
+		ApplyMatrixLV(&enemyShipMatrix, 
+			&bulletsVelocityWrtSelf, &(TheBullets[bulletID].velocity) );
+		TheBullets[bulletID].movementMomentumFlag = 1 ;
+
+			 
+		TheBullets[bulletID].position.vx = enemy->position.vx;
+		TheBullets[bulletID].position.vy = enemy->position.vy;
+		TheBullets[bulletID].position.vz = enemy->position.vz;
+		}
+}
+
+
+
+ 
+
+
+
+
+void move_lighting_spot( void )
+{
+	TheLights[0].r = TheLights[0].g = TheLights[0].b = 0x70;
+	TheLights[0].vx = view.vrx - view.vpx;
+	TheLights[0].vy = 4096;			  
+	TheLights[0].vz = view.vrz - view.vpz;
+	GsSetFlatLight(0,&TheLights[0]);
+
+	TheLights[1].r = TheLights[1].g = TheLights[1].b = 0x70;
+	TheLights[1].vx = view.vrx - view.vpx;
+	TheLights[1].vy = -4096;			  
+	TheLights[1].vz = view.vrz - view.vpz;
+	GsSetFlatLight(1,&TheLights[1]);
+}
+
+
+
+
+
+VECTOR shipPointingDirection;
+   
+void NewMoveLightingSpot (void)
+{
+	GetMinusZAxisFromMatrix( &PlayersShip.matrix, &shipPointingDirection);
+
+	TheLights[0].r = TheLights[0].g = TheLights[0].b = 0x70;
+	TheLights[0].vx = shipPointingDirection.vx;
+	TheLights[0].vy = shipPointingDirection.vy;
+	TheLights[0].vz = shipPointingDirection.vz;
+	GsSetFlatLight(0,&TheLights[0]);
+}
+
+ 
+
+
+VECTOR p1, p2, p3, p4, p5, p6, p7, p8;
+VECTOR radius, easternTgt, westernTgt;	  
+VECTOR plusX, plusY, plusZ, minusX, minusY, minusZ;
+
+ 
+ 
+
+
+int NewCalculateWorldData (void)
+{	
+	int numberOfModels;
+	int	x, y, z;
+	int px, py, pz;
+	int	sx, sy, sz, ex, ey, ez;		   
+	static int ClipDistance = 4 * 128 ;
+	int viewX, viewY, viewZ;
+	int SimpleClipDistance = 3;
+
+
+
+	px = PlayersShip.position.vx / 128 ;	 
+	py = PlayersShip.position.vy / 128 ;
+	pz = PlayersShip.position.vz / 128 ;
+
+	sx = px - SimpleClipDistance; 
+	sy = py - SimpleClipDistance; 
+	sz = pz - SimpleClipDistance;
+
+	ex = px + SimpleClipDistance; 
+	ey = py + SimpleClipDistance; 
+	ez = pz + SimpleClipDistance;
+
+	if( sx<0 ) sx = 0;
+	if( sy<0 ) sy = 0;
+	if( sz<0 ) sz = 0;
+	if( ex>= 15  ) ex = 15 -1;
+	if( ey>= 15  ) ey = 15 -1;
+	if( ez>= 15  ) ez = 15 -1;
+
+
+ 	
+
+
+# 989 "tuto2.c"
+
+		
+
+# 1000 "tuto2.c"
+
+
+	
+	numberOfModels = 0;				   
+	for (x = sx; x <= ex; x++) 
+		{
+		for (y = sy; y <= ey; y++) 
+			{
+			for (z = sz; z <= ez; z++)
+				{
+				if( abs(px-x)<4 && abs(py-y)<4 && abs(pz-z)<4) 
+					{
+					numberOfModels = calc_model_data( numberOfModels, x, y, z, 128 , (1<<9)  );
+					} 
+				else	
+					{
+					numberOfModels = calc_model_data( numberOfModels, x, y, z, 128 , 0 );
+					}
+
+				if (numberOfModels > 1200 )
+					{
+					numberOfModels = 1200 ;
+					printf("Forcibly holding number of models at OBJMAX %d\n", 1200 );
+					goto end;
+					}
+				}
+			}
+		}
+
+
+end:
+
+	if (frameNumber % 15 == 0)
+		printf("About to return num.models: %d\n", numberOfModels);
+
+	return(numberOfModels);
+}
+
+
+
+
+
+int MinOfFour (int a, int b, int c, int d)
+{
+	int result, t1, t2;
+
+	t1 = ( (( a ) > ( b )) ? ( b ) : ( a )) ; t2 = ( (( c ) > ( d )) ? ( d ) : ( c )) ;
+	result = ( (( t1 ) > (  t2 )) ? (  t2 ) : ( t1 )) ;
+
+	return result;
+}
+
+
+int MaxOfFour (int a, int b, int c, int d)
+{
+	int result, t1, t2;
+
+	t1 = ( (( a ) > ( b )) ? ( a ) : ( b )) ; t2 = ( (( c ) > ( d )) ? ( c ) : ( d )) ;
+	result = ( (( t1 ) > (  t2 )) ? ( t1 ) : (  t2 )) ;
+
+	return result;
+}
+
+
+
+
+
+
+	 
+int calc_model_data (int n, int px, int py, int pz, int fact, int atrb )
+{
+	if (px < 0 || px >= 15 
+		|| py < 0 || py >= 15 
+		|| pz < 0 || pz >= 15 )
+			return n;
+				
+
+	if( worldmaps[px][py][pz]& 0x01  ) return(n);
+
+	if (px==0 || worldmaps[px-1][py][pz]& 0x01 ) {	   
+		GsInitCoordinate2( &World[px][py][pz], &DWorld[n] );
+		DWorld[n].coord.t[0] = - 128 /2;
+		DWorld[n].coord.t[1] = 0;
+		DWorld[n].coord.t[2] = 0;
+		GsLinkObject4((long)dop5, &Models[n],0);
+		Models[n].coord2 = &DWorld[n];
+		Models[n].attribute = atrb;
+		Rotations[n].vx = 0;
+		Rotations[n].vy = 0;
+		Rotations[n].vz = 3 * 4096 /4;
+		n++;
+	}
+   
+
+	if(px== 15 -1 || worldmaps[px+1][py][pz]& 0x01 ) {	    
+		GsInitCoordinate2( &World[px][py][pz], &DWorld[n] );
+		DWorld[n].coord.t[0] = 128 /2;
+		DWorld[n].coord.t[1] = 0;
+		DWorld[n].coord.t[2] = 0;
+		GsLinkObject4((long)dop5, &Models[n],0);
+		Models[n].coord2 = &DWorld[n];
+		Models[n].attribute = atrb;
+		Rotations[n].vx = 0;
+		Rotations[n].vy = 0;
+		Rotations[n].vz = 4096 /4;
+		n++;
+	}
+	
+
+	if (py==0 || worldmaps[px][py-1][pz]& 0x01 ) {			  
+		GsInitCoordinate2( &World[px][py][pz], &DWorld[n] );
+		DWorld[n].coord.t[0] = 0;
+		DWorld[n].coord.t[1] = - 128 /2;
+		DWorld[n].coord.t[2] = 0;
+		GsLinkObject4((long)dop5, &Models[n],0);
+		Models[n].coord2 = &DWorld[n];
+		Models[n].attribute = atrb;
+		Rotations[n].vx = 0;
+		Rotations[n].vy = 0;
+		Rotations[n].vz = 0;
+		n++;
+	}
+	
+	if (py== 15 -1 || worldmaps[px][py+1][pz]& 0x01 ) {	  
+		GsInitCoordinate2( &World[px][py][pz], &DWorld[n] );
+		DWorld[n].coord.t[0] = 0;
+		DWorld[n].coord.t[1] = 128 /2;
+		DWorld[n].coord.t[2] = 0;
+		GsLinkObject4((long)dop5, &Models[n],0);
+		Models[n].coord2 = &DWorld[n];
+		Models[n].attribute = atrb;
+		Rotations[n].vx = 4096 /2;
+		Rotations[n].vy = 0;
+		Rotations[n].vz = 0;
+		n++;
+	}
+	
+
+	if (pz==0 || worldmaps[px][py][pz-1]& 0x01 ) {			  
+		GsInitCoordinate2( &World[px][py][pz], &DWorld[n] );
+		DWorld[n].coord.t[0] = 0;
+		DWorld[n].coord.t[1] = 0;
+		DWorld[n].coord.t[2] = - 128 /2;
+		GsLinkObject4((long)dop5, &Models[n],0);
+		Models[n].coord2 = &DWorld[n];
+		Models[n].attribute = atrb;
+		Rotations[n].vx = 4096 /4;
+		Rotations[n].vy = 0;
+		Rotations[n].vz = 0;
+		n++;
+	}
+   
+
+	if(pz== 15 -1 || worldmaps[px][py][pz+1]& 0x01 ) {	  
+		GsInitCoordinate2( &World[px][py][pz], &DWorld[n] );
+		DWorld[n].coord.t[0] = 0;
+		DWorld[n].coord.t[1] = 0;
+		DWorld[n].coord.t[2] = 128 /2;
+		GsLinkObject4((long)dop5, &Models[n],0);
+		Models[n].coord2 = &DWorld[n];
+		Models[n].attribute = atrb;
+		Rotations[n].vx = 3 * 4096 /4;
+		Rotations[n].vy = 0;
+		Rotations[n].vz = 0;
+		n++;
+	}
+
+	return( n );
+}
+
+
+
+
+
+
+
+
+
+void InitialiseAll (void)
+{
+	printf("iseAll: 0\n");
+	PadInit(0);
+
+	printf("iseAll: 1\n");
+
+		 
+	{
+	int day; 
+	char* pointer;
+	char dateString[64];
+
+	strcpy("Nov 28 1996", dateString); 
+
+	pointer = &dateString[0];
+	pointer += 4;
+
+	sscanf(pointer, "%d", &day);
+	srand(day);
+	}
+
+
+	GsInitGraph(320 ,240 ,1 | 4 ,1,0);
+	if( 240 <480 )
+		GsDefDispBuff(0,0,0,240 );
+	else
+		GsDefDispBuff(0,0,0,0);
+
+	GsInit3D();		   
+	printf("iseAll: 2\n");
+
+	Wot[0].length= 9 ;	
+	Wot[0].org=wtags[0];	   
+	Wot[1].length= 9 ;
+	Wot[1].org=wtags[1];
+
+	Sot[0].length=4;
+	Sot[0].org=stags[0];
+	Sot[1].length=4;
+	Sot[1].org=stags[1];
+
+	GsClearOt(0,0,&Wot[0]);
+	GsClearOt(0,0,&Wot[1]);
+	GsClearOt(0,0,&Sot[0]);
+	GsClearOt(0,0,&Sot[1]);
+		
+	printf("iseAll: 3\n");
+
+	InitialiseView();
+	printf("iseAll: 4\n");			
+	InitialiseLighting();		   
+
+	InitialiseTexture(0x800a0000 );
+	printf("iseAll: 5\n");
+
+		
+	dop1 = InitialiseModel((long*)0x80090000 );	
+	dop2 = InitialiseModel((long*)0x80091000 );	
+	dop3 = InitialiseModel((long*)0x80092000 );	
+	dop4 = InitialiseModel((long*)0x80093000 );	
+	dop5 = InitialiseModel((long*)0x80094000 ); 
+	dop6 = InitialiseModel((long*)0x80095000 );	
+	  
+	WorldType = 1 ;
+
+	if (WorldType == 1 )
+		GenerateSetWorld();
+	else if (WorldType == 0 )
+		GenerateRandomWorld();
+	else
+		( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1249, "tuto2.c"), exit(1), 0) ) ;	
+
+	 
+	printf("iseAll: 6\n");
+
+	InitialiseObjects();
+		 
+	MainMode = 0 ;
+
+	FntLoad( 960, 256);
+	FntOpen( 0, 0, 256, 200, 0, 512);		   
+}
+
+
+
+
+
+void InitialiseObjects (void)
+{
+	int i;
+
+	InitialiseObjectClass();
+	printf("1\n");
+	printf("slots left: %d\n", CountNumberObjectSlotsLeft() );
+
+	InitSingleObject(&PlayersShip);
+
+	BringObjectToLife (&PlayersShip, 0 , 
+					0x80096000 , 0, 1001 );
+	RegisterObjectIntoObjectArray(&PlayersShip);
+	printf("slots left: %d\n", CountNumberObjectSlotsLeft() );
+
+	PositionSomewhereNotInAWall(&PlayersShip);
+	PlayersShip.initialHealth = 1000;
+	PlayersShip.currentHealth = 1000;
+	PlayersShip.allegiance = 0 ;
+
+	PlayersShip.movementSpeed = 2;
+	PlayersShip.rotationSpeed = 55;
+	PlayersShip.firingRate = 4;
+	PlayersShip.framesSinceLastFire = 0;
+	PlayersShip.movementMomentumFlag = 1 ;
+
+	
+	printf("2\n");
+		
+
+	for (i = 0; i < 50 ; i++)
+		{
+		printf("slots left: %d\n", CountNumberObjectSlotsLeft() );
+		printf("i is %d\n", i);
+		InitSingleObject(&TheBullets[i]);
+
+		BringObjectToLife(&TheBullets[i], 1 , 
+			0x80097000 , 0, 1001 );
+
+		SetObjectScaling(&TheBullets[i], 4096 >>5, 4096 >>5, 4096 >>5);
+
+		RegisterObjectIntoObjectArray(&TheBullets[i]);
+		}
+	printf("3\n");
+
+
+	for (i = 0; i < 20 ; i++)
+		{
+		InitSingleObject(&TheCubes[i]);
+
+		BringObjectToLife(&TheCubes[i], 3 , 
+			0x80097000 , 0, 1001 );
+
+		SetObjectScaling(&TheCubes[i], 4096 >>3, 4096 >>3, 4096 >>3);
+
+		RegisterObjectIntoObjectArray(&TheCubes[i]);
+		}
+	printf("4\n");
+
+
+	  
+		 
+
+
+
+
+	for (i = 0; i < 1 ; i++)
+		{
+		InitSingleObject(&TheShips[i]);
+
+		BringObjectToLife(&TheShips[i], 2 , 
+			0x80096000 , 0, 1001 );
+
+		TheShips[i].initialHealth = 1;
+		TheShips[i].currentHealth = 1; 
+
+		TheShips[i].strategyFlag = 1 ;
+
+
+
+
+
+
+		InitialiseShipAccordingToStrategy(&TheShips[i]);
+
+		PositionSomewhereNotInAWall(&TheShips[i]);
+		TheShips[i].allegiance = 2 ;
+
+		TheShips[i].position.vy += 20;
+
+		RegisterObjectIntoObjectArray(&TheShips[i]);
+		}
+	printf("5\n");
+
+
+
+	LinkAllObjectsToModels();
+	printf("6\n");
+	LinkAllObjectsToTheirCoordinateSystems();
+	printf("7\n");
+
+
+
+	for (i = 0; i < 50 ; i++)
+		{
+		TheBullets[i].alive = 0 ;		 
+		}
+	for (i = 0; i < 20 ; i++)
+		{
+		TheCubes[i].alive = 0 ;		 
+		}
+	printf("8\n");
+}
+
+
+
+
+
+void InitialiseShipAccordingToStrategy (ObjectHandler* object)
+{
+	object->movementSpeed = 32;
+	object->rotationSpeed = 45;		
+
+	switch(object->strategyFlag)
+		{
+		case 0 :	 
+			object->specialTimeLimit = 400 + (100 * (rand() % 4));
+			object->firingRate = 6;
+			break;
+		case 1 :
+			object->firingRate = 5;	
+			break;	
+		case 2 :
+			object->firingRate = 7;
+			break;
+		case 3 :
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1404, "tuto2.c"), exit(1), 0) ) ;
+		}
+}
+
+
+
+
+ 
+
+
+
+void HandleAllObjects (void)
+{
+	ObjectHandler* object;
+	int gridX, gridY, gridZ;
+	int i;
+
+	CheckCollisions();
+
+	for (i = 0; i < 256 ; i++)
+		{
+		 
+		if (ObjectArray[i] != 0 )
+			{
+			if (ObjectArray[i]->alive == 1 )
+				{
+				object = ObjectArray[i];
+				object->lifeTime++;
+
+				switch(object->type)
+					{
+					case 0 :
+						UpdateObjectCoordinates(&object->twist, &object->position, 
+								&object->velocity, &object->coord, &object->matrix);
+							
+					   	 
+						 
+						 
+						
+						SortObjectSize(object);
+
+						{	if (( object->position.vx ) < (  - 128 /2 ))	( object->position.vx ) = (  - 128 /2 );	else if (( object->position.vx ) > (  15  * 128  - 128 /2 ))	( object->position.vx ) = (  15  * 128  - 128 /2 );	} ;
+						{	if (( object->position.vy ) < (  - 128 /2 ))	( object->position.vy ) = (  - 128 /2 );	else if (( object->position.vy ) > (  15  * 128  - 128 /2 ))	( object->position.vy ) = (  15  * 128  - 128 /2 );	} ;
+						{	if (( object->position.vz ) < (  - 128 /2 ))	( object->position.vz ) = (  - 128 /2 );	else if (( object->position.vz ) > (  15  * 128  - 128 /2 ))	( object->position.vz ) = (  15  * 128  - 128 /2 );	} ;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+
+						if (object->currentHealth < 1)
+							{
+							HandlePlayersDeath();
+							goto endOfHandleAllObjects;
+							}
+								
+# 1501 "tuto2.c"
+
+						break;
+					case 1 :
+						UpdateObjectCoordinates2(&object->rotate,  
+							&object->position, &object->coord);
+
+						SortObjectSize(object);
+
+							 
+						object->rotate.vx += object->twist.vx;
+						object->rotate.vy += object->twist.vy;
+						object->rotate.vz += object->twist.vz;
+
+							 
+						object->position.vx += object->velocity.vx;
+						object->position.vy += object->velocity.vy;
+						object->position.vz += object->velocity.vz;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+
+							 
+						gridX = object->position.vx / 128 ;	 
+						gridY = object->position.vy / 128 ;
+						gridZ = object->position.vz / 128 ;
+
+							 
+						if (object->lifeTime > 50)
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							}
+
+						if (worldmaps[gridX][gridY][gridZ] == 0x01 )
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							}
+
+						if (gridX < 0 || gridX >= 15 
+							|| gridY < 0 || gridY >= 15 
+							|| gridZ < 0 || gridZ >= 15 )
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							}
+						break;
+					case 3 :
+						UpdateObjectCoordinates2(&object->rotate,  
+							&object->position, &object->coord);
+
+						SortObjectSize(object);
+
+							 
+						object->rotate.vx += object->twist.vx;
+						object->rotate.vy += object->twist.vy;
+						object->rotate.vz += object->twist.vz;
+
+							 
+						object->position.vx += object->velocity.vx;
+						object->position.vy += object->velocity.vy;
+						object->position.vz += object->velocity.vz;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+
+							 
+						if (object->lifeTime > 25)
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							}
+
+							 
+						gridX = object->position.vx / 128 ;	   
+						gridY = object->position.vy / 128 ;
+						gridZ = object->position.vz / 128 ; 
+
+						if (worldmaps[gridX][gridY][gridZ] == 0x01 )
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							}
+
+						if (gridX < 0 || gridX >= 15 
+							|| gridY < 0 || gridY >= 15 
+							|| gridZ < 0 || gridZ >= 15 )
+							{
+							object->alive = 0 ;
+							object->lifeTime = 0;
+							}
+						break;
+					case 2 :
+						HandleEnemyBehaviour(object);
+
+						 
+						 
+						 
+
+						UpdateObjectCoordinates(&object->twist, &object->position, 
+								&object->velocity, &object->coord, &object->matrix);
+
+						SortObjectSize(object);
+
+						{	if (( object->position.vx ) < (  - 128 /2 ))	( object->position.vx ) = (  - 128 /2 );	else if (( object->position.vx ) > (  15  * 128  - 128 /2 ))	( object->position.vx ) = (  15  * 128  - 128 /2 );	} ;
+						{	if (( object->position.vy ) < (  - 128 /2 ))	( object->position.vy ) = (  - 128 /2 );	else if (( object->position.vy ) > (  15  * 128  - 128 /2 ))	( object->position.vy ) = (  15  * 128  - 128 /2 );	} ;
+						{	if (( object->position.vz ) < (  - 128 /2 ))	( object->position.vz ) = (  - 128 /2 );	else if (( object->position.vz ) > (  15  * 128  - 128 /2 ))	( object->position.vz ) = (  15  * 128  - 128 /2 );	} ;
+
+							 
+						if (object->movementMomentumFlag == 0 )
+							{
+							object->velocity.vx = 0;
+							object->velocity.vy = 0;
+							object->velocity.vz = 0;
+							}
+						if (object->rotationMomentumFlag == 0 )
+							{
+							object->twist.vx = 0;
+							object->twist.vy = 0;
+							object->twist.vz = 0;
+							}
+								
+						if (object->currentHealth < 1)
+							HandleEnemysDeath(object);
+						break;
+					default:
+						( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	1649, "tuto2.c"), exit(1), 0) ) ;
+					}
+				}
+			}
+		}
+
+endOfHandleAllObjects:
+	;
+}
+
+
+
+   
+
+
+
+VECTOR realMovement;
+MATRIX xMatrix, yMatrix, zMatrix;
+SVECTOR xVector, yVector, zVector;
+
+
+
+	 
+void UpdateObjectCoordinates (VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem, MATRIX* matrix)
+{	
+		 
+	ApplyMatrixLV(matrix, velocity, &realMovement);
+
+	if (CollisionWithWalls(position, &realMovement) == 0 )  
+		{
+			 
+		position->vx += realMovement.vx;
+		position->vy += realMovement.vy;
+		position->vz += realMovement.vz;
+		}
+	else
+		{
+		velocity->vx = 0;
+		velocity->vy = 0;
+		velocity->vz = 0;
+		}
+
+	xVector.vx = twist->vx;
+	xVector.vy = 0;
+	xVector.vz = 0;
+	yVector.vx = 0;
+	yVector.vy = twist->vy;
+	yVector.vz = 0;
+	zVector.vx = 0;
+	zVector.vy = 0;
+	zVector.vz = twist->vz;
+
+	RotMatrix(&xVector, &xMatrix);
+	RotMatrix(&yVector, &yMatrix);
+	RotMatrix(&zVector, &zMatrix);
+
+		 
+		 
+
+	MulMatrix0(matrix, &xMatrix, matrix);
+	MulMatrix0(matrix, &yMatrix, matrix);
+	MulMatrix0(matrix, &zMatrix, matrix);
+
+	coordSystem->coord = *matrix;
+	
+		 
+	coordSystem->coord.t[0] = position->vx;
+	coordSystem->coord.t[1] = position->vy;
+	coordSystem->coord.t[2] = position->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+
+
+MATRIX tempMatrix;
+
+	 
+void UpdateObjectCoordinates2 (SVECTOR* rotationVector,
+							VECTOR* translationVector,
+							GsCOORDINATE2* coordSystem)
+{
+		 
+	RotMatrix(rotationVector, &tempMatrix);
+
+		 
+	coordSystem->coord = tempMatrix;
+	
+		 
+	coordSystem->coord.t[0] = translationVector->vx;
+	coordSystem->coord.t[1] = translationVector->vy;
+	coordSystem->coord.t[2] = translationVector->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+VECTOR realMovement;
+
+
+	 
+void UpdateObjectCoordinates3 (SVECTOR* rotation, VECTOR* twist,
+							VECTOR* position, VECTOR* velocity,
+							GsCOORDINATE2* coordSystem)
+{ 
+	int gridX, gridY;
+
+		 
+	tempMatrix.t[0] = coordSystem->coord.t[0];
+	tempMatrix.t[1] = coordSystem->coord.t[1];
+	tempMatrix.t[2] = coordSystem->coord.t[2];
+
+		 
+	RotMatrix(rotation, &tempMatrix);
+
+		 
+	ApplyMatrixLV(&tempMatrix, velocity, &realMovement);
+	   
+		 
+	coordSystem->coord = tempMatrix;
+	
+
+	if (CollisionWithWalls(position, &realMovement) == 0 )	
+		{
+			 
+		position->vx += realMovement.vx;
+		position->vy += realMovement.vy;
+		position->vz += realMovement.vz;
+		} 
+	else
+		{
+		velocity->vx = 0;
+		velocity->vy = 0;
+		velocity->vz = 0;
+		}
+  
+		 
+	coordSystem->coord.t[0] = position->vx;
+	coordSystem->coord.t[1] = position->vy;
+	coordSystem->coord.t[2] = position->vz;
+
+		 
+	coordSystem->flg = 0;
+}
+
+
+
+
+void UpdateModelCoords (SVECTOR* rotationVector,
+									GsCOORDINATE2* coordSystem)
+{
+	tempMatrix.t[0] = coordSystem->coord.t[0];
+	tempMatrix.t[1] = coordSystem->coord.t[1];
+	tempMatrix.t[2] = coordSystem->coord.t[2];      
+
+		 
+	RotMatrix(rotationVector, &tempMatrix);
+
+		 
+	coordSystem->coord = tempMatrix;
+}
+
+
+
+
+
+	 
+int CollisionWidth = 128 /8; 
+
+
+
+
+int CollisionWithWalls (VECTOR* position, VECTOR* movement)
+{
+	CUBOID cuboid;
+
+	( &cuboid )->x = (  position->vx + movement->vx ),	( &cuboid )->y = (  
+					position->vy + movement->vy ),	( &cuboid )->z = (  
+						position->vz + movement->vz ),	( &cuboid )->w = (  
+						CollisionWidth ),	( &cuboid )->h = (  CollisionWidth ),	( &cuboid )->d = (  CollisionWidth ) ;
+
+
+
+
+
+
+
+
+
+	if (NotSafe(&cuboid))
+		return 1 ;
+
+	return 0 ;
+}
+	
+
+
+
+
+int x1, y1, z1;
+int x2, y2, z2;
+int gx1, gy1, gz1;
+int gx2, gy2, gz2;
+
+
+int NotSafe (CUBOID* cuboid)
+{
+	x1 = (cuboid->x - (cuboid->w/2));	  
+	y1 = (cuboid->y - (cuboid->h/2));
+	z1 = (cuboid->z - (cuboid->d/2));
+	x2 = (cuboid->x + (cuboid->w/2));
+	y2 = (cuboid->y + (cuboid->h/2));
+	z2 = (cuboid->z + (cuboid->d/2));
+
+	 
+	 
+	 
+
+	if (x1 < - 128 /2 + CollisionWidth)
+		return 1 ;
+	if (y1 < - 128 /2 + CollisionWidth)
+		return 1 ;
+	if (z1 < - 128 /2 + CollisionWidth)
+		return 1 ;
+	if (x2 >= ((15  * 128 ) - 128 /2 - CollisionWidth))
+		return 1 ;
+	if (y2 >= ((15  * 128 ) - 128 /2 - CollisionWidth))
+		return 1 ;
+	if (z2 >= ((15  * 128 ) - 128 /2 - CollisionWidth))
+		return 1 ;
+
+		 
+		 
+		 
+	gx1 = (x1 + 128 /2) / 128 ;
+	gy1 = (y1 + 128 /2) / 128 ;
+	gz1 = (z1 + 128 /2) / 128 ;
+	gx2 = (x2 + 128 /2) / 128 ;
+	gy2 = (y2 + 128 /2) / 128 ;
+	gz2 = (z2 + 128 /2) / 128 ;
+
+
+
+
+
+
+
+
+
+	if (worldmaps[gx1][gy1][gz1] & 0x01 
+		|| worldmaps[gx1][gy1][gz2] & 0x01 
+		|| worldmaps[gx1][gy2][gz1] & 0x01 
+		|| worldmaps[gx1][gy2][gz2] & 0x01 
+		|| worldmaps[gx2][gy1][gz1] & 0x01 
+		|| worldmaps[gx2][gy1][gz2] & 0x01 
+		|| worldmaps[gx2][gy2][gz1] & 0x01 
+		|| worldmaps[gx2][gy2][gz2] & 0x01 )
+		return 1 ;
+
+	return 0 ;
+}
+
+
+
+
+
+
+
+void InitialiseView( void )
+{
+	GsSetProjection(192);  
+
+	ReferenceDistance = 50;
+	ViewpointZDistance = 220;
+	ViewpointYDistance = -40;
+
+
+	view.vrx = 0; view.vry = 0; view.vrz = 0;  
+	view.vpx = 0; view.vpy = ViewpointYDistance; view.vpz = ViewpointZDistance;
+	view.rz = 0;
+	view.super = &PlayersShip.coord;
+
+
+	GsSetRefView2(&view);
+}
+
+
+
+
+
+void InitialiseLighting(void)
+{
+	TheLights[0].vx = 1; TheLights[0].vy= 1; TheLights[0].vz= 1;
+
+	TheLights[0].r = TheLights[0].g = TheLights[0].b = 0x80;
+
+	GsSetFlatLight(0, &TheLights[0]);
+
+
+	TheLights[1].vx = -1; TheLights[1].vy= -1; TheLights[1].vz= 1;
+
+	TheLights[1].r = TheLights[1].g = TheLights[1].b = 0x80;
+
+	GsSetFlatLight(1, &TheLights[1]);
+
+
+
+	GsSetAmbient(4096 /4, 4096 /4, 4096 /4);
+
+
+
+
+	lightmode = 1;	  
+	GsSetLightMode(lightmode);
+
+
+		 
+	fogparam.dqa = -960;
+	fogparam.dqb = 5120*5120;
+		 
+	fogparam.rfc = 0; fogparam.gfc = 0; fogparam.bfc = 4;
+	GsSetFogParam(&fogparam);
+}
+
+
+
+
+
+
+int InitialiseTexture(long addr)
+{
+	RECT rect;
+	GsIMAGE tim1;
+
+	GsGetTimInfo((u_long *)(addr+4),&tim1);
+
+	rect.x=tim1.px;	
+	rect.y=tim1.py;		
+	rect.w=tim1.pw;	
+	rect.h=tim1.ph;	
+
+
+	LoadImage(&rect,tim1.pixel);
+
+	if((tim1.pmode>>3)&0x01) {
+		rect.x=tim1.cx;	
+		rect.y=tim1.cy;	
+		rect.w=tim1.cw;	
+		rect.h=tim1.ch;	
+
+		LoadImage(&rect,tim1.clut);
+	}
+	DrawSync(0);
+	return(0);
+}
+
+
+
+long* InitialiseModel( long* adrs )
+{
+	long *dop;
+
+	dop=adrs;
+	dop++;
+	GsMapModelingData(dop);
+	dop++;
+	dop++;
+	return( dop );
+}
+
+
+
+
+
+
+
+
+void GenerateRandomWorld (void)
+{
+	int	x, y, z;
+	int	cellContent;
+	int wallPercentage = 25;
+	int numberWallsSoFar = 0;
+
+		 
+		 
+	for( x=0; x< 15 ; x+=3 ) 
+		{		
+		for( y=0; y< 15 ; y+=3 )
+			{
+			for( z=0; z< 15 ; z+=3 ) 
+				{
+				 
+					 
+				if ( ((rand() % 3) == 0) 
+					&& numberWallsSoFar < 15 * 15 * 15 *wallPercentage/2700)
+						{
+						cellContent = 0x01 ;
+						numberWallsSoFar++;
+						printf("making a block, centre %d %d %d\n", x+1, y+1, z+1);
+						}
+				else
+					cellContent = 0;
+
+				worldmaps[x][y][z] = cellContent;
+				worldmaps[x+1][y][z] = cellContent;
+				worldmaps[x+2][y][z] = cellContent;
+				worldmaps[x][y+1][z] = cellContent;
+				worldmaps[x+1][y+1][z] = cellContent;
+				worldmaps[x+2][y+1][z] = cellContent;
+				worldmaps[x][y+2][z] = cellContent;
+				worldmaps[x+1][y+2][z] = cellContent;
+				worldmaps[x+2][y+2][z] = cellContent;
+				worldmaps[x][y][z+1] = cellContent;
+				worldmaps[x+1][y][z+1] = cellContent;
+				worldmaps[x+2][y][z+1] = cellContent;
+				worldmaps[x][y+1][z+1] = cellContent;
+				worldmaps[x+1][y+1][z+1] = cellContent;
+				worldmaps[x+2][y+1][z+1] = cellContent;
+				worldmaps[x][y+2][z+1] = cellContent;
+				worldmaps[x+1][y+2][z+1] = cellContent;
+				worldmaps[x+2][y+2][z+1] = cellContent;
+				worldmaps[x][y][z+2] = cellContent;
+				worldmaps[x+1][y][z+2] = cellContent;
+				worldmaps[x+2][y][z+2] = cellContent;
+				worldmaps[x][y+1][z+2] = cellContent;
+				worldmaps[x+1][y+1][z+2] = cellContent;
+				worldmaps[x+2][y+1][z+2] = cellContent;
+				worldmaps[x][y+2][z+2] = cellContent;
+				worldmaps[x+1][y+2][z+2] = cellContent;
+				worldmaps[x+2][y+2][z+2] = cellContent;
+				}
+			}
+		}
+
+		 
+		 
+	for( x=0; x< 15 ; x++ ) 
+		{
+		for( y=0; y< 15 ; y++ ) 
+			{
+			for( z=0; z< 15 ; z++ ) 
+				{
+				GsInitCoordinate2(0  , &World[x][y][z]);
+				World[x][y][z].coord.t[0] = x* 128 ;
+				World[x][y][z].coord.t[1] = y* 128 ;
+				World[x][y][z].coord.t[2] = z* 128 ;
+				}
+			}
+		}
+}
+
+
+
+void GenerateSetWorld (void)
+{
+	int x, y, z;
+
+	for( x=0; x< 15 ; x++ ) 
+		{		
+		for( y=0; y< 15 ; y++ )
+			{
+			for( z=0; z< 15 ; z++ ) 
+				{
+				if ( ((x >= 2 && x <= 5) || (x >= 8 && x <= 11))
+					&& ((y >= 2 && y <= 5) || (y >= 8 && y <= 11))
+					&& ((z >= 2 && z <= 5) || (z >= 8 && z <= 11)) ) 
+					worldmaps[x][y][z] = 0x01 ;
+				else
+					worldmaps[x][y][z] = 0;
+				}
+			}
+		}
+
+		 
+		 
+	for( x=0; x< 15 ; x++ ) 
+		{
+		for( y=0; y< 15 ; y++ ) 
+			{
+			for( z=0; z< 15 ; z++ ) 
+				{
+				GsInitCoordinate2(0  , &World[x][y][z]);
+				World[x][y][z].coord.t[0] = x * 128 ;
+				World[x][y][z].coord.t[1] = y * 128 ;
+				World[x][y][z].coord.t[2] = z * 128 ;
+				}
+			}
+		}
+
+}
+
+
+   
+
+  
+
+	 
+void PrintObject (ObjectHandler* object)
+{
+	printf("id: %d, alive: %d, type: %d, which: %d\n",
+		object->id, object->alive, object->type, object->which);
+
+	printf("GsDOBJ2: attribute %d\n", ( &object->handler )->attribute),	printf("GsDOBJ2: coord pointer %u\n", (u_long)( &object->handler )->coord2),	printf("GsDOBJ2: tmd pointer %u\n", (u_long)( &object->handler )->tmd),	printf("GsDOBJ2: id %d\n", ( &object->handler )->id) ;
+	printf("model: addr %u, which one %d\n",
+		object->modelAddress, object->whichModel);
+
+	printf("scaling flag: %d\n", object->scalingFlag);
+	printf("VECTOR: %d, %d, %d\n",	( &object->scalingVector )->vx, ( &object->scalingVector )->vy, ( &object->scalingVector )->vz) ;
+
+	printf("movementTypeFlag: %d\n", object->movementTypeFlag);
+
+	printf("VECTOR: %d, %d, %d\n",	( &object->position )->vx, ( &object->position )->vy, ( &object->position )->vz) ;
+	printf("VECTOR: %d, %d, %d\n",	( &object->velocity )->vx, ( &object->velocity )->vy, ( &object->velocity )->vz) ;
+	printf("movement momentum: %d\n",
+		object->movementMomentumFlag);
+		
+	printf("VECTOR: %d, %d, %d\n",	( &object->rotate )->vx, ( &object->rotate )->vy, ( &object->rotate )->vz) ;
+	printf("VECTOR: %d, %d, %d\n",	( &object->twist )->vx, ( &object->twist )->vy, ( &object->twist )->vz) ;
+	printf("rotation momentum: %d\n",
+		object->rotationMomentumFlag); 
+
+	printf("GsCOORDINATE2: flg: %d\n", ( &object->coord )->flg),	printf("GsCOORDINATE2: coord.m: [0]: %d, %d, %d\n[1]: %d, %d, %d\n[2]: %d, %d, %d\n",	( &object->coord )->coord.m[0][0], ( &object->coord )->coord.m[0][1], ( &object->coord )->coord.m[0][2], ( &object->coord )->coord.m[1][0], ( &object->coord )->coord.m[1][1], ( &object->coord )->coord.m[1][2],	( &object->coord )->coord.m[2][0], ( &object->coord )->coord.m[2][1], ( &object->coord )->coord.m[2][2]),	printf("GsCOORDINATE2: coord.t: %d %d %d\n", ( &object->coord )->coord.t[0], ( &object->coord )->coord.t[1], ( &object->coord )->coord.t[2]),	printf("GsCOORDINATE2: super pointer: %u\n", ((u_long)( &object->coord )->super)) ;
+	printf("super coord object id: %d\n",
+		object->superCoordinateObjectID);
+	printf("MATRIX: m: [0]: %d, %d, %d\n[1]: %d, %d, %d\n[2]: %d, %d, %d\n",	( &object->matrix )->m[0][0], ( &object->matrix )->m[0][1], ( &object->matrix )->m[0][2], ( &object->matrix )->m[1][0], ( &object->matrix )->m[1][1], ( &object->matrix )->m[1][2], ( &object->matrix )->m[2][0], ( &object->matrix )->m[2][1], ( &object->matrix )->m[2][2]),	printf("MATRIX: t: %d %d %d\n", ( &object->matrix )->t[0], ( &object->matrix )->t[1], ( &object->matrix )->t[2]) ;
+
+	printf("inOrbit: %d, centralBodyID: %d\n, 		angle: %d, angleIncrement: %d\n",
+
+		object->inOrbit, object->centralBodyID,
+		object->angle, object->angleIncrement);
+	printf("whichWay: %d, radius: %d\n",
+		object->whichWay, object->radius);
+	printf("VECTOR: %d, %d, %d\n",	( &object->firstVector )->vx, ( &object->firstVector )->vy, ( &object->firstVector )->vz) ;
+	printf("VECTOR: %d, %d, %d\n",	( &object->secondVector )->vx, ( &object->secondVector )->vy, ( &object->secondVector )->vz) ;
+
+	printf("specialMovement: %d\n", object->specialMovement);
+
+	printf("initialHealth: %d\n", object->initialHealth);
+	printf("currentHealth: %d\n", object->currentHealth);
+
+	printf("strategyFlag: %d\n", object->strategyFlag);
+
+	printf("meritRating: %d\n", object->meritRating);
+}
+
+
+
+
+
+	 
+void PositionSomewhereNotInAWall (ObjectHandler* object)
+{
+	int gridX, gridY, gridZ;
+	int xOffset, yOffset, zOffset;
+	int success = 0 ;
+
+
+if (WorldType == 1 )
+	{
+	for (;;)
+		{			 
+		gridX = (rand() % 15 );
+		gridY = (rand() % 15 );
+		gridZ = (rand() % 15 );
+
+		printf("testing: %d %d %d\n", gridX, gridY, gridZ);
+
+		if (worldmaps[gridX][gridY][gridZ] != 0x01 )
+			{
+			success = 1 ;
+			break;
+			}
+		}
+
+	( ( success == 1  ) ? 1 :	( printf("Assertion failure! " "success == TRUE"	"At line %d of file '%s'.\n",	2233, "tuto2.c"), exit(1), 0) ) ;			 
+
+		 
+	xOffset = 0; 
+	yOffset = 0; 
+	zOffset = 0; 
+
+	object->position.vx = (gridX * 128 ) + xOffset;
+	object->position.vy = (gridY * 128 ) + yOffset;
+	object->position.vz = (gridZ * 128 ) + zOffset;
+	}
+else if (WorldType == 0 )
+	{
+	for (;;)
+		{			 
+		gridX = 1 + (3 * (rand() % (15 /3)));
+		gridY = 1 + (3 * (rand() % (15 /3)));
+		gridZ = 1 + (3 * (rand() % (15 /3)));
+
+		printf("testing: %d %d %d\n", gridX, gridY, gridZ);
+
+		if (worldmaps[gridX][gridY][gridZ] != 0x01 
+			&& worldmaps[gridX-1][gridY][gridZ] != 0x01 
+			&& worldmaps[gridX+1][gridY][gridZ] != 0x01 
+			&& worldmaps[gridX][gridY+1][gridZ] != 0x01 
+			&& worldmaps[gridX-1][gridY+1][gridZ] != 0x01 
+			&& worldmaps[gridX+1][gridY+1][gridZ] != 0x01 
+			&& worldmaps[gridX][gridY-1][gridZ] != 0x01 
+			&& worldmaps[gridX-1][gridY-1][gridZ] != 0x01 
+			&& worldmaps[gridX+1][gridY-1][gridZ] != 0x01 
+
+			&& worldmaps[gridX][gridY][gridZ-1] != 0x01 
+			&& worldmaps[gridX-1][gridY][gridZ-1] != 0x01 
+			&& worldmaps[gridX+1][gridY][gridZ-1] != 0x01 
+			&& worldmaps[gridX][gridY+1][gridZ-1] != 0x01 
+			&& worldmaps[gridX-1][gridY+1][gridZ-1] != 0x01 
+			&& worldmaps[gridX+1][gridY+1][gridZ-1] != 0x01 
+			&& worldmaps[gridX][gridY-1][gridZ-1] != 0x01 
+			&& worldmaps[gridX-1][gridY-1][gridZ-1] != 0x01 
+			&& worldmaps[gridX+1][gridY-1][gridZ-1] != 0x01 
+
+			&& worldmaps[gridX][gridY][gridZ+1] != 0x01 
+			&& worldmaps[gridX-1][gridY][gridZ+1] != 0x01 
+			&& worldmaps[gridX+1][gridY][gridZ+1] != 0x01 
+			&& worldmaps[gridX][gridY+1][gridZ+1] != 0x01 
+			&& worldmaps[gridX-1][gridY+1][gridZ+1] != 0x01 
+			&& worldmaps[gridX+1][gridY+1][gridZ+1] != 0x01 
+			&& worldmaps[gridX][gridY-1][gridZ+1] != 0x01 
+			&& worldmaps[gridX-1][gridY-1][gridZ+1] != 0x01 
+			&& worldmaps[gridX+1][gridY-1][gridZ+1] != 0x01 )
+			{
+			success = 1 ;
+			break;
+			}
+		}
+
+	( ( success == 1  ) ? 1 :	( printf("Assertion failure! " "success == TRUE"	"At line %d of file '%s'.\n",	2289, "tuto2.c"), exit(1), 0) ) ;			 
+
+		 
+	xOffset = 0; 
+	yOffset = 0; 
+	zOffset = 0; 
+
+	object->position.vx = (gridX * 128 ) + xOffset;
+	object->position.vy = (gridY * 128 ) + yOffset;
+	object->position.vz = (gridZ * 128 ) + zOffset;
+	}
+else
+	( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2301, "tuto2.c"), exit(1), 0) ) ;
+}
+
+	  
+
+
+
+	 
+void HandleEnemyBehaviour (ObjectHandler* object)
+{
+	object->framesSinceLastFire++;
+
+	switch(object->strategyFlag)
+		{
+		case 0 :	 			
+			HandleWaitingShipsBehaviour(object);
+			break;
+		case 1 :				
+			HandleStationaryTrackingShipsBehaviour(object);
+			break;
+		case 2 :
+			HandleSeekingShipBehaviour(object);
+			break;
+		case 3 :		 
+			break;
+		default:
+			( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2327, "tuto2.c"), exit(1), 0) ) ;
+		}
+}
+
+
+
+
+
+
+
+
+	 
+	 
+	 
+void HandleWaitingShipsBehaviour (ObjectHandler* object)
+{
+	int x, y, z;
+
+		 
+		 
+
+	x = PlayersShip.position.vx - object->position.vx;
+	y = PlayersShip.position.vy - object->position.vy;
+	z = PlayersShip.position.vz - object->position.vz;
+
+	if (abs(x) < 200  
+		&& abs(y) < 200 
+		&& abs(z) < 200 )
+		{
+		printf("activating sleeper\n");
+		object->strategyFlag = 2 ;
+		}
+
+	if (object->lifeTime > object->specialTimeLimit)
+		{
+		printf("activating sleeper\n");
+		object->strategyFlag = 2 ;
+		}
+}
+
+
+
+
+
+
+
+
+
+
+	 
+
+	 
+	 
+void HandleStationaryTrackingShipsBehaviour (ObjectHandler* object)
+{
+	VECTOR worldVector, objectVector;
+	int angle;
+		
+		 
+	worldVector.vx = PlayersShip.position.vx - object->position.vx;
+	worldVector.vy = PlayersShip.position.vy - object->position.vy;
+	worldVector.vz = PlayersShip.position.vz - object->position.vz;
+
+		 
+		 
+		 
+	objectVector.vx = -(worldVector.vx * object->matrix.m[0][0]
+						+ worldVector.vy * object->matrix.m[1][0]
+						+ worldVector.vz * object->matrix.m[2][0]) / 4096 ;
+	objectVector.vy = (worldVector.vx * object->matrix.m[0][1]
+						+ worldVector.vy * object->matrix.m[1][1]
+						+ worldVector.vz * object->matrix.m[2][1]) / 4096 ;
+	objectVector.vz = (worldVector.vx * object->matrix.m[0][2]
+						+ worldVector.vy * object->matrix.m[1][2]
+						+ worldVector.vz * object->matrix.m[2][2]) / 4096 ;
+
+	if (frameNumber % 20 == 0)
+		{
+		printf("first world, then object\n");
+		printf("VECTOR: %d, %d, %d\n",	(  &worldVector )->vx, (  &worldVector )->vy, (  &worldVector )->vz) ;
+		printf("VECTOR: %d, %d, %d\n",	(  &objectVector )->vx, (  &objectVector )->vy, (  &objectVector )->vz) ;
+		}
+
+	if ( ((objectVector.vx * objectVector.vx) + (objectVector.vy * objectVector.vy)) 
+			< (50  * 50 ) && objectVector.vz < 0)
+				{
+				if (abs(objectVector.vz) < 300  * 4)	  
+					{
+					printf("close up enough\n");
+					if (object->framesSinceLastFire > object->firingRate)			 
+						{
+						EnemyShipFiresAShot(object);
+						object->framesSinceLastFire = 0;
+						}
+					}
+				else
+					printf("too far away\n");
+	   			}
+	else		
+		{
+		if (objectVector.vx <= 25 )		 
+			{
+			printf("enemy in yz plane\n");
+			if (objectVector.vy <= 0)
+				object->twist.vx += object->rotationSpeed;
+			else
+				object->twist.vx -= object->rotationSpeed;
+			}
+		else
+			{
+			printf("not in yz plane\n");
+			if (objectVector.vy == 0)		 
+				{
+				printf("directly to left or right\n");
+				if (objectVector.vx < 0)	    
+					object->twist.vz += object->rotationSpeed;
+				else if (objectVector.vx > 0)   
+					object->twist.vz -= object->rotationSpeed;
+				else
+					object->twist.vx -= object->rotationSpeed;	 
+				}
+			else
+				{
+				printf("tilt by quadrant\n");
+				if ( (objectVector.vx > 0 && objectVector.vy > 0)
+					|| (objectVector.vx < 0 && objectVector.vy < 0) )
+					{		   
+					object->twist.vz -= object->rotationSpeed;
+					} 
+				else
+					object->twist.vz += object->rotationSpeed;
+				}
+			} 
+		}
+}
+
+
+
+
+
+
+	 
+void HandleSeekingShipBehaviour (ObjectHandler* object)
+{
+# 2507 "tuto2.c"
+
+}
+
+
+							
+			
+
+
+
+			 
+void HandlePlayersDeath (void)
+{
+	 
+	ExplodeObject(&PlayersShip);
+	
+	 
+
+	sprintf(TextStrings[0], "You have died\n");
+	sprintf(TextStrings[1], "Your score: %d\n", PlayersShip.meritRating);
+	sprintf(TextStrings[2], "Press start\nto play again\n");
+
+	DummyGuiLoopForTextPrinting(3, (1<<11)  );
+
+	ResetAll();
+
+	PlayersShip.currentHealth = 10;
+	PlayersShip.alive = 1 ;
+}
+
+
+
+
+void HandleEnemysDeath (ObjectHandler* object)
+{
+	PlayersShip.meritRating 
+		+= (object->initialHealth * (object->strategyFlag + 1));
+
+	ExplodeObject(object);
+}
+
+
+
+
+
+	 
+int CheckCollisions (void)
+{
+	ObjectHandler* object;
+	int i, j;
+
+	for (i = 0; i < 1 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			if (ObjectsVeryClose(&TheShips[i], &PlayersShip))
+				{
+					 
+				printf("Player and Enemy collision\n");
+				PlayersShip.currentHealth--;
+				TheShips[i].currentHealth--;
+				}
+			}
+		}
+
+	for (i = 0; i < 50 ; i++)
+		{
+		if (TheBullets[i].alive == 1  && TheBullets[i].allegiance == 2 )
+			{
+			if (ObjectsVeryClose(&TheBullets[i], &PlayersShip))
+				{
+					 
+				printf("Player and bullet collision\n");
+				PlayersShip.currentHealth--;
+				}
+			}
+		} 
+
+	for (i = 0; i < 1 ; i++)
+		{
+		if (TheShips[i].alive == 1 )
+			{
+			for (j = 0; j < 50 ; j++)
+				{
+				if (TheBullets[j].alive == 1  && TheBullets[j].allegiance == 0 )
+					{
+					if (ObjectsVeryClose(&TheBullets[j], &TheShips[i]))
+						{
+							 
+						printf("ship and bullet collision\n");
+						printf("cube %d, ship %d\n", j, i);
+						TheShips[i].currentHealth--;
+						}
+					}
+				}
+			}
+		}
+}
+
+
+	  
+
+
+
+
+
+int ObjectsVeryClose (ObjectHandler* first, ObjectHandler* second)
+{
+	if (abs(first->position.vx - second->position.vx) > 32 )
+		return 0 ;
+	if (abs(first->position.vy - second->position.vy) > 32 )
+		return 0 ;
+	if (abs(first->position.vz - second->position.vz) > 32 )
+		return 0 ;
+
+	return 1 ; 
+}
+
+
+
+
+
+void ExplodeObject (ObjectHandler* object)
+{
+	int cubeID;
+	int whichAxis, sign;
+	int i, j;
+	
+	object->alive = 0 ;
+
+		 
+	for (i = 0; i < 6; i++)
+		{
+		cubeID = -1;	
+
+			 
+		for (j = 0; j < 20 ; j++)
+			{
+			if (TheCubes[j].alive == 0 )
+				{
+				cubeID = j;
+				break;
+				}
+			}
+
+		if (cubeID == -1)		 
+			continue;
+		else
+			{
+			TheCubes[cubeID].alive = 1 ;
+			TheCubes[cubeID].lifeTime = 0;
+
+				 
+			TheCubes[cubeID].rotationMomentumFlag = 1 ;
+			TheCubes[cubeID].twist.vx = rand() % 80;
+			TheCubes[cubeID].twist.vy = rand() % 80;
+				
+				 
+			TheCubes[cubeID].position.vx = object->position.vx;
+			TheCubes[cubeID].position.vy = object->position.vy;
+			TheCubes[cubeID].position.vz = object->position.vz;
+
+			whichAxis = i/2;
+			if (i%2 == 0)
+				sign = 1;
+			else
+				sign = -1;
+
+				 
+				 
+			TheCubes[cubeID].movementMomentumFlag = 1 ;
+			TheCubes[cubeID].velocity.vx = sign * (object->coord.coord.m[whichAxis][0] >> 9);
+			TheCubes[cubeID].velocity.vy = sign * (object->coord.coord.m[whichAxis][1] >> 9);
+			TheCubes[cubeID].velocity.vz = sign * (object->coord.coord.m[whichAxis][2] >> 9); 
+			}
+		}
+}
+
+
+
+   	
+
+	 
+	 
+	 
+
+void DummyGuiLoopForTextPrinting (int numberOfStrings, int quitKey)
+{
+	int	i;
+	int	hsync = 0;
+	GsDOBJ2 *op;
+	int side;			   
+	int localFrameCounter = 0;
+	long pad;
+
+	side = GsGetActiveBuff();
+
+	for (;;)
+		{
+		localFrameCounter++;
+
+		pad = PadRead(0);
+
+		if (pad & quitKey && localFrameCounter > 60)
+			break;		 
+	  
+		GsSetWorkBase((PACKET*)packetArea[side]);
+		GsClearOt(0,0,&Wot[side]);
+		GsClearOt(0,0,&Sot[side]);
+		
+		hsync = VSync(2);
+		ResetGraph(1);
+		GsSwapDispBuff();
+		GsSortClear(0,0,4,&Wot[side]);
+		GsDrawOt(&Wot[side]);
+		GsDrawOt(&Sot[side]);
+		side ^= 1;
+
+		for (i = 0; i < numberOfStrings; i++)
+			{
+			FntPrint(TextStrings[i]);
+			}
+		
+		FntFlush(-1);
+		}	
+}
+
+
+
+
+
+	 
+	 
+	 
+void ResetAll (void)
+{
+	int i;
+
+	if (WorldType == 1 )
+		GenerateSetWorld();
+	else if (WorldType == 0 )
+		GenerateRandomWorld();
+	else
+		( ( 0  ) ? 1 :	( printf("Assertion failure! " "FALSE"	"At line %d of file '%s'.\n",	2749, "tuto2.c"), exit(1), 0) ) ;
+
+
+	BringObjectToLife (&PlayersShip, 0 , 
+					0x80096000 , 0, 1001 );
+	PositionSomewhereNotInAWall(&PlayersShip);
+	PlayersShip.initialHealth = 1000;
+	PlayersShip.currentHealth = 1000;
+	PlayersShip.allegiance = 0 ;
+
+	PlayersShip.movementSpeed = 2;
+	PlayersShip.rotationSpeed = 55;
+	PlayersShip.firingRate = 4;
+	PlayersShip.framesSinceLastFire = 0;
+	PlayersShip.movementMomentumFlag = 1 ;
+
+
+		
+
+	for (i = 0; i < 50 ; i++)
+		{
+		InitSingleObject(&TheBullets[i]);
+
+		BringObjectToLife(&TheBullets[i], 1 , 
+			0x80097000 , 0, 1001 );
+
+		SetObjectScaling(&TheBullets[i], 4096 >>5, 4096 >>5, 4096 >>5);
+		}
+
+
+
+	for (i = 0; i < 20 ; i++)
+		{
+		InitSingleObject(&TheCubes[i]);
+
+		BringObjectToLife(&TheCubes[i], 3 , 
+			0x80097000 , 0, 1001 );
+
+		SetObjectScaling(&TheCubes[i], 4096 >>3, 4096 >>3, 4096 >>3);
+		}
+
+
+	  
+	for (i = 0; i < 1 ; i++)
+		{
+		InitSingleObject(&TheShips[i]);
+
+		BringObjectToLife(&TheShips[i], 2 , 
+			0x80096000 , 0, 1001 );
+
+		TheShips[i].initialHealth = 1;
+		TheShips[i].currentHealth = 1; 
+
+		TheShips[i].strategyFlag = 3 ;
+
+		PositionSomewhereNotInAWall(&TheShips[i]);
+		TheShips[i].allegiance = 2 ;
+
+		TheShips[i].position.vy += 20;
+		}
+
+
+
+  
+
+
+	for (i = 0; i < 50 ; i++)
+		{
+		TheBullets[i].alive = 0 ;		 
+		}
+	for (i = 0; i < 20 ; i++)
+		{
+		TheCubes[i].alive = 0 ;		 
+		}
+
+
+
+	InitialiseView();
+	InitialiseLighting();
+
+
+	MainMode = 0 ;
+}
+
+
+
+
+
+
+
+void HandleLevelTransition (void)
+{
+	int levelBonus;
+
+	levelBonus = LevelNumber * 50;
+	LevelNumber++;			 
+
+	PlayersShip.meritRating += levelBonus;
+
+	sprintf(TextStrings[0], "Finished level %d\n", LevelNumber-1);
+	sprintf(TextStrings[1], "level bonus: %d\n", levelBonus);
+	sprintf(TextStrings[2], "Your score: %d\n", PlayersShip.meritRating);
+	sprintf(TextStrings[3], "Press start for\nthe next level\n");
+
+	DummyGuiLoopForTextPrinting(4, (1<<11)  );
+
+	ResetAll();
+}
+			
+
+
+
+
+
+
+	 
+	 
+	 
+	 
+	   
+void GetPlusZAxisFromMatrix (MATRIX* matrix, VECTOR* vector)
+{
+	VECTOR relativeMovement;
+
+	relativeMovement.vx = 0;
+	relativeMovement.vy = 0;
+	relativeMovement.vz = 4096 ;
+
+	ApplyMatrixLV(matrix, &relativeMovement, vector);
+}
+
+void GetPlusYAxisFromMatrix (MATRIX* matrix, VECTOR* vector)
+{
+	VECTOR relativeMovement;
+
+	relativeMovement.vx = 0;
+	relativeMovement.vy = 4096 ;
+	relativeMovement.vz = 0;
+
+	ApplyMatrixLV(matrix, &relativeMovement, vector);
+}
+
+
+void GetPlusXAxisFromMatrix (MATRIX* matrix, VECTOR* vector)
+{
+	VECTOR relativeMovement;
+
+	relativeMovement.vx = 4096 ;
+	relativeMovement.vy = 0;
+	relativeMovement.vz = 0;
+
+	ApplyMatrixLV(matrix, &relativeMovement, vector);
+}
+
+
+
+void GetMinusZAxisFromMatrix (MATRIX* matrix, VECTOR* vector)
+{
+	VECTOR relativeMovement;
+
+	relativeMovement.vx = 0;
+	relativeMovement.vy = 0;
+	relativeMovement.vz = - 4096 ;
+
+	ApplyMatrixLV(matrix, &relativeMovement, vector);
+}
+
+void GetMinusYAxisFromMatrix (MATRIX* matrix, VECTOR* vector)
+{
+	VECTOR relativeMovement;
+
+	relativeMovement.vx = 0;
+	relativeMovement.vy = - 4096 ;
+	relativeMovement.vz = 0;
+
+	ApplyMatrixLV(matrix, &relativeMovement, vector);
+}
+
+
+void GetMinusXAxisFromMatrix (MATRIX* matrix, VECTOR* vector)
+{
+	VECTOR relativeMovement;
+
+	relativeMovement.vx = - 4096 ;
+	relativeMovement.vy = 0;
+	relativeMovement.vz = 0;
+
+	ApplyMatrixLV(matrix, &relativeMovement, vector);
+}
+
+
+
