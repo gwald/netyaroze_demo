@@ -1,0 +1,9 @@
+timv
+timv invader1.tim
+more batch1
+dir *.tim
+batch1
+cd ..\sample\check
+ls
+main
+batch0

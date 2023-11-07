@@ -1,0 +1,4 @@
+local load main
+local dos del log123.log
+local log log123.log
+go

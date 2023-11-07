@@ -1,0 +1,1 @@
+int ascii2sjis(unsigned char ascii_code);
