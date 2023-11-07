@@ -1,0 +1,2 @@
+local dload torso.tmd 800c0000
+local load main

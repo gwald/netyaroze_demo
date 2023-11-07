@@ -1,0 +1,2 @@
+local dload yuka.tmd 800c0000
+local load main

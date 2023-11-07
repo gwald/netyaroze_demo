@@ -1,0 +1,2 @@
+local dload <MODEL_FILE_NAME>.tmd 800c0000
+local load main

@@ -1,0 +1,2 @@
+local dload cube0.tmd 800c0000
+local load main

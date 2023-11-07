@@ -1,0 +1,2 @@
+local dload venus3g.tmd 800c0000
+local load main
