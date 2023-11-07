@@ -1,0 +1,4 @@
+local dload ../data/g_sphere.tmd 80090000
+local dload ../data/3dcoord.tim 80094000
+local load main
+go

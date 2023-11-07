@@ -1,0 +1,5 @@
+local dload ../data/cubetex.tmd 80090000
+local dload ../data/3dcoord.tim 80092000
+local dload ../data/stone02.tim 80098000
+local load main
+go

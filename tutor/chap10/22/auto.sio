@@ -1,0 +1,6 @@
+local dload ../data/sphere.tmd 80090000
+local dload ../data/sphere2.tmd 80093000
+local dload ../data/sphere3.tmd 80096000
+local dload ../data/3dcoord.tim 80099000
+local load main
+go
