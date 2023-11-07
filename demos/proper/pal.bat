@@ -1,0 +1,2 @@
+local load pal
+go

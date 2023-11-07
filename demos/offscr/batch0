@@ -1,0 +1,7 @@
+local dload ten.tmd 80090000
+local dload theship.tmd 80091000
+local dload wave09.tim 80092000
+local dload fire7.tim 80093000
+local dload tile2.tim 80094000
+local dload tile3.tim 80095000
+local load tuto0
