@@ -1,0 +1,20 @@
+CFLAGS  = -O2 -g
+LINKER  = -Xlinker -Map -Xlinker mapfile -Xlinker -Ttext -Xlinker 80100000
+
+PROG    = main
+OBJS    = main.o pad.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS) 
+	$(CC) $(OBJS) $(LINKER) -o $(PROG)
+		
+main.o: main.c tmd.h
+
+pad.o: pad.h pad.c
+
+clean:
+	$(RM) $(PROG) 
+	$(RM) $(OBJS)
+
+
