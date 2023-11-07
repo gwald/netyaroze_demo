@@ -1,0 +1,27 @@
+invader1.tim  address:80120000-801205ff size:000600  000600:    8sec.
+[36;1mdload -- PlayStation binary loader
+   for DTLH3000 1996/05/10 00:00:02
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x03F8, IRQ=4(vect=0x000C,8259=20)
+ BAUDRATE = 9600
+c:\blackpsx\bin\timview [ .text] address:800c0000-800c0b4f size:000b50  000b50:   54sec.
+c:\blackpsx\bin\timview [ .data] address:800c0b50-800c0c9f size:000150  000150:   70sec.
+c:\blackpsx\bin\timview [.sdata] address:800c0ca0-800c0d1f size:000080  000080:   82sec.
+  PC=800c0990, GP=800c8ca0, SP=801ffff0
+[36;1mload -- PlayStation program loader
+   for DTLH3000 1996/05/10 00:00:02
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x03F8, IRQ=4(vect=0x000C,8259=20)
+ BAUDRATE = 9600
+[36;1mgo -- PlayStation program execute
+   for DTLH3000 1996/05/10 00:00:02
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x03F8, IRQ=4(vect=0x000C,8259=20)
+ BAUDRATE = 9600
+[36;1msiocons -- PlayStation debug system console program
+   for DTLH3000 1996/05/10 00:00:03
+   type [7m F1 [0;36;1m  ----> display help
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x03F8, IRQ=4(vect=0x000C,8259=20)
+ BAUDRATE = 9600
+Terminate by user!

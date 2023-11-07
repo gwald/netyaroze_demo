@@ -1,0 +1,18 @@
+ResetGraph:jtb=8004829c,env=800482e4
+pixel rect: 640, 0, 44, 24
+Pixel mode:
+clut rect: 0, 480, 256, 1
+pixel rect: 640, 80, 32, 31
+Pixel mode:
+clut rect: 0, 481, 256, 1
+pixel rect: 640, 160, 32, 32
+Pixel mode: 8
+clut rect: 0, 482, 16, 1
+player: sprite w 44, h 0
+invader 0: sprite w 32, h 80
+invader 1: sprite w 32, h 80
+invader 2: sprite w 32, h 80
+shot 0: sprite w 32, h 160
+shot 1: sprite w 32, h 160
+shot 2: sprite w 32, h 160
+

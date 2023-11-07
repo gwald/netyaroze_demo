@@ -1,0 +1,3 @@
+local dload texture.tim  80090000
+local load example
+go

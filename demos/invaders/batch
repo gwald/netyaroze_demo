@@ -1,0 +1,4 @@
+local dload invader1.tim 80150000
+local dload ship1.tim 80160000
+local dload fire04.tim 80170000
+local load main
