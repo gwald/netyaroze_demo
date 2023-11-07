@@ -1,0 +1,125 @@
+//--------------------------------------------------------------------------
+// File: map.c
+// Author: George Bain
+// Date: July 27, 1998
+// Description: Map related routines 
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "main.h"
+#include "map.h" 
+
+//--------------------------------------------------------------------------
+// Function: InitCELLS()
+// Description: Load the texture data and setup our GsCELL data structure
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual for futher information.
+//-------------------------------------------------------------------------- 
+
+void InitCELLS( void )
+ {	 	
+	
+	GsIMAGE *tim;
+	u_short tpage;
+	u_short clut;
+	int count=0; 
+	int x, y=0;  	
+	
+	// get info
+    tim   = (GsIMAGE*)ReadTIM((u_long*)SPRITE_ADDR);    // read in TIM
+	tpage = GetTPage(1,0,tim->px,tim->py);	            // get TPAGE
+	clut  = GetClut(tim->cx,tim->cy);		            // get CLUT
+ 	
+	// rows	in tpage
+	for( y=0; y<2; y++ )
+	   {
+	   	 // columns	in tpage
+	     for( x=0; x<6; x++ )
+	        {
+	        
+	          cell_data[count].u     = x*16;
+		 	  cell_data[count].v     = y*16;
+		      cell_data[count].cba   = clut;
+		      cell_data[count].flag  = 0;
+		      cell_data[count].tpage = tpage;
+		      	        
+	          count++;
+
+			}// end for x	        
+
+	   }// end for y	
+	   
+	  	
+  }// end InitCells
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitMAP()
+// Description: Setup our GsMAP data structure
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual for futher information.
+//-------------------------------------------------------------------------- 
+  
+void InitMAP( void )
+ { 	
+
+	map_data.cellw  = TILE_WIDTH;
+	map_data.cellh  = TILE_HEIGHT;
+	map_data.ncellw = (NUM_SCREENS_X * NUM_X_TILES);
+	map_data.ncellh = (NUM_SCREENS_Y * NUM_Y_TILES);
+	map_data.base   = &cell_data[0];
+	map_data.index  = &map_array[0];
+
+ }// end InitMAP
+  
+    
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitBG()
+// Description: Setup our GsBG data structure
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual for futher information.
+//-------------------------------------------------------------------------- 
+ 
+void InitBG( void )
+ {
+ 
+	bg_data.attribute = (1<<24);
+	bg_data.x = 0;
+	bg_data.y = 0;
+	bg_data.w = (SCREEN_WIDTH  * NUM_SCREENS_X);
+	bg_data.h = (SCREEN_HEIGHT * NUM_SCREENS_Y);
+	bg_data.scrollx = 0;
+	bg_data.scrolly = 0;
+	bg_data.r = 0x80;
+	bg_data.g = 0x80;
+	bg_data.b = 0x80;
+	bg_data.map = &map_data;
+	bg_data.mx = 0;
+	bg_data.my = 0;
+	bg_data.scalex = ONE;
+	bg_data.scaley = ONE;
+	bg_data.rotate = 0;
+
+	GsInitFixBg16(&bg_data,bg_work_area);
+
+ }// end InitBG   
+
+
+
+
+//----------------------------------EOF-------------------------------------

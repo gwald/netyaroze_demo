@@ -1,0 +1,47 @@
+
+#////////////////////////////////////////////////////////////////////
+# Makefile				
+#////////////////////////////////////////////////////////////////////
+
+#////////////////////////////////////////////////////////////////////
+#				Compiler and Linker flags
+#////////////////////////////////////////////////////////////////////
+CFLAGS  = -O3 -W -g
+LINKER  = -Xlinker -Map -Xlinker mapfile -Xlinker -Ttext -Xlinker 80160000
+RM	= rm
+
+
+PROG = main
+OBJS = ai.o collide.o draw.o game.o gamelib.o init.o \
+       main.o map.o move.o sound.o
+
+all: $(PROG)
+     
+     
+$(PROG): $(OBJS) 
+	$(CC) $(OBJS) $(LINKER) -o $(PROG)
+
+ai.o: ai.c ai.h main.h
+
+collide.o: collide.c collide.h main.h
+
+draw.o: draw.c draw.h main.h
+
+game.o: game.c game.h main.h cntrl.h ai.h collide.h draw.h \
+        gamelib.h init.h map.h move.h sound.h 
+
+gamelib.o: gamelib.c gamelib.h  main.h
+
+init.o: init.c init.h main.h
+
+main.o: main.c main.h game.h
+
+map.o: map.c map.h main.h
+
+move.o: move.c move.h main.h
+
+sound.o: sound.c sound.h main.h
+
+
+#//////////////////////////////EOF////////////////////////////////
+

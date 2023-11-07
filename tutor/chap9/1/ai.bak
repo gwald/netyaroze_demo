@@ -1,0 +1,51 @@
+//--------------------------------------------------------------------------
+// File: ai.c
+// Author: George Bain
+// Date: July 23, 1998
+// Description: ai related routines 
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "main.h"
+#include "ai.h"
+
+
+//--------------------------------------------------------------------------
+// Function: ControlBlackSpider()
+// Description: The ai routine to control when the black spider is unleashed.
+//              The spider is dead for 30 seconds and alive for 10 seconds.
+//              See the Timer chapter for futher information.
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void ControlBlackSpider( void )
+ { 	 	
+ 
+	// based on a timer unleash black spider
+	if( (black_spider.health_state == ENEMY_DEAD) && (((frame_count/500)%4) == 3)) 
+	  {
+	  	black_spider.health_state = ENEMY_ALIVE;
+		black_spider.direction = rand() % 4;			  
+	  }
+	  
+	// time to kill spider
+	if( (black_spider.health_state == ENEMY_ALIVE) && (((frame_count/500)%4) == 0))
+	  {
+		black_spider.health_state = ENEMY_DEAD;
+		black_spider.sprite.x = 100;
+		black_spider.sprite.y = 191;
+		
+      }
+	  
+ }// end ControlBlackSpider	 
+
+
+//----------------------------------EOF-------------------------------------

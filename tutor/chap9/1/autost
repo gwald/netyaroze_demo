@@ -1,0 +1,4 @@
+local dload ..\newdata\story_l.tim 800A8670
+local dload ..\newdata\story_r.tim 800B2890
+local load main
+go

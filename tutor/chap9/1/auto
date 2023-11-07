@@ -1,0 +1,11 @@
+local dload ..\data\sprites2.tim 80090000
+local dload ..\data\start_l.tim 80094230
+local dload ..\data\start_r.tim 8009E450
+local dload ..\data\story_l.tim 800A8670
+local dload ..\data\story_r.tim 800B2890
+local dload ..\data\over_l.tim 800BCAB0
+local dload ..\data\over_r.tim 800C6CD0
+local dload ..\data\done_l.tim 800D0EF0
+local dload ..\data\done_r.tim 800DB110
+local load main
+go

@@ -1,0 +1,158 @@
+//--------------------------------------------------------------------------
+// File: move.c
+// Author: George Bain
+// Date: July 23, 1998
+// Description: Move related routines 
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "main.h"
+#include "move.h"
+
+//--------------------------------------------------------------------------
+// Function: MovePlayer()
+// Description: If the player is alive, move according to the players speed.
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+ 
+void MovePlayer( void )
+ {
+
+   if( player.health_state == PLAYER_ALIVE )
+     {
+
+       player.sprite.x += player.x_speed;
+       player.sprite.y += player.y_speed;
+
+	 }    
+
+ }// MovePlayer
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: MoveBlackSpider()
+// Description: If the black spider is alive, move according to the 
+//              black spiders direction.
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void MoveBlackSpider( void )
+ {
+	
+	if( black_spider.health_state == ENEMY_ALIVE )
+	  {
+		
+        switch( black_spider.direction )
+		   {
+
+			 case ENEMY_LEFT:
+			   {
+			   	 black_spider.x_speed = -ENEMY_SPEED;
+				 black_spider.y_speed = 0;
+			   }
+			 break;
+			 case ENEMY_RIGHT:
+			   {
+			     black_spider.x_speed = ENEMY_SPEED;
+				 black_spider.y_speed = 0;
+			   }
+			 break;
+			 case ENEMY_UP:
+			   {
+			     black_spider.y_speed = -ENEMY_SPEED;
+				 black_spider.x_speed = 0;
+			   }
+			 break;
+			 case ENEMY_DOWN:
+			   {
+			     black_spider.y_speed = ENEMY_SPEED;
+				 black_spider.x_speed = 0;
+			   }
+			 break;
+
+           }// end switch
+		  
+         black_spider.sprite.x += black_spider.x_speed;
+		 black_spider.sprite.y += black_spider.y_speed;
+		 															
+      }// end if alive
+
+ }// end MoveBlackSpider
+
+
+
+						
+
+//--------------------------------------------------------------------------
+// Function: MoveYellowSpider()
+// Description: If the black spider is alive, move according to the 
+//              black spiders direction.
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void MoveYellowSpider( void )
+ {
+	
+	if( yellow_spider.health_state == ENEMY_ALIVE )
+	  {
+		
+        switch( yellow_spider.direction )
+		   {
+
+			 case ENEMY_LEFT:
+			   {
+			   	 yellow_spider.x_speed = -ENEMY_SPEED;
+				 yellow_spider.y_speed = 0;
+			   }
+			 break;
+			 case ENEMY_RIGHT:
+			   {
+			     yellow_spider.x_speed = ENEMY_SPEED;
+				 yellow_spider.y_speed = 0;
+			   }
+			 break;
+			 case ENEMY_UP:
+			   {
+			     yellow_spider.y_speed = -ENEMY_SPEED;
+				 yellow_spider.x_speed = 0;
+			   }
+			 break;
+			 case ENEMY_DOWN:
+			   {
+			     yellow_spider.y_speed = ENEMY_SPEED;
+				 yellow_spider.x_speed = 0;
+			   }
+			 break;
+
+           }// end switch
+		  
+         yellow_spider.sprite.x += yellow_spider.x_speed;
+		 yellow_spider.sprite.y += yellow_spider.y_speed;			 
+
+      }// end if alive
+
+ }// end MoveYellowSpider
+
+
+
+
+
+
+
+//----------------------------------EOF-------------------------------------

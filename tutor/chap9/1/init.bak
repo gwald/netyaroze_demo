@@ -1,0 +1,213 @@
+//--------------------------------------------------------------------------
+// File: init.c
+// Author: George Bain
+// Date: July 24, 1998
+// Description: Init related routines 
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "init.h"
+#include "main.h" 
+
+//--------------------------------------------------------------------------
+// Function: InitStartScreen()
+// Description: Read the TIM image, get tpage and set the sprite structure
+// Parameters: none
+// Returns: none
+// Notes: 2 sprites are used since max tpage is (256 x 256) and our screen
+//        is (320 x 256).
+//--------------------------------------------------------------------------
+ 
+void InitStartScreen( void )
+ {     
+   
+   GsIMAGE *left;
+   GsIMAGE *right;
+   u_short tpage;
+	
+   // setup left screen
+   left    = (GsIMAGE*)ReadTIM((u_long*)START_L_ADDR);    
+   tpage   = GetTPage(1,0,left->px,left->py);
+			
+   InitSprite( &screen.start_l,(1<<24),0,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,left->cx,left->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+  
+   // setup right screen
+   right    = (GsIMAGE*)ReadTIM((u_long*)START_R_ADDR);    
+   tpage    = GetTPage(1,0,right->px,right->py);
+			
+   InitSprite( &screen.start_r,(1<<24),160,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,right->cx,right->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+
+ }// end InitStartScreen
+   
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitStartScreen()
+// Description: Read the TIM image, get tpage and set the sprite structure
+// Parameters: none
+// Returns: none
+// Notes: 2 sprites are used since max tpage is (256 x 256) and our screen
+//        is (320 x 256).
+//--------------------------------------------------------------------------
+
+void InitCompleteScreen( void )
+ {     
+   
+   GsIMAGE *left;
+   GsIMAGE *right;
+   u_short tpage;
+	
+   // setup left screen
+   left    = (GsIMAGE*)ReadTIM((u_long*)DONE_L_ADDR);    
+   tpage   = GetTPage(1,0,left->px,left->py);
+			
+   InitSprite( &screen.done_l,(1<<24),0,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,left->cx,left->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+  
+   // setup right screen
+   right    = (GsIMAGE*)ReadTIM((u_long*)DONE_R_ADDR);    
+   tpage    = GetTPage(1,0,right->px,right->py);
+			
+   InitSprite( &screen.done_r,(1<<24),160,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,right->cx,right->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+
+ }// end InitCompleteScreen
+
+
+
+void InitStoryScreen( void )
+ {     
+   
+   GsIMAGE *left;
+   GsIMAGE *right;
+   u_short tpage;
+	
+   // setup left screen
+   left    = (GsIMAGE*)ReadTIM((u_long*)STORY_L_ADDR);    
+   tpage   = GetTPage(1,0,left->px,left->py);
+			
+   InitSprite( &screen.story_l,(1<<24),0,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,left->cx,left->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+  
+   // setup right screen
+   right    = (GsIMAGE*)ReadTIM((u_long*)STORY_R_ADDR);    
+   tpage    = GetTPage(1,0,right->px,right->py);
+			
+   InitSprite( &screen.story_r,(1<<24),160,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,right->cx,right->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+
+ }// end InitStoryScreen
+
+
+void InitOverScreen( void )
+ {     
+   
+   GsIMAGE *left;
+   GsIMAGE *right;
+   u_short tpage;
+	
+   // setup left screen
+   left    = (GsIMAGE*)ReadTIM((u_long*)OVER_L_ADDR);    
+   tpage   = GetTPage(1,0,left->px,left->py);
+			
+   InitSprite( &screen.over_l,(1<<24),0,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,left->cx,left->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+  
+   // setup right screen
+   right    = (GsIMAGE*)ReadTIM((u_long*)OVER_R_ADDR);    
+   tpage    = GetTPage(1,0,right->px,right->py);
+			
+   InitSprite( &screen.over_r,(1<<24),160,0,(SCREEN_WIDTH/2),SCREEN_HEIGHT,
+               tpage,0,0,right->cx,right->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+
+ }// end InitOverScreen
+
+
+
+void InitPlayer( void )
+ {     
+   
+   GsIMAGE *tim;
+   u_short tpage;
+	
+   tim    = (GsIMAGE*)ReadTIM((u_long*)SPRITE_ADDR);    
+   tpage  = GetTPage(1,0,tim->px,tim->py);
+			
+   InitSprite( &player.sprite,(1<<24),70,147,PLAYER_WIDTH,PLAYER_HEIGHT,
+               tpage,1,18,tim->cx,tim->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+
+   player.health_state = PLAYER_ALIVE;
+   player.ai_state     = 0;
+   player.count_1      = 0;
+   player.count_2      = 0;
+   player.x_speed      = 0;
+   player.y_speed      = 0;
+   player.direction    = 0;	   
+
+ }// end InitPlayer
+
+
+
+
+void InitEnemy( void )
+ {
+
+   GsIMAGE *tim;
+   u_short tpage;
+   int count;
+	
+   tim    = (GsIMAGE*)ReadTIM((u_long*)SPRITE_ADDR);    
+   tpage  = GetTPage(1,0,tim->px,tim->py);
+	
+   // init our black spider     		
+   InitSprite( &black_spider.sprite,(1<<24),100,191,ENEMY_WIDTH,ENEMY_HEIGHT,
+               tpage,1,43,tim->cx,tim->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+   
+   black_spider.health_state = ENEMY_DEAD;
+   black_spider.ai_state     = 0;
+   black_spider.count_1      = 0;
+   black_spider.count_2      = 0;
+   black_spider.x_speed      = 0;	
+   black_spider.y_speed      = 0;
+   black_spider.direction    = 0;
+   black_spider.frame        = 0;
+	 
+   InitSprite( &yellow_spider.sprite,(1<<24),180,191,ENEMY_WIDTH,ENEMY_HEIGHT,
+               tpage,1,68,tim->cx,tim->cy,
+               0x80,0x80,0x80,0,0,ONE,ONE,0 );
+   
+   yellow_spider.health_state = ENEMY_ALIVE;
+   yellow_spider.ai_state     = 0;
+   yellow_spider.count_1      = 0;
+   yellow_spider.count_2      = 0;
+   yellow_spider.x_speed      = 0;	
+   yellow_spider.y_speed      = 0;
+   yellow_spider.direction    = ENEMY_LEFT;
+   yellow_spider.frame        = 0;
+   
+    	  
+ }// end InitEnemy 
+
+
+
+//----------------------------------EOF-------------------------------------
