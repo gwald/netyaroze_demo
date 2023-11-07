@@ -1,0 +1,2 @@
+local dload laydion.tmd 800c0000
+local load main

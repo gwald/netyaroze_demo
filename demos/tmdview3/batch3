@@ -1,0 +1,5 @@
+local dload pat16.tim 80120000
+local dload pat8.tim 80130000
+local dload pat4.tim 80140000
+local dload venus3g.tmd 80150000
+local load tuto3.exe
