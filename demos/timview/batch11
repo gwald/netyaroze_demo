@@ -1,0 +1,2 @@
+local dload tile1.tim 80190000
+local load main

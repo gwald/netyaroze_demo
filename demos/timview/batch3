@@ -1,0 +1,2 @@
+local dload fire03.tim 80190000
+local load main
