@@ -1,0 +1,6 @@
+local dload ten.tmd 80094000
+local dload theship.tmd 80096000
+local dload cube.tmd 80097000
+local dload wave09.tim 800a0000
+local dload spback.tim 800b0000
+local load tuto7

@@ -1,0 +1,22 @@
+Things still to do					19/12/96
+
+
+
+
+
+TMDs:
+
+	exploding, colour changing, etc,
+	general polygon-level manipulations:
+		ask Stuart in the new year
+
+	
+	Creation: need to be able to set tpage, pix mode, clut, uv
+	  
+	   
+
+sort interface to the trig LUTs: 
+the arc functions return odd values (i.e. not negative)
+
+
+

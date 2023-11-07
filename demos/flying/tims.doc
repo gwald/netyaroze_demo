@@ -1,0 +1,60 @@
+
+
+
+Nice fonts in blackpsx\data, also in website\latest\funky, and for stg01
+
+
+Some textures in blackpsx\data:
+
+
+wood, sections of wall, 
+nice wavy bits in 'wave',
+fire sprites, etc
+
+
+
+in sample\japanese:
+
+bg\sample.tim: crosses, lit 3D bullet
+
+mime2d\mie.tim: cat with green eyes
+
+
+
+
+in website\latest:
+
+bills110 - kitten
+
+funky- nice font,
+		spback: background of stars
+
+
+hhpd0002 - texf01: face and body of bird
+			also pictures of basic tree, small landscape,
+			also fire, lightning, whirlwind
+
+
+mimet - a.tim: 2D view down onto world
+
+
+othello - mascots.tim: 12 little girls
+
+
+t_tank2a - sky.tim: forest/sky background (256 * 100)
+
+
+t_tank2b: various bomb explosions
+
+
+
+tims - 	bg1: room with chair, very attractive
+		bg2: woman behind window
+		bg3: silver robot against fiery background
+		dino: background to dino demo: large building
+
+
+uch829 - bgsky.tim: sky
+			bgsnd: more sky, with sand below
+			bgstr: starry sky with nice moon
+			bgmon: mountains and sky

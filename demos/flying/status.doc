@@ -1,0 +1,145 @@
+Notes for monthly status report				   LPGE			02/12/96
+
+
+
+November work
+-------------
+
+Demos for Net Yaroze
+
+
+system functionality:
+	trigonometry LUT package: rsin, rcos, rtan, rasin, racos, ratan
+	light sources, background lighting, fogging
+	view and projection distortions
+	basic TMD viewer 
+	TIM viewer (Stuart)  
+	text printing utility (Stuart)
+
+
+3D object manipulation:
+	object scaling
+	various object viewing modes
+	move and rotate wrt world
+	move and rotate wrt object
+	express objects in any coordinate system, hence 3D navigation
+
+
+
+Demo games:
+	full design for tunnel-based driving/flying game
+	in either 2 or 3D, only partly implemented
+
+	3D world with 2D dynamics
+	3D world with 3D dynamics
+		both are descent-style 3D shoot-em-up games
+
+
+
+
+
+
+Plans for December
+------------------
+
+
+	Complete the TMD viewer
+
+
+	full TMD utility: module enabling total read-access and 
+	runtime manipulation of 3D models:
+		
+		get tmd info -> entire TMD rendered explicit
+
+		manipulations:
+			runtime retexturing
+			texture effects: colour, brightness etc
+			flip inside/out
+			find TMD dimensions -> proper collision detection
+			polygon scaling
+			subpart manipulation:
+				eg tag parts of TMD of man: 'head', 'left arm' etc
+				then generate TMD animation by moving subparts independently
+
+
+	Sound utility module:
+		background tunes
+		single sounds (eg when fire shot / shot hits something)
+		sound effects
+
+
+
+	Completion of demo games:
+
+		3D fly-around-and-shoot game
+			(in open arena, landscape, maze; guns, shields;
+			single-ship dog-fighting, multi-ship strategy control)
+
+		Track/tunnel-based driving/flying game (2D or 3D, with or without guns)
+
+		Platform game (requires at least one creature-TMD we can animate)
+
+		
+
+	
+
+
+	
+
+
+
+
+
+
+Suggestions for improvements
+----------------------------
+
+
+
+
+	1.	Provision of large stock of models, textures and sounds,
+			both for SCEE demos and for Yaroze in general (put onto website?)
+
+
+	2.	Training sessions on aspects of game design and programming:
+		especially in the areas of speed optimisations,
+		graphical enhancements and 3D geometry	
+
+
+	3.	Clarification of the direction that the Yaroze sample demos should go in.
+			I see four main purposes:
+
+			(1)		creation of useful reusable software modules for those that want
+				to write games for Yaroze:
+				e.g. TIM, TMD, padd, sound handler modules
+				runtime TIM and TMD alteration modules
+			
+
+			(2)	creation of extra utilities that will speed up Yaroze development
+				eg proper TIM and TMD viewers
+
+
+			(3) 	functionality demonstration and instruction
+				i.e. sample programs that both show what can be done with
+				PlayStation programming on Yaroze, and show just how to do it
+				by well-written and documented source code
+			
+			 
+
+			(4)	marketing/promotion: writing good-looking games to show to
+				prospective Yaroze customers / to generate interest generally.
+				
+				
+				
+	
+		So far most of the work has been with (3),
+			with several spin-offs into (1) and (2). Some demos have been developed
+			into games, but are not sufficiently graphically enhanced to
+			be used as promotion games.
+
+
+		We have limited time and people for the Yaroze code, and must decide
+			what to prioritise: functional demos, demonstrable games
+			or hybrids of both.
+			
+			

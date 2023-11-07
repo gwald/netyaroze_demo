@@ -1,0 +1,24 @@
+
+ Volume in drive C has no label
+ Volume Serial Number is 151E-17CD
+ Directory of C:\blackpsx\SAMPLE\japanese\novideo
+
+.              <DIR>        16/09/96  11:54 .
+..             <DIR>        16/09/96  11:54 ..
+NOVIDEO  LZH         4,760  16/09/96  10:31 NOVIDEO.LZH
+MAIN     C           7,735  02/12/96  16:39 MAIN.C
+PAD      H             737  28/05/96  12:54 PAD.H
+MAKEFILE               243  28/05/96  12:52 MAKEFILE
+README   TXT         1,205  30/05/96  17:13 README.TXT
+SPACE    SEQ           141  26/05/96  17:10 SPACE.SEQ
+SPACE    MID           265  26/05/96  17:10 SPACE.MID
+START    BAT            49  30/05/96  14:01 START.BAT
+MAIN     O          14,556  02/12/96  16:39 MAIN.O
+MAIN                16,384  02/12/96  16:39 MAIN
+SIOCONS  HIS            11  02/12/96  16:40 SIOCONS.HIS
+SOUND    LZH        24,454  25/10/96  15:28 SOUND.LZH
+MAIN     BAK         7,712  03/10/96  10:40 MAIN.bak
+AUTO                    49  30/05/96  14:01 auto
+MAINBACK BAK         7,731  03/10/96  10:42 mainback.bak
+        15 file(s)         86,032 bytes
+         2 dir(s)     614,268,928 bytes free

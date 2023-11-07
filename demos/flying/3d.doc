@@ -1,0 +1,52 @@
+
+
+
+
+3D Notes
+
+
+
+Movement and rotation:
+
+each of these can (independently) be done
+either wrt world axes, or wrt object's own axes
+
+easy to move/rotate relative to Any coordinate system
+
+Also want to be able to move object as ship,
+while it spins massively: 
+ie movement Uninfluenced by spinning.
+
+achieve this using two matrices for the object,
+one its display/object-handler matrix,
+which is influenced by the spinning;
+the other, its movement matrix, which isn't.
+
+
+
+
+
+
+World clipping:
+	basically, only draw objects within a given cuboid of the
+	viewpoint, i.e. only draw near objects/ objects in our field of 
+	close view, to get a speed-up.
+
+	Set coordinate system for viewpoint,
+	express object O1 in that coordinate system,
+	hence easy to test if it inside cuboid, 
+	hence know whether or not to add O1 to list of DrawnObjects.
+
+
+
+
+
+TMDutil planned, on its way
+
+
+
+
+
+NEED
+
+	background sky textures.
