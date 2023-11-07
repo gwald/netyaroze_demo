@@ -1,0 +1,182 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 8, 1998
+// Description: Chapter 2: Graphics Example 10 - Interlace Mode  
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h" 
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//-------------------------------------------------------------------------- 
+
+// texture
+#define TIM_ADDR (0x80090000)
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+u_char prev_mode;	// previous mode
+
+//--------------------------------------------------------------------------
+// S T R U C T U R E S
+//-------------------------------------------------------------------------- 
+
+typedef struct
+ {
+
+   DRAWENV draw;
+   DISPENV disp; 
+         
+ }DB;
+
+DB buff[2];
+
+//--------------------------------------------------------------------------
+// P R O T O T Y P E S
+//-------------------------------------------------------------------------- 
+
+void ReadTIM( u_long *addr );
+void Init( void );	
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Graphics Example 10 - Interlace Mode
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {
+       
+	Init();		
+        
+    ReadTIM((u_long*)TIM_ADDR);	    
+
+    while(!DONE)
+	 {
+	  
+      
+	   VSync(0);
+     }
+
+    SetVideoMode(prev_mode);
+
+    return(0);
+        
+ }// end main 
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: Init()
+// Description: Init Display and Draw environments
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual
+//--------------------------------------------------------------------------
+
+void Init( void )
+ {    
+         
+   buff[0].draw.clip.x = 0;
+   buff[0].draw.clip.y = 0;
+   buff[0].draw.clip.w = SCREEN_WIDTH;
+   buff[0].draw.clip.h = SCREEN_HEIGHT;
+
+   buff[0].disp.disp.x = 0;
+   buff[0].disp.disp.y = 0;
+   buff[0].disp.disp.w = SCREEN_WIDTH;
+   buff[0].disp.disp.h = SCREEN_HEIGHT; 
+        
+   buff[0].draw.r0 = 128;
+   buff[0].draw.g0 = 0;
+   buff[0].draw.b0 = 0;
+
+   buff[0].draw.isbg = 1;
+   buff[0].draw.dfe = 0;
+
+   buff[0].disp.screen.x = 10;
+   buff[0].disp.screen.y = 20;
+   buff[0].disp.screen.w = 255;
+   buff[0].disp.screen.h = 255;
+
+   buff[0].disp.isinter = 1;
+   buff[0].disp.isrgb24 = 0;
+
+   prev_mode = GetVideoMode();
+   SetVideoMode(MODE_PAL);   	
+   ResetGraph(0);
+
+   GetPadBuf(&buffer1,&buffer2);
+
+   PutDrawEnv(&buff[0].draw);
+   PutDispEnv(&buff[0].disp);
+   SetDispMask(1);
+   VSync(0);     
+   
+ }// end Init 
+ 
+ 
+ 
+ 
+  
+//--------------------------------------------------------------------------
+// Function: ReadTIM()
+// Description: Read a TIM and CLUT(if 4 bit or 8 bit) and transfer to VRAM
+// Parameters: u_long *addr: Address of TIM
+// Returns: none
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+
+void ReadTIM( u_long *addr )
+ { 	
+   
+	GsIMAGE tim;
+	RECT rect;			
+			
+	// Skip id and initialize image structure 
+	addr ++;
+	GsGetTimInfo(addr, &tim);
+			
+	// Transfer pixel data to VRAM 
+	rect.x = tim.px;
+	rect.y = tim.py;
+	rect.w = tim.pw;
+	rect.h = tim.ph;
+	LoadImage(&rect, tim.pixel);
+	DrawSync(0);
+			
+    // If CLUT exists, transfer it to VRAM 
+ 	if( (tim.pmode >> 3) & 0x01 ) 
+ 	  {
+ 	  	rect.x = tim.cx;
+	  	rect.y = tim.cy;
+	  	rect.w = tim.cw;
+	  	rect.h = tim.ch;
+	  	LoadImage(&rect, tim.clut);
+	  }	
+
+   DrawSync(0);
+
+   printf(" IMAGE - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.px, tim.py,tim.pw,tim.ph );
+   printf(" CLUT - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.cx, tim.cy,tim.cw,tim.ch );
+   printf(" image mode:%d \n", tim.pmode);
+
+ }// end ReadTIM  
+
+
+
+//----------------------------------EOF-------------------------------------
