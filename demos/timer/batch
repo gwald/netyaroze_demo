@@ -1,0 +1,3 @@
+local dload fire8.tim 800b0000
+local dload shuttle1.tmd 800c0000
+local load main
