@@ -1,0 +1,3 @@
+local dload ..\data\bg.tim 80090000
+local load main
+go

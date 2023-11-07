@@ -1,0 +1,4 @@
+local dload ..\data\left2.tim 80090000
+local dload ..\data\right2.tim 8009B000
+local load main
+go

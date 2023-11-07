@@ -1,0 +1,505 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 14, 1998
+// Description: Chapter Four: Graphic Example 14 - Tile Scrolling 
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h" 
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//-------------------------------------------------------------------------- 
+
+#define TILE_ADDR  (0x80090000)
+#define TILE_WIDTH  16
+#define TILE_HEIGHT 16
+#define NUM_X_TILES 20	// 320/16=20
+#define NUM_Y_TILES 16  // 256/16=16
+#define NUM_TILES   (NUM_X_TILES * NUM_SCREENS_X) * (NUM_Y_TILES * NUM_SCREENS_Y)
+#define NUM_SCREENS_X   2	// 2 screens wide
+#define NUM_SCREENS_Y   2	// 2 screens height
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char video_mode;					// video code
+int fnt_id[9];						// font id
+GsBG bg_data;						// bg info
+GsMAP map_data;						// map info
+GsCELL cell_data[20];				// cell info
+
+// formula for work area
+u_long bg_work_area[(((SCREEN_WIDTH/TILE_WIDTH+1)*
+                    (SCREEN_HEIGHT/TILE_HEIGHT+1+1)*6+4)*2+2)];  
+
+// out map layout
+u_short map_array[NUM_TILES] = {		
+5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,6,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,6,									   
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,9,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,6,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,6,
+3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,10,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,11,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5
+
+};
+
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Graphic Example 14 - Tile Scrolling
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {	    	
+	
+	// init all			
+    InitGame();	
+
+   	GsInitFixBg16(&bg_data,bg_work_area);
+
+	InitCELLS();
+	InitBG();
+	InitMAP();
+
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		 FntPrint(fnt_id[0], "~c000Graphic Example 14 - Tile Scrolling");
+
+		 if( PAD_PRESS(buffer1,PAD_RIGHT) )		   
+		     bg_data.scrollx += 4;		   
+
+		 if( PAD_PRESS(buffer1,PAD_LEFT) )
+		     bg_data.scrollx -= 4;
+
+		 if( PAD_PRESS(buffer1,PAD_UP) )
+		     bg_data.scrolly -= 4;
+
+		 if( PAD_PRESS(buffer1,PAD_DOWN) )
+		     bg_data.scrolly += 4;
+
+		 CheckBoundry();
+      	 UpdateScreen();
+
+      }// end while loop
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main 
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: CheckBoundry()
+// Description: Lets check for out of screen boundry, so that the map doesn't
+//              wrap around.
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+
+void CheckBoundry( void )
+ {
+
+	if( (bg_data.scrollx+SCREEN_WIDTH) > bg_data.w )
+	    bg_data.scrollx = (bg_data.w-SCREEN_WIDTH);
+
+	if( bg_data.scrollx < bg_data.x )
+	    bg_data.scrollx = bg_data.x;
+
+	if( (bg_data.scrolly+SCREEN_HEIGHT) > bg_data.h)
+	    bg_data.scrolly = (bg_data.h-SCREEN_HEIGHT);
+
+	if( bg_data.scrolly < bg_data.y )
+	    bg_data.scrolly = bg_data.y;
+
+    FntPrint(fnt_id[1], "~c000bg_data.x:%d \n",bg_data.x);
+    FntPrint(fnt_id[2], "~c000bg_data.y:%d \n",bg_data.y);
+    FntPrint(fnt_id[3], "~c000bg_data.w:%d \n",bg_data.w);
+    FntPrint(fnt_id[4], "~c000bg_data.h:%d \n",bg_data.h);
+    FntPrint(fnt_id[5], "~c000bg_data.scrollx:%d \n",bg_data.scrollx);
+    FntPrint(fnt_id[6], "~c000bg_data.scrolly:%d \n",bg_data.scrolly);
+
+ }// end CheckBoundry
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitCELLS()
+// Description: Load the texture data and setup our GsCELL data structure
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+
+void InitCELLS( void )
+ {	 	
+	
+	GsIMAGE *tim;
+	u_short tpage;
+	u_short clut;
+	int count=0; 
+	int x, y=0;  	
+	
+	// get info
+    tim   = ReadTIM((u_long*)TILE_ADDR);    // read in TIM
+	tpage = GetTPage(1,0,tim->px,tim->py);	// get TPAGE
+	clut  = GetClut(tim->cx,tim->cy);		// get CLUT
+ 	
+	// rows	in tpage
+	for( y=0; y<2; y++ )
+	   {
+	   	 // columns	in tpage
+	     for( x=0; x<8; x++ )
+	        {
+	        
+	          cell_data[count].u     = x*16;
+		 	  cell_data[count].v     = y*16;
+		      cell_data[count].cba   = clut;
+		      cell_data[count].flag  = 0;
+		      cell_data[count].tpage = tpage;
+		      	        
+	          count++;
+
+			}// end for x	        
+
+	   }// end for y	
+	   
+	  	
+  }// end InitCells
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitBG()
+// Description: Setup our GsBG data structure
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+ 
+void InitBG( void )
+ {
+ 
+	bg_data.attribute = (1<<24);
+	bg_data.x = 0;
+	bg_data.y = 0;
+	bg_data.w = (SCREEN_WIDTH  * NUM_SCREENS_X);
+	bg_data.h = (SCREEN_HEIGHT * NUM_SCREENS_Y);
+	bg_data.scrollx = 0;
+	bg_data.scrolly = 0;
+	bg_data.r = 0x80;
+	bg_data.g = 0x80;
+	bg_data.b = 0x80;
+	bg_data.map = &map_data;
+	bg_data.mx = 0;
+	bg_data.my = 0;
+	bg_data.scalex = ONE;
+	bg_data.scaley = ONE;
+	bg_data.rotate = 0;
+
+ }// end InitBG 
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitMAP()
+// Description: Setup our GsMAP data structure
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+  
+void InitMAP( void )
+ { 	
+
+	map_data.cellw  = TILE_WIDTH;
+	map_data.cellh  = TILE_HEIGHT;
+	map_data.ncellw = (NUM_SCREENS_X * NUM_X_TILES);
+	map_data.ncellh = (NUM_SCREENS_Y * NUM_Y_TILES);
+	map_data.base   = &cell_data[0];
+	map_data.index  = &map_array[0];
+
+ }// end InitMAP
+  
+    
+   
+
+
+//--------------------------------------------------------------------------
+// Function: ReadTIM()
+// Description: Read a TIM and CLUT(if 4 bit or 8 bit) and transfer to VRAM
+// Parameters: u_long *addr: address of TIM
+// Returns: GsIMAGE: address of tim variable
+// Notes: N/A
+//-------------------------------------------------------------------------- 
+
+GsIMAGE *ReadTIM( u_long *addr )
+ { 	
+   
+	static GsIMAGE tim;	 
+	RECT rect; 			
+			
+	// skip id and initialize image structure 
+	addr ++;
+	GsGetTimInfo(addr, &tim);	
+
+	// transfer pixel data to VRAM 
+	rect.x = tim.px;
+	rect.y = tim.py;
+	rect.w = tim.pw;
+	rect.h = tim.ph;
+	LoadImage(&rect, tim.pixel);
+
+	DrawSync(0);
+
+    // check if CLUT exists and transfer it to VRAM 
+ 	if( (tim.pmode >> 3) & 0x01 ) 
+ 	  {
+ 	  	rect.x = tim.cx;
+	  	rect.y = tim.cy;
+	  	rect.w = tim.cw;
+	  	rect.h = tim.ch;
+	  	LoadImage(&rect, tim.clut);
+	  }	
+	  
+    DrawSync(0);
+
+    printf(" IMAGE - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.px, tim.py,tim.pw,tim.ph );  
+    printf(" CLUT - x:(%d), y:(%d), w:(%d), h:(%d) \n", tim.cx, tim.cy,tim.cw,tim.ch );
+    printf(" image mode:%d \n", tim.pmode);   
+	printf(" tim addr: %p \n",&tim);
+
+    return(&tim);
+	
+
+ }// end ReadTIM   
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitGame()
+// Description: Initialise the graphics mode, joypad, ordering tables,
+//              textures, and objects
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitGame( void )
+ {
+	 int count;
+	 CdlFILE file;
+     
+	 printf("Starting InitGame() \n");
+	
+	 // load in the font pattern
+	 FntLoad(960,256);
+     printf("Fonts loaded: \n");
+
+	 fnt_id[0] = FntOpen(0,10,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[1] = FntOpen(0,20,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[2] = FntOpen(0,30,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[3] = FntOpen(0,40,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+
+	 fnt_id[4] = FntOpen(0,50,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[5] = FntOpen(0,60,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[6] = FntOpen(0,70,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[7] = FntOpen(0,80,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 
+	 /*  test							     	 
+	 if( CdSearchFile(&file, "\\DTL_S30.35;1") == 0)
+	   {
+	      printf("Boot file not found... MODE_NTSC enabled \n");
+	      SetVideoMode( MODE_NTSC );
+	      video_mode = GetVideoMode();	 
+	   }
+	 else
+	   {
+	      printf("Boot file found... MODE_PAL enabled \n");
+	      SetVideoMode( MODE_PAL );
+		  video_mode = GetVideoMode();
+	   }
+	 */
+
+	 video_mode = GetVideoMode();
+	 SetVideoMode( MODE_PAL );
+		    
+	 printf("Set video mode complete: \n");
+
+	 // init the controller buffers
+	 GetPadBuf(&buffer1,&buffer2); 
+	 printf("Set controller buffers complete: \n");
+
+	 // all reset, the drawing environment and display are initialised
+	 ResetGraph(0);
+
+	 GsInitGraph( SCREEN_WIDTH, SCREEN_HEIGHT,
+			      GsOFSGPU|GsNONINTER, 0, 0 );
+
+	 printf("Screen size setup complete: \n");
+
+	 // double buffer definition
+	 GsDefDispBuff( 0, 0, 0, SCREEN_HEIGHT );
+	 printf("Double buffer setup complete: \n");
+
+	  
+	 // set display output on t.v 
+	 GsDISPENV.screen.x = 10;
+	 GsDISPENV.screen.y = 18;
+	 GsDISPENV.screen.w = 255;
+	 GsDISPENV.screen.h = 255; 	  	
+  	  
+	 // set up the ordering table handlers
+	 for( count=0; count < 2; count++ )
+	    {
+		  world_ordering_table[count].length = 1;
+		  world_ordering_table[count].org = ordering_table[count];
+	    }
+
+	 // initialises the ordering table
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index]);
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index+1]);
+	 printf("WOT is setup and complete: \n");
+     printf("Game setup is complete: \n");
+
+ }// end InitGame
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: DeInitGame()
+// Description: De-init the game, sound, graphics, etc
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void DeInitGame( void )
+ {
+	 
+	 SetVideoMode( video_mode );
+
+	 // current drawing is canvelled and the command queue is flushed
+	 ResetGraph(3);	   
+
+	 printf("Graphics flushed: \n");
+	 printf("Game now de-int: \n");
+ 
+ }// end DeInitGame
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Function: UpdateScreen()
+// Description: Updates all the game objects and redraws the screen
+// Parameters: none
+// Returns: void
+// Notes: 
+//------------------------------------------------------------------------------
+
+void UpdateScreen( void )
+ {
+
+	int count;
+
+	// get the active buffer
+    output_buffer_index = GsGetActiveBuff();
+
+    // sets drawing command storage address
+    GsSetWorkBase((PACKET*)gpu_work_area[output_buffer_index]);
+
+    // initialises the ordering table
+    GsClearOt(0, 0, &world_ordering_table[output_buffer_index]);
+
+    // rendering done here
+    
+	for( count =0; count <8; count++ )
+         FntFlush(fnt_id[count]);         
+    
+    GsSortFixBg16(&bg_data,bg_work_area,
+                  &world_ordering_table[output_buffer_index],0);
+               
+		
+    // wait for all drawing to be completed
+    DrawSync(0);
+
+    // wait for vertical synchronisation
+    VSync(0);    // 0: blocking until vertical synch occurs
+
+    // swap double buffers, (changes the display buffer and drawing buffer)
+    GsSwapDispBuff();
+
+    // registers drawing clear command in OT (e.g. clear to black)
+    GsSortClear(0x0, 0x0, 0x80,
+                &world_ordering_table[output_buffer_index]);
+   
+	// start execution of the drawing command registered in OT
+    GsDrawOt(&world_ordering_table[output_buffer_index]);
+
+ }// end UpdateScreen 
+
+
+
+
+//----------------------------------EOF-------------------------------------

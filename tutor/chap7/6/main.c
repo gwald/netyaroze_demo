@@ -1,0 +1,344 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 19, 1998
+// Description: Chapter 7: Scrolling Example 6 - Vertical Star Field
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h" 
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//--------------------------------------------------------------------------  
+
+#define NUM_STARS 300
+
+//-------------------------------------------------------------------------- 
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id 
+
+//-------------------------------------------------------------------------- 
+// S T R U C T U R E S 
+//--------------------------------------------------------------------------
+
+typedef struct star_tag 
+ {
+
+   GsBOXF rect;
+   short plane;
+
+ }star_data, *star_ptr;	 
+
+star_data star[NUM_STARS];
+
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Scrolling Example 6 - Vertical Star Field 
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {
+          
+    int count=0;
+
+   	InitGame(); 
+   	InitStars();  
+
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		 FntPrint(fnt_id[0], "~c900Scrolling Example 6");
+		 FntPrint(fnt_id[1], "~c900- Vertical Star Field -");
+
+         if( PAD_PRESS(buffer1,PAD_CIRCLE) )
+		   {
+		     // do something
+		   } 
+   		 
+   		 MoveStars();
+
+		 UpdateScreen();
+
+      }// end while loop
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main 
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitStars()
+// Description: Setup our stars!  Set plane and color of stars
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitStars( void )
+ {
+
+    int count;
+
+    for( count =0; count <NUM_STARS; count++ )
+	   {
+
+		 star[count].rect.x = rand() % SCREEN_WIDTH;
+		 star[count].rect.y = rand() % SCREEN_HEIGHT;
+		 star[count].rect.w = 1;
+		 star[count].rect.h = 1;
+
+		 // setup color and plane
+		 switch( rand() %3)
+		    {
+			  case 0:
+			    {
+				  star[count].plane = 1;
+				  star[count].rect.r = star[count].rect.g = star[count].rect.b = 42;
+				}
+			  break;
+			  case 1:
+			    {
+				  star[count].plane = 2;
+				  star[count].rect.r = star[count].rect.g = star[count].rect.b = 84;
+				}
+			  break;
+			  case 2:
+			    {
+				  star[count].plane = 3;
+				  star[count].rect.r = star[count].rect.g = star[count].rect.b = 126;
+				}	 
+			  break;
+
+			}// end switch
+
+	   }// end for
+
+ }// end InitStars
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: MoveStars()
+// Description: Move stars according to the speed and plane they are on.
+//              Also wrap around stars if they go off the screen
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void MoveStars( void )
+ {
+
+	int count;
+
+	for( count =0; count <NUM_STARS; count++ )
+	   {
+
+		 switch( star[count].plane )
+		    {
+			  case 1:
+			   star[count].rect.y += 1;  // far plane
+			  break;
+			  case 2:
+			   star[count].rect.y += 2;  // middle plane
+			  break;
+			  case 3:
+			   star[count].rect.y += 3;  // close plane
+			  break;
+
+            }// end switch 
+
+		// wrap star field
+		if( star[count].rect.y > SCREEN_HEIGHT )
+		    star[count].rect.y = 0;
+
+       }// end for
+
+ }// end MoveStars
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitGame()
+// Description: Initialise the graphics mode, joypad, ordering tables,
+//              textures, and objects
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitGame( void )
+ {
+	 int count;
+     
+	 printf("Starting InitGame() \n");
+	
+	 // load in the font pattern
+	 FntLoad(960,256);
+     printf("Fonts loaded: \n");
+
+	 fnt_id[0] = FntOpen(0,10,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[1] = FntOpen(0,20,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[2] = FntOpen(0,30,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[3] = FntOpen(0,40,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+
+	 fnt_id[4] = FntOpen(0,120,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[5] = FntOpen(0,130,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[6] = FntOpen(0,140,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[7] = FntOpen(0,150,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	  
+   	 // save current video mode
+	 prev_mode = GetVideoMode();
+
+	 // init graphic mode
+	 SetVideoMode( MODE_PAL );
+	 printf("Set video mode complete: \n");
+
+	 // init the controller buffers
+	 GetPadBuf(&buffer1,&buffer2); 
+	 printf("Set controller buffers complete: \n");
+
+	 // all reset, the drawing environment and display are initialised
+	 ResetGraph(0);
+
+	 GsInitGraph( SCREEN_WIDTH, SCREEN_HEIGHT,
+			      GsOFSGPU|GsNONINTER, 0, 0 );
+	 printf("Screen size setup complete: \n");
+
+	 // double buffer definition
+	 GsDefDispBuff( 0, 0, 0, SCREEN_HEIGHT );
+	 printf("Double buffer setup complete: \n");
+
+	  
+	 GsDISPENV.screen.x = 6;
+	 GsDISPENV.screen.y = 16;
+	 GsDISPENV.screen.w = 255;
+	 GsDISPENV.screen.h = 255;	
+	
+	 // set up the ordering table handlers
+	 for( count=0; count < 2; count++ )
+	    {
+		  world_ordering_table[count].length = 1;
+		  world_ordering_table[count].org = ordering_table[count];
+	    }
+
+	 // initialises the ordering table
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index]);
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index+1]);
+	 printf("WOT is setup and complete: \n");
+     printf("Game setup is complete: \n");
+
+ }// end InitGame
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: DeInitGame()
+// Description: De-init the game, sound, graphics, etc
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void DeInitGame( void )
+ {
+
+ 	 // set previous video mode
+	 SetVideoMode( prev_mode );
+
+	 // current drawing is canvelled and the command queue is flushed
+	 ResetGraph(3);	   
+
+	 printf("Graphics flushed: \n");
+	 printf("Game now de-int: \n");
+ 
+ }// end DeInitGame
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Function: UpdateScreen()
+// Description: Updates all the game objects and redraws the screen
+// Parameters: none
+// Returns: void
+// Notes: 
+//------------------------------------------------------------------------------
+
+void UpdateScreen( void )
+ {
+
+	int count;
+
+	// get the active buffer
+    output_buffer_index = GsGetActiveBuff();
+
+    // sets drawing command storage address
+    GsSetWorkBase((PACKET*)gpu_work_area[output_buffer_index]);
+
+    // initialises the ordering table
+    GsClearOt(0, 0, &world_ordering_table[output_buffer_index]);
+
+    // rendering done here
+    
+	for( count =0; count <8; count++ )
+         FntFlush(fnt_id[count]);        
+	
+	for( count =0; count <NUM_STARS; count++ ) 
+	     GsSortBoxFill( &star[count].rect, 
+			            &world_ordering_table[output_buffer_index], 0 );
+			            
+			            	
+    // wait for all drawing to be completed
+    DrawSync(0);
+
+    // wait for vertical synchronisation
+    VSync(0);    // 0: blocking until vertical synch occurs
+
+    // swap double buffers, (changes the display buffer and drawing buffer)
+    GsSwapDispBuff();
+
+    // registers drawing clear command in OT (e.g. clear to black)
+    GsSortClear(0x0, 0x0, 0x0,
+                &world_ordering_table[output_buffer_index]);
+
+	// start execution of the drawing command registered in OT
+    GsDrawOt(&world_ordering_table[output_buffer_index]);
+
+ }// end UpdateScreen 
+
+//----------------------------------EOF-------------------------------------
