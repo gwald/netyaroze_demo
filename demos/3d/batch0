@@ -1,0 +1,2 @@
+local dload theship.tmd 800c0000
+local load tuto0

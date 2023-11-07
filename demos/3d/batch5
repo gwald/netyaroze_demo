@@ -1,0 +1,6 @@
+local dload ten.tmd 80090000
+local dload theship.tmd 80091000
+local dload tile4.tim 80092000
+local dload cube.tmd 80093000
+local dload ascii2.tim 80094000
+local load tuto5

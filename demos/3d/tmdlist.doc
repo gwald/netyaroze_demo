@@ -1,0 +1,315 @@
+
+ Volume in drive G is DEV_DATA 
+ 
+ 
+
+e.g. in blackpsx\newcode\tmdview :-
+
+ enemy.tmd: 
+ 1st is a yellow tetrahedron;
+ 2nd invisible (ie textured)
+ 3rd one is a nice geometric cuboid sphere-sim
+ 6 moved-out faces linked by planes  
+
+4 - N are lots of nice simple ships:
+4th is spiky insectoid ship
+5th invisible
+6th nondescript little ship
+7th nice ship: octagoid with arc fin wings
+8th massive ship with spiky nose
+9th 4-cross base ship: ideal for sitting on a plane
+10th large man-robot creature
+
+
+
+Directory of G:\PROGRAM\ANDYF\PS\CD\MENU
+
+RCUBE    TMD         1,644  30/05/94  20:53
+STATBOT  TMD         3,136  22/11/94  12:01
+         2 file(s)          4,780 bytes
+
+Directory of G:\PROGRAM\ANDYF\PS\TMDV\DATA
+
+CUBE3    TMD           392  14/11/94  17:17
+CUBE3G   TMD           464  14/11/94  17:17
+CUBE3GL  TMD           536  14/11/94  17:17
+CUBE3GT  TMD           464  14/11/94  17:17
+CUBE3GTL TMD           536  14/11/94  17:17
+CUBE3L   TMD           416  14/11/94  17:17
+CUBE3T   TMD           392  14/11/94  17:17
+CUBE3TL  TMD           416  14/11/94  17:17
+CUBE4    TMD           308  14/11/94  17:17
+CUBE4G   TMD           356  14/11/94  17:17
+CUBE4GL  TMD           392  14/11/94  17:17
+CUBE4GT  TMD           356  14/11/94  17:17
+CUBE4GTL TMD           392  14/11/94  17:17
+CUBE4L   TMD           296  14/11/94  17:17
+CUBE4T   TMD           308  14/11/94  17:17
+CUBE4TL  TMD           296  14/11/94  17:17
+SHUTTLE1 TMD        47,988  14/11/94  17:17
+        17 file(s)         54,308 bytes
+
+Directory of G:\PROGRAM\ANDYF\PS\TMDV\TMDVIEW1
+
+CUBE3    TMD           392  14/11/94  17:16
+CUBE3G   TMD           464  14/11/94  17:16
+CUBE3GL  TMD           536  14/11/94  17:16
+CUBE3GT  TMD           464  14/11/94  17:16
+CUBE3GTL TMD           536  14/11/94  17:16
+CUBE3L   TMD           416  14/11/94  17:16
+CUBE3T   TMD           392  14/11/94  17:16
+CUBE3TL  TMD           416  14/11/94  17:16
+CUBE4    TMD           308  14/11/94  17:16
+CUBE4G   TMD           356  14/11/94  17:16
+CUBE4GL  TMD           392  14/11/94  17:16
+CUBE4GT  TMD           356  14/11/94  17:16
+CUBE4GTL TMD           392  14/11/94  17:16
+CUBE4L   TMD           296  14/11/94  17:16
+CUBE4T   TMD           308  14/11/94  17:16
+CUBE4TL  TMD           296  14/11/94  17:16
+MADO     TMD         1,712  14/11/94  17:16
+SHUTTLE1 TMD        47,988  14/11/94  17:16
+        18 file(s)         56,020 bytes
+
+Directory of G:\PROGRAM\HARRY\DINOSND
+
+DINO     TMD       115,112  14/11/94  17:17
+NDINO    TMD       115,112  18/06/95  19:31
+NDINO2   TMD       115,112  18/06/95  20:01
+         3 file(s)        345,336 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\CD\EARTH
+
+EARTH    TMD        13,320  03/10/96  16:15
+         1 file(s)         13,320 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\CD\STR3D
+
+CUBE3    TMD           392  03/10/96  16:15
+         1 file(s)            392 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\GSGPU
+
+MADO     TMD         1,712  03/10/96  16:16
+         1 file(s)          1,712 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\MIPMAP
+
+BLOCK    TMD        10,552  03/10/96  16:17
+         1 file(s)         10,552 bytes
+
+
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\PMD
+
+DINO     TMD        97,892  03/10/96  16:17
+EARTH    TMD        13,320  03/10/96  16:17
+         2 file(s)        111,212 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\ROTATE\AXESMIME
+
+ARM      TMD           272  03/10/96  16:17		   // long thin cuboid
+HEAD     TMD         3,432  03/10/96  16:17		   // nice simple sphere
+LEG      TMD           272  03/10/96  16:17		   // long thin cuboid
+TORSO    TMD           272  03/10/96  16:17		   // rectoid cuboid
+         4 file(s)          4,248 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\TMD
+
+DINO     TMD        97,892  03/10/96  16:18
+EARTH    TMD        13,320  03/10/96  16:18
+         2 file(s)        111,212 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\TMDVIEW\DATA
+
+A        TMD           368  03/10/96  16:18
+CUBE3    TMD           392  03/10/96  16:18
+CUBE3G   TMD           464  03/10/96  16:18
+CUBE3GL  TMD           536  03/10/96  16:18
+CUBE3GT  TMD           464  03/10/96  16:18
+CUBE3GTL TMD           512  03/10/96  16:18
+CUBE3L   TMD           416  03/10/96  16:18
+CUBE3T   TMD           392  03/10/96  16:18
+CUBE3TL  TMD           416  03/10/96  16:18
+CUBE4    TMD           308  03/10/96  16:18
+CUBE4G   TMD           356  03/10/96  16:18
+CUBE4GL  TMD           392  03/10/96  16:18
+CUBE4GM  TMD           384  03/10/96  16:18
+CUBE4GT  TMD           356  03/10/96  16:18
+CUBE4GTL TMD           392  03/10/96  16:18
+CUBE4L   TMD           296  03/10/96  16:18
+CUBE4T   TMD           604  03/10/96  16:18
+CUBE4TL  TMD           296  03/10/96  16:18
+MADO     TMD         1,712  03/10/96  16:18
+SHUTTLE1 TMD        47,988  03/10/96  16:18
+VENUS3G  TMD        39,756  03/10/96  16:18
+        21 file(s)         96,800 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\TMDVIEW\MIME
+
+	// 5 similar models:
+	// very large orange-green shape, quite pretty
+	// basically cross-shaped, but curved and organic
+	// first one flat, later ones curled up like semi-clenched hand
+MD0      TMD         7,608  03/10/96  16:18
+MD1      TMD         7,608  03/10/96  16:18
+MD2      TMD         7,608  03/10/96  16:18
+MD3      TMD         7,608  03/10/96  16:18
+MD4      TMD         7,608  03/10/96  16:18
+         5 file(s)         38,040 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\TMDVIEW\RCUBE
+
+	// only three cubes, but look Really nice
+	// (under conditions of tmdview lighting etc)
+	// fourth cube needs texture, but should look great
+RCUBE    TMD         1,644  03/10/96  16:18
+         1 file(s)          1,644 bytes
+
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\TMDVIEW\SHUTTLE
+
+SHUTTLE1 TMD        47,988  03/10/96  16:18
+         1 file(s)         47,988 bytes
+
+	// all the different parts of a hand: 15 objects in TMD file
+	// first one is palm, then lots of finger portions and tips
+Directory of G:\PROGRAM\PSX\SAMPLES\SAMPLE\GRAPHICS\TOD\JANKEN\TMD
+
+TE       TMD        34,508  03/10/96  16:18
+         1 file(s)         34,508 bytes
+
+
+Directory of G:\PROGRAM\PSX\TRAINING\ADVANCED\SOURCE\GRAPHICS\DEVIDE\PROGRAM
+
+SAMPLE   TMD        38,992  17/05/96  11:24
+         1 file(s)         38,992 bytes
+
+Directory of G:\PROGRAM\PSX\TRAINING\BEGINNER\SOURCE\GRAPHICS\3D
+
+CUBE3    TMD           392  20/10/95   3:30
+	// heli.tmd needs heliside.tim
+HELI     TMD         5,388  20/10/95   3:30
+         2 file(s)          5,780 bytes
+
+Directory of G:\PROGRAM\PSX\TUTORIAL\ANIM\TRY2\TMD
+
+	// 4 simple objects part of a robot arm
+	// fourth one is large bolt
+ROBOARM2 TMD         5,452  15/03/95  14:43
+         1 file(s)          5,452 bytes
+
+
+
+Directory of G:\SUPPORT\DEMODEMO\DDP\FNLSRC\TMDS\DEMOSEL
+
+	// needs TIMs
+DEMOSEL  TMD         7,832  06/05/96  12:42
+         1 file(s)          7,832 bytes
+
+
+
+
+
+Directory of G:\SUPPORT\HARDWARE\CHKBRD\SAMPLE\SHUTTLE
+
+SHUTTLE  TMD        18,896  11/05/94  13:02
+         1 file(s)         18,896 bytes
+
+Directory of G:\SUPPORT\INST\SHUTTLE
+
+SHUTTLE  TMD        18,896  11/05/94  13:02
+         1 file(s)         18,896 bytes
+
+
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\GRAPHICS\FASTER\TAKE
+
+DINO     TMD        97,892  15/03/95   9:50
+EARTH    TMD        13,320  15/03/95   9:50
+         2 file(s)        111,212 bytes
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\GRAPHICS\GSGPU
+
+MADO     TMD         1,712  15/03/95   9:50
+         1 file(s)          1,712 bytes
+
+
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\GRAPHICS\PMD
+
+DINO     TMD        97,892  15/03/95   9:50
+EARTH    TMD        13,320  15/03/95   9:50
+         2 file(s)        111,212 bytes
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\GRAPHICS\RCUBE
+
+RCUBE    TMD         1,644  15/03/95   9:50
+         1 file(s)          1,644 bytes
+
+
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\GRAPHICS\TMDVIEW\DATA
+
+A        TMD           368  15/03/95   9:50
+CUBE3    TMD           392  15/03/95   9:50
+CUBE3G   TMD           464  15/03/95   9:50
+CUBE3GL  TMD           536  15/03/95   9:50
+CUBE3GT  TMD           464  15/03/95   9:50
+CUBE3GTL TMD           512  15/03/95   9:50
+CUBE3L   TMD           416  15/03/95   9:50
+CUBE3T   TMD           392  15/03/95   9:50
+CUBE3TL  TMD           416  15/03/95   9:50
+CUBE4    TMD           308  15/03/95   9:50
+CUBE4G   TMD           356  15/03/95   9:50
+CUBE4GL  TMD           392  15/03/95   9:50
+CUBE4GT  TMD           356  15/03/95   9:50
+CUBE4GTL TMD           392  15/03/95   9:50
+CUBE4L   TMD           296  15/03/95   9:50
+CUBE4T   TMD           604  15/03/95   9:50
+CUBE4TL  TMD           296  15/03/95   9:50
+MADO     TMD         1,712  15/03/95   9:50
+SHUTTLE1 TMD        47,988  15/03/95   9:50
+        19 file(s)         56,660 bytes
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\GRAPHICS\TOD\JANKEN\TMD
+
+TE       TMD        34,508  15/03/95   9:50
+         1 file(s)         34,508 bytes
+
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\MOVIE\CONBI
+
+CUBE3    TMD           392  15/03/95   9:51
+         1 file(s)            392 bytes
+
+Directory of G:\SUPPORT\LIBS\LIBS.30\SAMPLE\MOVIE\EARTH
+
+EARTH    TMD        13,320  15/03/95   9:51
+         1 file(s)         13,320 bytes
+
+Directory of G:\SUPPORT\MILL
+
+	
+SPHERE   TMD         4,088  05/02/95  14:53
+	// nice 8-sided-dice (octagon), simple and sweet
+A        TMD           448  13/02/95  15:16
+	// untextured shuttle
+SHUTTLE  TMD        18,896  11/05/94  13:02
+ALLAN    TMD           180  16/08/94  12:39
+         4 file(s)         23,612 bytes
+
+Directory of G:\SUPPORT\PROBE
+
+SHUTTLE  TMD        18,896  11/05/94  13:02
+         1 file(s)         18,896 bytes
+
+
+    
+Directory of G:\SUPPORT\SD\WEIRD
+
+DINO     TMD        97,892  18/11/94  15:40
+         1 file(s)         97,892 bytes
+
+Total files listed:
+       208 file(s)      2,673,296 bytes
+         0 dir(s)      13,238,272 bytes free

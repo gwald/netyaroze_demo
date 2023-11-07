@@ -1,0 +1,5 @@
+local dload ten.tmd 80090000
+local dload theship.tmd 80091000
+local dload wave09.tim 80092000
+local dload enemy.tmd 80094000
+local load tuto1
