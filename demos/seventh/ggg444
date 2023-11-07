@@ -1,0 +1,27 @@
+
+                                                    >>
+                                                    >>go
+ResetGraph:jtb=8004829c,env=800482e4
+
+currently in video mode NTSC
+If everything is black and white
+or there are lines at bottom or top of screen
+Then you need to change video mode
+
+
+
+ toNext, this, next
+
+VECTOR: 0, 0, 2048
+VECTOR: 0, 0, 0
+VECTOR: 0, 0, 2048
+Assertion failure! abs(SizeOfVector( &toNext)) <= SPLINE_POINT_DISTANCE_TOLERANCEAt line 1326 of file 'tunnel.c'.
+ResetGraph:jtb=8004829c,env=800482e4
+ResetGraph:jtb=8004829c,env=800482e4
+PS-X Control PAD Driver  Ver 3.0
+addr=8004d724
+
+Connected CIP
+Communication baud rate 115200 bps
+OK
+                                                    >>

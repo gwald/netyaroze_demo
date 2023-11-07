@@ -1,0 +1,341 @@
+
+                                                    >>
+                                                    >>
+                                                    >>go
+ResetGraph:jtb=8004829c,env=800482e4
+
+currently in video mode NTSC
+If everything is black and white
+or there are lines at bottom or top of screen
+Then you need to change video mode
+
+Main tunnel dimensions :-
+section shape angle 341
+section length 2048
+outer radius: 1024, inner radius: 989
+
+
+Here are the tunnel spline points
+VECTOR: 0, 0, 0
+VECTOR: 0, 0, 2048
+VECTOR: -201, 0, 4086
+VECTOR: -601, 0, 6094
+VECTOR: -1196, 0, 8053
+VECTOR: -1980, 0, 9944
+VECTOR: -2945, 0, 11749
+VECTOR: -4082, 0, 13450
+VECTOR: -5381, 0, 15031
+VECTOR: -6828, 0, 16477
+VECTOR: -8410, 0, 17774
+VECTOR: -18522, 0, 36684
+
+
+
+
+
+Here are the tunnel spline vectors
+VECTOR: 0, 0, 2048
+VECTOR: -201, 0, 2038
+VECTOR: -400, 0, 2008
+VECTOR: -595, 0, 1959
+VECTOR: -784, 0, 1891
+VECTOR: -965, 0, 1805
+VECTOR: -1137, 0, 1701
+VECTOR: -1299, 0, 1581
+VECTOR: -1447, 0, 1446
+VECTOR: -1582, 0, 1297
+VECTOR: -1702, 0, 1136
+VECTOR: -1702, 0, 1136
+
+
+
+
+
+Here are the tunnel rotations
+thetaX 0, thetaY 0
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+thetaX 0, thetaY 64
+
+
+
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1024
+VECTOR: 0, 0, 1024
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1024
+VECTOR: 0, 0, 1024
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1024
+VECTOR: 0, 0, 1024
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1024
+VECTOR: 0, 0, 1024
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1024
+VECTOR: 0, 0, 1024
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1024
+VECTOR: 0, 0, 1024
+newPos world, then relative to section 0
+VECTOR: 0, 0, 1199
+VECTOR: 0, 0, 1199
+newPos world, then relative to section 0
+VECTOR: -1, 0, 1274
+VECTOR: -1, 0, 1274
+newPos world, then relative to section 0
+VECTOR: -1, 0, 1274
+VECTOR: -1, 0, 1274
+newPos world, then relative to section 0
+VECTOR: -1, 0, 1674
+VECTOR: -1, 0, 1674
+newPos world, then relative to section 0
+VECTOR: -1, 0, 1774
+VECTOR: -1, 0, 1774
+newPos world, then relative to section 0
+VECTOR: -1, 0, 1774
+VECTOR: -1, 0, 1774
+newPos world, then relative to section 0
+VECTOR: -1, 0, 1949
+VECTOR: -1, 0, 1949
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2074
+VECTOR: 1, 0, 25
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2199
+VECTOR: 13, 0, 150
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2199
+VECTOR: 13, 0, 150
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2274
+VECTOR: 21, 0, 224
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2274
+VECTOR: 21, 0, 224
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2374
+VECTOR: 30, 0, 324
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2374
+VECTOR: 30, 0, 324
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2374
+VECTOR: 30, 0, 324
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2374
+VECTOR: 30, 0, 324
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2374
+VECTOR: 30, 0, 324
+newPos world, then relative to section 1
+VECTOR: -1, 0, 2374
+VECTOR: 30, 0, 324
+newPos world, then relative to section 1
+VECTOR: 17, 0, 2518
+VECTOR: 62, 0, 466
+newPos world, then relative to section 1
+VECTOR: 50, 0, 2782
+VECTOR: 121, 0, 725
+newPos world, then relative to section 1
+VECTOR: 65, 0, 2902
+VECTOR: 148, 0, 843
+newPos world, then relative to section 1
+VECTOR: 74, 0, 2974
+VECTOR: 164, 0, 914
+newPos world, then relative to section 1
+VECTOR: 86, 0, 3070
+VECTOR: 185, 0, 1008
+newPos world, then relative to section 1
+VECTOR: 101, 0, 3190
+VECTOR: 212, 0, 1126
+newPos world, then relative to section 1
+VECTOR: 125, 0, 3382
+VECTOR: 254, 0, 1315
+newPos world, then relative to section 1
+VECTOR: 137, 0, 3478
+VECTOR: 276, 0, 1409
+newPos world, then relative to section 1
+VECTOR: 152, 0, 3598
+VECTOR: 303, 0, 1527
+newPos world, then relative to section 1
+VECTOR: 182, 0, 3838
+VECTOR: 356, 0, 1763
+newPos world, then relative to section 1
+VECTOR: 182, 0, 3838
+VECTOR: 356, 0, 1763
+newPos world, then relative to section 1
+VECTOR: 209, 0, 4054
+VECTOR: 404, 0, 1975
+newPos world, then relative to section 1
+VECTOR: 209, 0, 4054
+VECTOR: 404, 0, 1975
+newPos world, then relative to section 2
+VECTOR: 227, 0, 4198
+VECTOR: 441, 0, 26
+newPos world, then relative to section 2
+VECTOR: 227, 0, 4198
+VECTOR: 441, 0, 26
+newPos world, then relative to section 2
+VECTOR: 227, 0, 4198
+VECTOR: 441, 0, 26
+newPos world, then relative to section 2
+VECTOR: 262, 0, 4313
+VECTOR: 498, 0, 132
+newPos world, then relative to section 2
+VECTOR: 290, 0, 4405
+VECTOR: 543, 0, 216
+newPos world, then relative to section 2
+VECTOR: 318, 0, 4497
+VECTOR: 588, 0, 301
+newPos world, then relative to section 2
+VECTOR: 353, 0, 4612
+VECTOR: 645, 0, 407
+newPos world, then relative to section 2
+VECTOR: 353, 0, 4612
+VECTOR: 645, 0, 407
+newPos world, then relative to section 2
+VECTOR: 402, 0, 4773
+VECTOR: 725, 0, 555
+newPos world, then relative to section 2
+VECTOR: 549, 0, 5256
+VECTOR: 963, 0, 1000
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+newPos world, then relative to section 2
+VECTOR: 523, 0, 5182
+VECTOR: 923, 0, 933
+newPos world, then relative to section 2
+VECTOR: 331, 0, 4606
+VECTOR: 622, 0, 406
+newPos world, then relative to section 2
+VECTOR: 331, 0, 4606
+VECTOR: 622, 0, 406
+newPos world, then relative to section 2
+VECTOR: 422, 0, 4905
+VECTOR: 770, 0, 681
+newPos world, then relative to section 2
+VECTOR: 422, 0, 4905
+VECTOR: 770, 0, 681
+newPos world, then relative to section 2
+VECTOR: 471, 0, 5066
+VECTOR: 849, 0, 829
+newPos world, then relative to section 2
+VECTOR: 471, 0, 5066
+VECTOR: 849, 0, 829
+newPos world, then relative to section 2
+VECTOR: 506, 0, 5181
+VECTOR: 906, 0, 935
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+newPos world, then relative to section 2
+VECTOR: 540, 0, 5295
+VECTOR: 962, 0, 1040
+newPos world, then relative to section 2
+VECTOR: 508, 0, 5199
+VECTOR: 911, 0, 952
+newPos world, then relative to section 2
+VECTOR: 508, 0, 5199
+VECTOR: 911, 0, 952
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+newPos world, then relative to section 2
+VECTOR: 543, 0, 5314
+VECTOR: 968, 0, 1058
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+COLLISION WITH POLY
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+newPos world, then relative to section 2
+VECTOR: 503, 0, 5194
+VECTOR: 906, 0, 949
+ResetGraph:jtb=8004829c,env=800482e4
+ResetGraph:jtb=8004829c,env=800482e4
+ResetGraph:jtb=8004829c,env=800482e4
+PS-X Control PAD Driver  Ver 3.0
+addr=8004d724
