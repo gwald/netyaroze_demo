@@ -1,0 +1,224 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 10, 1998
+// Description: Chapter 2: Graphic Example 3 - Interlace Mode ( 640 x 512 )
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h" 
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id 
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Graphic Example 3 - Interlace Mode ( 640 x 512 )
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {
+          
+    int count=0; 		
+
+   	InitGame();    
+
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		FntPrint(fnt_id[0], "~c900 Graphic Example 3 - Interlace Mode ( 640 x 512 ) "); 		 
+         
+		UpdateScreen();
+
+      }// end while loop
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main 
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitGame()
+// Description: Initialise the graphics mode, joypad, ordering tables,
+//              textures, and objects
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitGame( void )
+ {
+	 int count;
+     
+	 printf("Starting InitGame() \n");
+	
+	 // load in the font pattern
+	 FntLoad(960,256);
+     printf("Fonts loaded: \n");
+
+	 fnt_id[0] = FntOpen(0,10,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[1] = FntOpen(0,20,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[2] = FntOpen(0,30,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[3] = FntOpen(0,40,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+
+	 fnt_id[4] = FntOpen(0,120,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[5] = FntOpen(0,130,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[6] = FntOpen(0,140,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	 fnt_id[7] = FntOpen(0,150,SCREEN_WIDTH, SCREEN_HEIGHT,0,80);
+	  
+   	 // save current video mode
+	 prev_mode = GetVideoMode();
+
+	 // init graphic mode
+	 SetVideoMode( MODE_PAL );
+	 printf("Set video mode complete: \n");
+
+	 // init the controller buffers
+	 GetPadBuf(&buffer1,&buffer2); 
+	 printf("Set controller buffers complete: \n");
+
+	 // all reset, the drawing environment and display are initialised
+	 ResetGraph(0);
+
+	 // set screen res, set interlace mode
+	 GsInitGraph( SCREEN_WIDTH, SCREEN_HEIGHT,
+			      GsOFSGPU|GsINTER, 0, 0 );
+
+	 printf("Screen size setup complete: \n");
+
+	 // Interlace double buffer definition
+	 GsDefDispBuff( 0, 0, 0, 0 );
+	 printf(" Interlace Double buffer setup complete: \n");
+	 
+	 // set display output on t.v 
+	 GsDISPENV.screen.x = 10;
+	 GsDISPENV.screen.y = 18;
+	 GsDISPENV.screen.w = 255;
+	 GsDISPENV.screen.h = 255; 
+	 	  	
+     // set bg clear color and flag
+  	 GsDRAWENV.r0 = 0x00;
+	 GsDRAWENV.g0 = 0x00;
+	 GsDRAWENV.b0 = 0x80;
+	 GsDRAWENV.isbg = 1;
+	  
+
+	 // set up the ordering table handlers
+	 for( count=0; count < 2; count++ )
+	    {
+		  world_ordering_table[count].length = 1;
+		  world_ordering_table[count].org = ordering_table[count];
+	    }
+
+	 // initialises the ordering table
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index]);
+	 GsClearOt( 0, 0, &world_ordering_table[output_buffer_index+1]);
+	 printf("WOT is setup and complete: \n");
+     printf("Game setup is complete: \n");
+
+ }// end InitGame
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: DeInitGame()
+// Description: De-init the game, sound, graphics, etc
+// Parameters: none
+// Returns: void
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void DeInitGame( void )
+ {
+
+ 	 // set previous video mode
+	 SetVideoMode( prev_mode );
+
+	 // current drawing is canvelled and the command queue is flushed
+	 ResetGraph(3);	   
+
+	 printf("Graphics flushed: \n");
+	 printf("Game now de-int: \n");
+ 
+ }// end DeInitGame
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Function: UpdateScreen()
+// Description: Updates all the game objects and redraws the screen
+// Parameters: none
+// Returns: void
+// Notes: Notice that DrawSync() and GsSortClear() are not being called.
+//
+//        There is no need to call DrawSync() since we are in interlace
+//        mode and do not want to wait for drawing to be completed. 
+// 
+//        There is no need to call GsSortClear() since we are setting
+//        GsDRAWENV.isbg = 1; 
+//------------------------------------------------------------------------------
+
+
+void UpdateScreen( void )
+ {
+
+	int count;
+
+	// get the active buffer
+    output_buffer_index = GsGetActiveBuff();
+
+    // sets drawing command storage address
+    GsSetWorkBase((PACKET*)gpu_work_area[output_buffer_index]);
+
+    // initialises the ordering table
+    GsClearOt(0, 0, &world_ordering_table[output_buffer_index]);
+
+    // rendering done here
+    
+	for( count =0; count <8; count++ )
+         FntFlush(fnt_id[count]);         
+
+    // wait for vertical synchronisation
+    VSync(0);    // 0: blocking until vertical synch occurs
+
+    // swap double buffers, (changes the display buffer and drawing buffer)
+    GsSwapDispBuff();  
+       
+	// start execution of the drawing command registered in OT
+    GsDrawOt(&world_ordering_table[output_buffer_index]);
+
+ }// end UpdateScreen 
+
+
+
+
+//----------------------------------EOF-------------------------------------
