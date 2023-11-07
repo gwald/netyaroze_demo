@@ -1,0 +1,126 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 6, 1998
+// Description: Chapter 3: CD Example 1 - Loading Files from CD
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "cntrl.h"
+#include "main.h" 
+#include "game.h"
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id 	  
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: CD Example 1 - Loading Files from CD
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {	          
+
+   	InitGame();  	
+				 
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		 FntPrint(fnt_id[0], "~c900 Loading Files from CD Example \n~c990 Press X to load files ");		                     		 
+	  	 FntPrint(fnt_id[1]," File name:%s", cd_file[0].file_info.name);
+		 FntPrint(fnt_id[2]," File size:%d bytes", cd_file[0].file_info.size);
+	  	 FntPrint(fnt_id[3]," File loc: min:%d, sec:%d, sector:%d, track:%d", 
+	  	                      cd_file[0].file_info.pos.minute,
+	  	                      cd_file[0].file_info.pos.second,
+	  	                      cd_file[0].file_info.pos.sector,
+	  	                      cd_file[0].file_info.pos.track);
+	  	 
+	  	 
+	  	 
+	  	 FntPrint(fnt_id[4]," File name:%s", cd_file[1].file_info.name);	 
+		 FntPrint(fnt_id[5]," File size:%d bytes", cd_file[1].file_info.size);
+		 FntPrint(fnt_id[6]," File loc: min:%d, sec:%d, sector:%d, track:%d", 
+	  	                      cd_file[1].file_info.pos.minute,
+	  	                      cd_file[1].file_info.pos.second,
+	  	                      cd_file[1].file_info.pos.sector,
+	  	                      cd_file[1].file_info.pos.track);
+
+		 if( PAD_PRESS(buffer1,PAD_CROSS) )
+		   {
+			    	   	  				 
+			 // set-up for data files
+   	         strcpy(cd_file[0].file_name,"\\DATA\\SOUND\\STD0.VH;1");
+   	         strcpy(cd_file[1].file_name,"\\DATA\\SOUND\\STD0.VB;1");
+
+			 ReadFILE(&cd_file[0],(u_long*)VH_ADDR);    
+			 ReadFILE(&cd_file[1],(u_long*)VB_ADDR);
+			 
+		   }
+
+		 UpdateScreen();
+
+      }// end while loop     
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main 		   
+
+					   
+
+
+
+//--------------------------------------------------------------------------
+// Function: ReadFILE()
+// Description: This routine searches for a single file, and stores that file
+//              at the address passed in 
+// Parameters: *file: address of file information, *addr: address where file
+//             is stored
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void ReadFILE( file_data *file, u_long *addr )
+ { 		
+
+	// get location and size from filename on CD-ROM
+	if( CdSearchFile(&file->file_info, file->file_name) == 0 ) 
+	  {
+		printf(" ERROR: %s not found \n", file->file_name);
+		
+	  }
+   
+   	// read in file on CD-ROM
+	if( CdReadFile(file->file_name, addr, 0) == 0)
+	  {
+		printf(" ERROR: reading file \n");
+	  }		
+    
+  	// wait for termination of CdRead
+	while( CdReadSync(1, 0) > 0 ); 
+	
+ }// end ReadFILE  
+
+
+//-----------------------------------EOF----------------------------------------
+
+   
