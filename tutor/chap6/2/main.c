@@ -1,0 +1,239 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 2, 1998
+// Description: Chapter 6: Sound Example 2 - Load and Play SoundFX
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "main.h" 
+#include "game.h"
+#include "cntrl.h"
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//-------------------------------------------------------------------------- 
+
+#define VH_ADDR	 (0x80090000)
+#define VB_ADDR	 (0x800A0000)
+#define SEQ_ADDR (0x80110000)
+
+#define MAIN_VOL (127)
+#define SEQ_VOL  (127) 
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id 
+short vab_id;					    // vab id number 0-15
+short seq_id;					    // seq id number 0-32 
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Sound Example 2 - Load and Play SoundFX
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {
+
+    int press1,press2;
+
+   	InitGame();
+   	
+   	InitSound();
+   		
+	// vab_id, program, tone, note, fine(pitch), voll, volr
+	InitSFX(&siren,vab_id,0,0,64,0,127,127);	
+	InitSFX(&helli,vab_id,0,1,64,0,127,127);
+
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		 FntPrint(fnt_id[0], "~c900 Sound Example 2 - Load and Play SoundFX");
+		 FntPrint(fnt_id[1], "~c990 Press O to hear siren ");
+       	 FntPrint(fnt_id[2], "~c990 Press X to hear hellicopter ");
+		 FntPrint(fnt_id[3], "~c990 Press triangle to stop soundfx ");
+
+		 if( PAD_PRESS(buffer1,PAD_CIRCLE) )
+		   {  		     
+			 
+			 if( press1 )
+			   {
+			     // do nothing
+			   }  
+			 else
+			   {
+			     PlaySFX(&siren);
+			     press1 = 1;
+		       }
+			 
+		   }
+		 else
+		   {
+		   	  press1 = 0;
+		   } 
+
+
+		 // stop sound
+		 if( PAD_PRESS(buffer1,PAD_TRIANGLE) )
+		   {
+		     SsUtAllKeyOff(0);			 
+		   }
+
+
+		 if( PAD_PRESS(buffer1,PAD_CROSS) )
+		   { 
+		   
+		   	 if( press2 )
+			   {
+			     // do nothing
+			   }  
+			 else
+			   {
+			     PlaySFX(&helli);
+			     press2 = 1;
+		       }
+			 
+		   }
+		 else
+		   {
+		   	  press2 = 0;
+		   }
+		   
+		   		     
+		 UpdateScreen();
+
+      }// end while loop
+
+    StopSound();
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main 
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitSound()
+// Description: Init sound system. Load in vab and set the main volume
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitSound( void )
+ {  
+    
+ 	// return vab_id (0-15), open VAB and transfer to sound buffer	
+	vab_id = SsVabTransfer((u_char*)VH_ADDR, (u_char*)VB_ADDR,-1,1); 
+
+	if( vab_id < 0 )
+	  {
+	     printf(" vab:%d", vab_id);
+		 printf(" ERROR: VAB fail (LINE:%d)(FILE:%s)\n",
+			      __LINE__,__FILE__);
+
+       }    
+  
+	// set main volume
+	SsSetMVol(MAIN_VOL,MAIN_VOL);
+	
+ }// end InitSound
+
+
+			
+							 
+
+
+//--------------------------------------------------------------------------
+// Function: InitSFX()
+// Description: Setup our sound effects structure
+// Parameters: Lots...see Library Reference Manual
+// Returns: none
+// Notes: See Library Reference Manual
+//--------------------------------------------------------------------------
+
+void InitSFX( voice_ptr sound_effect, short vab_id, short program, 
+              short tone, short note, short fine, short vol_l, short vol_r )
+ {
+
+	sound_effect->vabid   = vab_id;
+	sound_effect->program = program;
+	sound_effect->tone    = tone;
+	sound_effect->note    = note;
+	sound_effect->fine    = fine;
+	sound_effect->vol_l   = vol_l;
+	sound_effect->vol_r   = vol_r; 
+
+ }// end InitSFX
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: PlaySFX()
+// Description: Play the sound effect
+// Parameters: voice_ptr sound_effect: address of sndfx variable
+// Returns: none
+// Notes: See Library Reference Manual
+//--------------------------------------------------------------------------
+
+void PlaySFX( voice_ptr sound_effect )
+ {
+
+	 SsUtKeyOn(sound_effect->vabid,
+	       	   sound_effect->program,
+			   sound_effect->tone,
+			   sound_effect->note,
+			   sound_effect->fine,
+			   sound_effect->vol_l,
+			   sound_effect->vol_r);
+	
+ }// end PlaySFX
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: StopSound()
+// Description: Close down the sound system
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual
+//--------------------------------------------------------------------------
+
+void StopSound( void )
+ {
+	
+	// close vab 
+	SsVabClose(vab_id);
+
+ }// end StopSound
+
+
+
+//----------------------------------EOF-------------------------------------

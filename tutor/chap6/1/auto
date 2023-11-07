@@ -1,0 +1,5 @@
+local dload ..\data\genmidi.vh 80090000
+local dload ..\data\genmidi.vb 800A0000
+local dload ..\data\gogo.seq 80110000
+local load main
+go

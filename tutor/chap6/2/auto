@@ -1,0 +1,4 @@
+local dload ..\data\sndfx.vh 80090000
+local dload ..\data\sndfx.vb 800A0000
+local load main
+go

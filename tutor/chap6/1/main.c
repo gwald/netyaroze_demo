@@ -1,0 +1,236 @@
+//--------------------------------------------------------------------------
+// File: main.c
+// Author: George Bain
+// Date: July 2, 1998
+// Description: Chapter 6: Sound Example 1 - Load and Play Music
+// Copyright (C) 1998 Sony Computer Entertainment Europe.,
+//           All Rights Reserved.  Permission granted to whom ever.
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// I N C L U D E S
+//--------------------------------------------------------------------------
+
+#include <libps.h>
+#include "main.h" 
+#include "game.h"
+#include "cntrl.h"
+
+//--------------------------------------------------------------------------
+// D E F I N E S 
+//-------------------------------------------------------------------------- 
+
+// sound address
+#define VH_ADDR	 (0x80090000)
+#define VB_ADDR	 (0x800A0000)
+#define SEQ_ADDR (0x80110000)
+
+// volume defines
+#define MAIN_VOL (127)
+#define SEQ_VOL  (127)
+
+
+//--------------------------------------------------------------------------
+// G L O B A L S
+//--------------------------------------------------------------------------
+
+int output_buffer_index;            // buffer index
+GsOT world_ordering_table[2];       // ordering table headers
+GsOT_TAG ordering_table[2][1<<1];   // actual ordering tables
+PACKET gpu_work_area[2][24000];     // GPU packet work area
+u_char prev_mode;					// previous code
+int fnt_id[9];						// font id 
+short vab_id;					    // vab id number 0-15
+short seq_id;					    // seq id number 0-32 
+
+//--------------------------------------------------------------------------
+// Function: main()
+// Description: Sound Example 1 - Load and Play Music
+// Parameters: none
+// Returns: int
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+int main( void )
+ {
+ 
+   	InitGame();
+   	
+	// init sound system
+   	InitSound();
+
+    // start to play music
+	PlayMusic(); 
+
+	// main loop
+    while( !DONE )
+      {
+		 	     
+		 FntPrint(fnt_id[0], " ~c900Sound Example 1 - Load and Play Music"); 
+     	 FntPrint(fnt_id[1], " ~c990Press O to pause and X to replay ");
+
+		 if( PAD_PRESS(buffer1,PAD_CIRCLE) )
+		   {
+		     SsSeqPause(seq_id);
+		     FntPrint(fnt_id[2], " Pause ");
+		   }
+		 
+		 if( PAD_PRESS(buffer1,PAD_CROSS) )
+		   {
+		     SsSeqReplay(seq_id);
+		     FntPrint(fnt_id[2], " Replay ");
+		   }
+
+		 UpdateScreen();
+
+      }// end while loop
+
+    StopSound();
+
+    DeInitGame();   // de-init the game
+
+    return(0);      // success
+
+ }// end main 
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: InitSound()
+// Description: Init sound system. Load in vabs and seqs, set reverb and volume
+// Parameters: none
+// Returns: none
+// Notes: N/A
+//--------------------------------------------------------------------------
+
+void InitSound( void )
+ {  
+    
+ 	// return vab_id (0-15), open VAB and transfer to sound buffer	
+	vab_id = SsVabTransfer((u_char*)VH_ADDR, (u_char*)VB_ADDR,-1,1); 
+
+	if( vab_id < 0 )
+	  {
+	     printf(" vab:%d", vab_id);
+		 printf(" ERROR: VAB fail (LINE:%d)(FILE:%s)\n",
+			      __LINE__,__FILE__);
+
+       }    
+	 
+	// open SEQ, max of 32 SEQ's can be opened at the same time 
+	seq_id = SsSeqOpen((u_long*)SEQ_ADDR,vab_id); 	
+
+	if( seq_id < 0 )
+	  {
+	    printf(" seq:%d", seq_id);
+	    printf(" ERROR: SEQ fail (LINE:%d)(FILE:%s)\n",
+			     __LINE__,__FILE__);
+
+       }
+	
+	// set reverb 
+	SetupReverb();
+	   
+	// set main volume
+	SsSetMVol(MAIN_VOL,MAIN_VOL);
+
+	// set SEQ volume 
+	SsSeqSetVol(seq_id,SEQ_VOL,SEQ_VOL);
+
+ }// end InitSound
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: SetupReverb()
+// Description: Set reverb type, depth, delay and feedback
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual
+//--------------------------------------------------------------------------
+
+void SetupReverb( void )
+ {
+
+	short type;
+	
+	// set reverb type
+	type = SsUtSetReverbType( SS_REV_TYPE_HALL );
+
+    if( type < 0 )
+	    printf(" ERROR: Reverb fail \n");
+
+    // turn on reverb
+	SsUtReverbOn();
+
+    // wait awhile
+	VSync(0);
+	VSync(0);
+
+    // set depth
+	SsUtSetReverbDepth(127,127);
+
+	// set delay
+	SsUtSetReverbDelay(127);
+
+    // set feedback
+	SsUtSetReverbFeedback(127);
+
+ }// SetupReverb
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: PlayMusic()
+// Description: Start playing the SEQ file.  Will play the SEQ 1 time only!
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual
+//--------------------------------------------------------------------------
+
+void PlayMusic( void )
+ {	   
+	// read in music and begin playing
+	SsSeqPlay(seq_id, SSPLAY_PLAY, 1);		
+
+ }// end PlaySound
+
+
+
+
+
+//--------------------------------------------------------------------------
+// Function: StopSound()
+// Description: Close down the sound system
+// Parameters: none
+// Returns: none
+// Notes: Look at the Library Reference Manual
+//--------------------------------------------------------------------------
+
+void StopSound( void )
+ {
+
+    // stop SEQ data reading
+	SsSeqStop(seq_id);
+
+    // wait awhile
+	VSync(0);
+	VSync(0);
+	
+	// Close VAB data
+	SsVabClose(vab_id);
+
+    // close SEQ data
+	SsSeqClose(seq_id);
+
+ }// end StopSound
+
+
+
+//----------------------------------EOF-------------------------------------
