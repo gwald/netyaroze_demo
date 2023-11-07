@@ -1,0 +1,7 @@
+local dload fire7.tim 80090000
+local dload ascii2.tim 80091000
+local dload cube.tmd 80092000
+local dload ten.tmd 80093000
+local dload lewis.vh 800a0000
+local dload lewis.vb 800b0000
+local load test2

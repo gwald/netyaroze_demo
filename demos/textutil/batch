@@ -1,0 +1,2 @@
+local dload font1.tim 80160000
+local load main

@@ -1,0 +1,23 @@
+/***************************************************************
+*                                                              *
+* Copyright (C) 1995 by Sony Computer Entertainment            *
+*                       All rights Reserved                    *
+*                                                              *
+* S. Ashley 29/11/96                                           *
+*                                                              *
+***************************************************************/
+
+
+	// maximum number of text sprites 
+#define  MAX_spriteStringLength 256
+
+	// the text sprites
+GsSPRITE spriteString[MAX_spriteStringLength];
+
+	// move font texture from timAdress into video ram and initialise
+	// text sprites
+void initTextFont (u_long *timAddress);
+	// make text fit a given rectangle
+void textPrintToBox(RECT stringBox, u_char r, u_char g, u_char b, char *string, GsOT *otp, u_short pri);
+	// display text at a position at a given size
+void textPrintToSize(u_short x, u_short y, u_short sizeInPixels, u_char r, u_char g, u_char b, char *string, GsOT *otp, u_short pri);

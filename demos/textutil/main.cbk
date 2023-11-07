@@ -1,0 +1,207 @@
+/***************************************************************
+*                                                              *
+* Copyright (C) 1995 by Sony Computer Entertainment            *
+*                       All rights Reserved                    *
+*                                                              *
+* S. Ashley 29/11/96                                           *
+*                                                              *
+***************************************************************/
+
+
+
+
+// NOTE: see the file <batch> for the necessary loading
+// of main program and .TIM graphic files
+// - they Must go into the exact memory destinations
+
+
+// see makefile.mak for making			
+
+
+#include <libps.h>
+
+#include "pad.h"
+#include "textfont.h"
+
+#include "myassert.h"
+
+#define TIM_ADDRESS 0x80160000
+
+	// needs to include MAX_spriteStringLength as each character in a
+	// string is an object
+#define MAX_OBJECTS MAX_spriteStringLength
+
+	// allow 24 bytes per primitive	for GPU work area
+#define MAX_SIZEOF_PRIMITIVE 24
+
+#define SCREEN_WIDTH 320 
+#define SCREEN_HEIGHT 240
+
+	// offset to make screen look right
+#define SCREEN_X_OFFSET 0
+#define SCREEN_Y_OFFSET 16
+
+
+	// not exactly a three-D game ...
+	// hence only 1 z-position in ordering table
+	// ie no actual z-discrimination at all
+#define OT_LENGTH 1
+
+#define FONT_X 768
+#define FONT_Y 0
+	
+	// controller pad buffers: Don't access these directly
+	// use PadRead to put pad status into an unsigned long variable
+volatile u_char *bb0, *bb1;
+
+GsOT WorldOrderingTable[2];
+GsOT_TAG OrderingTableTags[2][1<<OT_LENGTH];
+
+PACKET GpuPacketArea[2][MAX_OBJECTS * MAX_SIZEOF_PRIMITIVE];
+u_char activeBuff;
+
+	// controller pad buffer: easiest way to access is
+	// bitwise-AND with constants in pad.h 
+u_long PadStatus;
+
+	// libgs globals: used for setting screen offsets 
+extern DRAWENV GsDRAWENV;	/* DRAWENV of Gs */
+extern DISPENV GsDISPENV;	/* DISPENV of Gs */
+
+
+	// prototypes
+	
+int main(void);
+
+void InitialiseAll(void);
+void InitialiseObjects (void);
+void InitGsSprite (GsSPRITE* sprite);
+
+
+void PadInit(void);
+u_long PadRead(void);
+
+int main (void)
+{
+	RECT textbox = {20,30,150,48};
+	u_char r=50,g=50,b=50;
+
+	InitialiseAll();
+
+	do
+		{
+		activeBuff = GsGetActiveBuff();
+
+		GsSetWorkBase( (PACKET *) GpuPacketArea[activeBuff] );
+
+		GsClearOt(0, 0, &WorldOrderingTable[activeBuff]);
+
+		textPrintToSize(10,10,20, 255, 0, 0, "Stuart Woz Ere\nN Ere Too", &WorldOrderingTable[activeBuff], 0);
+		textPrintToBox(textbox, r, g, b, "0123\n456", &WorldOrderingTable[activeBuff], 0);
+
+		DrawSync(0);                                             
+		VSync(0);
+
+		GsSwapDispBuff();
+
+		GsSortClear(0,0,0,&WorldOrderingTable[activeBuff]);
+
+		GsDrawOt(&WorldOrderingTable[activeBuff]);
+
+		PadStatus = PadRead();
+
+		if (PadStatus & PADL1)
+			{
+			if (PadStatus & PADLleft)
+				textbox.x--;
+			if (PadStatus & PADLright)
+				textbox.x++;
+			if (PadStatus & PADLup)
+				textbox.y--;
+			if (PadStatus & PADLdown)
+				textbox.y++;
+			}
+		if (PadStatus & PADR1)
+			{
+			if (PadStatus & PADLleft)
+  				textbox.w--;
+			if (PadStatus & PADLright)
+				textbox.w++;
+			if (PadStatus & PADLup)
+				textbox.h--;
+			if (PadStatus & PADLdown)
+				textbox.h++;
+			}
+		if (PadStatus & PADL2)
+			{
+			if (PadStatus & PADRright)
+				r++;
+			if (PadStatus & PADRup)
+				g++;
+			else if (PadStatus & PADRdown)
+				b++;
+			}
+		if (PadStatus & PADR2)
+			{
+			if (PadStatus & PADRright)
+				r--;
+			if (PadStatus & PADRup)
+				g--;
+			if (PadStatus & PADRdown)
+				b--;
+			}
+
+		}
+	while (!(PadStatus & PADselect) || !(PadStatus & PADstart));
+
+	// cleanup
+	ResetGraph(3);
+	return(0);
+}
+
+
+
+
+
+void InitialiseAll (void)
+{
+	// first graphical initialisations
+	GsInitGraph(SCREEN_WIDTH, SCREEN_HEIGHT, 4, 0, 0);
+	GsDefDispBuff(0,0,0,240);
+
+	// set the screen offset (varies with PAL/NTSC)
+	GsDISPENV.screen.x = SCREEN_X_OFFSET;
+	GsDISPENV.screen.y = SCREEN_Y_OFFSET;
+	// GsDISPENV.screen.w = SCREEN_WIDTH;
+	// GsDISPENV.screen.h = SCREEN_HEIGHT;	
+	   
+	WorldOrderingTable[0].length = OT_LENGTH;
+	WorldOrderingTable[0].org = OrderingTableTags[0];
+	WorldOrderingTable[1].length = OT_LENGTH;
+	WorldOrderingTable[1].org = OrderingTableTags[1];
+		
+	PadInit();
+	
+		// load .TIM files into memory, link with sprites
+	initTextFont((u_long *)TIM_ADDRESS);
+
+}	  
+
+	
+	// set up low-level controller buffers
+void PadInit (void)
+{
+	GetPadBuf(&bb0, &bb1);
+}
+
+
+	// nice and comprehensible ...
+	// see the documentation for details
+	// BUT this makes pad-handling functions very easy,
+	// see DealWithControllerPad above
+u_long PadRead(void)
+{
+	return(~(*(bb0+3) | *(bb0+2) << 8 | *(bb1+3) << 16 | *(bb1+2) << 24));
+}
+
+
