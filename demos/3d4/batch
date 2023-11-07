@@ -1,0 +1,15 @@
+local dload fire8.tim 80090000
+local dload ascii3.tim 80091000
+local dload cube.tmd 80092000
+local dload mascots2.tim 80093000
+local dload wave10.tim 800a0000
+local dload greenci2.tim 800a3000
+local dload spback2.tim	800a4000
+local dload noise2.tim 800ad000
+local dload tile8.tim 800ae000
+local dload multi.tim 800af000
+local dload wave11.tim 800b6000
+local dload wave12.tim 800b9000
+local dload wave13.tim 800bc000
+local dload wave14.tim 800c0000
+local load main
