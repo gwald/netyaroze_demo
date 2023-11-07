@@ -1,0 +1,39 @@
+
+ Volume in drive C has no label
+ Volume Serial Number is 151E-17CD
+ Directory of C:\utils\batch
+
+.              <DIR>        29/08/96  10:45 .
+..             <DIR>        29/08/96  10:45 ..
+DOALL    BAT           249  02/09/96  12:33 DOALL.BAT
+HARDGNU  BAT            26  12/07/96  18:18 HARDGNU.BAT
+LS       BAT            12  13/09/96  11:30 ls.bat
+SORTMODE BAT            11  12/07/96  18:18 sortmode.bat
+PIPERR   BAT            18  12/07/96  18:18 PIPERR.BAT
+HARDWAT  BAT            21  12/07/96  18:18 HARDWAT.BAT
+MINBCKUP BAT           114  14/10/96  13:41 MINBCKUP.BAT
+SHOWMAK  BAT            19  04/09/96   9:58 showmak.bat
+DTL      BAT            10  03/09/96  12:49 dtl.bat
+BLACK    BAT            18  16/09/96  16:04 black.bat
+QCOMP    BAT            75  12/07/96  18:18 QCOMP.BAT
+BACKUP   BAT            23  13/09/96  11:29 BACKUP.BAT
+DOALLBUG BAT           242  12/07/96  18:18 DOALLBUG.BAT
+PX       BAT            10  02/09/96  10:24 px.bat
+DEBUG    BAT            19  12/07/96  18:18 DEBUG.BAT
+COMPILE  BAT            22  10/09/96  11:00 COMPILE.BAT
+WAT      BAT            13  12/07/96  18:19 WAT.BAT
+PREP     BAT            21  12/07/96  18:19 PREP.BAT
+SHOWPREP BAT            22  12/07/96  18:19 SHOWPREP.BAT
+MAKEX    BAT            68  12/07/96  18:19 MAKEX.BAT
+MAKEOB   BAT            13  12/07/96  18:19 MAKEOB.BAT
+WREMAKE  BAT            32  12/07/96  18:19 WREMAKE.BAT
+GREMAKE  BAT            29  12/07/96  18:19 GREMAKE.BAT
+EDMAK    BAT            19  11/09/96   9:45 edmak.bat
+BACKUP   BAK            27  13/09/96  11:29 BACKUP.bak
+GNUPREP  BAT            18  03/10/96   9:57 gnuprep.bat
+LS       BAK            12  29/08/96  11:02 ls.bak
+READ     BAT            17  16/09/96  11:53 read.bat
+OLDBLACK BAT             9  16/09/96  16:04 oldblack.bat
+DO       BAT            22  10/10/96  17:23 do.bat
+        30 file(s)          1,211 bytes
+         2 dir(s)   1,163,001,856 bytes free

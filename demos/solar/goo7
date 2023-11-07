@@ -1,0 +1,120 @@
+
+ Volume in drive C has no label
+ Volume Serial Number is 151E-17CD
+ Directory of C:\blackpsx\newcode\solar
+
+.              <DIR>        10/10/96  17:06 .
+..             <DIR>        10/10/96  17:06 ..
+TUTO1    C          23,435  17/10/96  11:12 tuto1.c
+CUBE0    TMD           392  19/07/96  11:22 CUBE0.TMD
+BATCH0                  84  10/10/96  17:25 batch0
+SPHERES  TMD       103,452  18/10/96  16:07 spheres.tmd
+SINCOS   H           7,362  09/10/96  17:38 SINCOS.H
+TUTO1    O          19,080  16/10/96  17:33 TUTO1.O
+TUTO1               34,048  16/10/96  17:33 TUTO1
+BATCH1                  84  11/10/96  15:21 batch1
+TUTO0    BAK        17,493  15/10/96  11:03 tuto0.bak
+TUTO4    O          29,240  16/10/96  17:33 TUTO4.O
+PAD      O           1,184  10/10/96  17:23 PAD.O
+MAKEFILE BAK         3,299  21/10/96  18:01 makefile.bak
+MAKEFILE MAK         3,299  21/10/96  18:12 makefile.mak
+TUTO0    C          17,494  17/10/96  11:12 tuto0.c
+PAD      H           1,031  02/10/96  15:41 PAD.H
+PAD      C           1,528  04/10/96  10:45 PAD.C
+TIM      O           1,364  10/10/96  17:23 TIM.O
+TMD      O           1,712  10/10/96  17:23 TMD.O
+TIM      C           5,354  04/10/96  10:18 tim.c
+TIM      H             509  04/10/96  10:18 tim.h
+MAPFILE             37,210  22/10/96  17:03 MAPFILE
+TMD      C           2,600  04/10/96  17:28 tmd.c
+TMD      H           1,156  04/10/96  17:28 tmd.h
+ASSSERT  H           2,049  14/10/96  15:56 asssert.h
+TUTO1    BAK        23,434  15/10/96  11:03 tuto1.bak
+TUTO4               40,236  16/10/96  17:33 TUTO4
+SIOCONS  HIS           195  22/10/96  16:21 SIOCONS.HIS
+TUTO1BAK BAK        21,746  11/10/96  11:27 tuto1bak.bak
+TUTO2    C          26,433  17/10/96  11:12 tuto2.c
+BATCH2                  84  11/10/96  14:20 batch2
+TUTO3    C          26,311  17/10/96  11:12 tuto3.c
+TUTO2    BAK        26,432  15/10/96  11:02 tuto2.bak
+DUMMY1                  96  11/10/96  15:22 dummy1
+BATCH3                  84  14/10/96   9:55 batch3
+TUTO3    BAK        26,310  15/10/96  11:02 tuto3.bak
+GOOHOO              50,218  14/10/96  18:15 goohoo
+TUTO3BAK BAK        25,624  14/10/96  11:15 tuto3bak.bak
+TUTO4    C          39,812  17/10/96  11:12 tuto4.c
+BATCH4                  84  14/10/96  13:09 batch4
+ASSSERT  BAK         2,073  14/10/96  15:37 asssert.bak
+TUTO4    BAK        39,811  15/10/96  11:45 tuto4.bak
+TUTO4BAK BAK        26,955  14/10/96  13:33 tuto4bak.bak
+BACKUP         <DIR>        21/10/96  11:26 backup
+TUTO11   C          60,366  21/10/96  18:23 tuto11.c
+BATCH5                  84  14/10/96  13:59 batch5
+TUTO4BAK BAC        42,142  14/10/96  18:50 tuto4bak.bac
+TUTO5    C          42,168  17/10/96  11:12 tuto5.c
+TUTO5    O          30,044  16/10/96  17:40 TUTO5.O
+TUTO5               40,868  16/10/96  17:40 TUTO5
+OLDTUTO5 C          26,947  14/10/96  15:06 oldtuto5.c
+TUTO0    O          14,160  16/10/96  17:33 TUTO0.O
+TUTO0               33,556  16/10/96  17:33 TUTO0
+TUTO55   C          43,312  15/10/96  12:43 tuto55.c
+TUTO5    BAK        42,167  16/10/96  17:36 tuto5.bak
+TUTO6    C          47,197  17/10/96  17:41 tuto6.c
+TUTO6    O          33,420  16/10/96  17:40 TUTO6.O
+TUTO6    BAK        47,196  17/10/96  11:11 tuto6.bak
+TUTO6               45,568  16/10/96  17:40 TUTO6
+BATCH6                  84  16/10/96   9:43 batch6
+TUTO7    C          52,893  17/10/96  17:41 tuto7.c
+BATCH7                  84  16/10/96  17:11 batch7
+TUTO7    O          37,024  16/10/96  19:36 TUTO7.O
+TUTO7               46,032  16/10/96  19:37 TUTO7
+TUTO7    BAK        52,892  17/10/96  17:26 tuto7.bak
+TUTO3    O          20,348  16/10/96  17:33 TUTO3.O
+TUTO3               34,460  16/10/96  17:33 TUTO3
+TUTO2    O          20,896  16/10/96  17:33 TUTO2.O
+TUTO2               34,328  16/10/96  17:33 TUTO2
+TUTO7BAK BAK        52,891  16/10/96  19:36 tuto7bak.bak
+BACK3          <DIR>        16/10/96  19:41 back3
+TUTO8    C          52,555  17/10/96  18:13 tuto8.c
+BATCH8                  84  16/10/96  19:42 batch8
+TUTO8    O          37,232  17/10/96  18:13 TUTO8.O
+TUTO8               46,008  17/10/96  18:13 TUTO8
+TUTO10   C          57,920  21/10/96  17:16 tuto10.c
+A        OUT        21,316  17/10/96  16:08 A.OUT
+SHUTTLE1 TMD        47,988  28/05/96  14:54 SHUTTLE1.TMD
+BATCH11                 88  21/10/96  11:52 batch11
+TUTO9    C          60,335  18/10/96  15:52 tuto9.c
+TUTO8    BAK        52,549  17/10/96  18:12 tuto8.bak
+BATCH9                  87  18/10/96   9:53 batch9
+TUTO9    O          42,820  18/10/96  15:47 TUTO9.O
+TUTO9               50,136  18/10/96  15:47 TUTO9
+TUTO9    BAK        60,097  18/10/96  15:47 tuto9.bak
+BATCH10                 88  18/10/96  16:18 batch10
+VECTOR   H             720  18/10/96  16:00 vector.h
+VECTOR   C           3,564  18/10/96  16:15 vector.c
+TUTO10   O          40,740  21/10/96  11:49 TUTO10.O
+VECTOR   O           4,608  18/10/96  16:16 VECTOR.O
+TUTO10   BAK        57,931  18/10/96  17:44 tuto10.bak
+SPHERE         <DIR>        18/10/96  16:06 sphere
+OLDSPH~1 TMD        34,492  09/10/96  10:43 oldsphere.tmd
+TUTO10              50,560  21/10/96  11:50 TUTO10
+PAD                 19,976  18/10/96  16:14 PAD
+TIM                 19,984  18/10/96  16:14 TIM
+TMD                 20,188  18/10/96  16:14 TMD
+TUTO11   O          40,704  21/10/96  18:02 TUTO11.O
+TUTO11              54,804  21/10/96  18:02 TUTO11
+TUTO11   BAK        60,401  21/10/96  18:01 tuto11.bak
+OLDTUT11 C          60,106  21/10/96  13:40 oldtut11.c
+BATCH12                 88  21/10/96  17:18 batch12
+TUTO12   C          85,464  22/10/96  17:02 tuto12.c
+TUTO12   O          57,404  22/10/96  17:03 TUTO12.O
+V                   50,136  21/10/96  17:32 V
+TUTO12              62,392  22/10/96  17:03 TUTO12
+TUTO12   BAK        85,479  22/10/96  16:59 tuto12.bak
+TUTO12BK BAK        74,959  22/10/96  12:12 tuto12bk.bak
+GGG                    540  22/10/96  11:02 ggg
+DIFF5                  183  22/10/96  17:03 diff5
+TUTO12BC BKP        85,464  22/10/96  17:02 tuto12bc.bkp
+GOO7                     0  22/10/96  17:08 goo7
+       108 file(s)      3,091,714 bytes
+         5 dir(s)   1,163,689,984 bytes free

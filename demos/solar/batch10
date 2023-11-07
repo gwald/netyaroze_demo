@@ -1,0 +1,3 @@
+local dload spheres.tmd 800c0000
+local dload shuttle1.tmd 800e0000
+local load tuto10

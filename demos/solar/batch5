@@ -1,0 +1,3 @@
+local dload spheres.tmd 800c0000
+local dload cube0.tmd 800d0000
+local load tuto5
