@@ -1,0 +1,3 @@
+local dload ..\data\yar8bit.tim 80090000
+local load main
+go
