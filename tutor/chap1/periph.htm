@@ -1,0 +1,628 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>Peripherals</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#FF0000">
+
+<h2>Manual Additions: Peripherals</h2>
+
+<p><br>
+</p>
+
+<p>There are two types of peripheral to consider in the Net
+Yaroze environment: Controllers and Memory cards.</p>
+
+<p><a href="#types">[Names of Peripherals]</a> <a href="#recom">[Controller
+Recommendations]</a> <a href="#anjoy">[Analog Joystick]</a> <a
+href="#negcon">[neGcon]</a> <a href="#memcard">[Memory Cards]</a>
+<br>
+<br>
+</p>
+
+<hr>
+
+<h1 align="center"><a name="types">Names of Peripherals</a></h1>
+
+<p align="center"><a name="types"><br>
+</a></p>
+<div align="center"><center>
+
+<table border="2" bordercolor="#000000" cell padding="2">
+    <tr>
+        <th><a name="types"><b>Right</b> </a></th>
+        <th><a name="types"><b>Wrong</b> </a></th>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Memory card</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">RAM card</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Controller</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Pad</font></a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Link cable</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Combat cable</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Multi tap</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Multi-tap, Multitap</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Analog Joystick</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Flight Stick</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Mouse</font></a></td>
+        <td align="center" width="152"><a name="types">-</a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Directional button</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">D-PAD, Cross button</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Controller port</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Controller slot</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">Memory card slot</font> </a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Memory card port</font> </a></td>
+    </tr>
+    <tr>
+        <td width="184"><a name="types"><font size="2"
+        face="Tms Rmn">neGcon</font></a></td>
+        <td width="152"><a name="types"><font size="2"
+        face="Tms Rmn">Negcon</font></a></td>
+    </tr>
+</table>
+</center></div>
+
+<p><a name="types"><br>
+<br>
+</a></p>
+
+<hr>
+
+<h1 align="center"><a name="recom">Controller Recommendations</a></h1>
+
+<p><a name="recom">The following conditions should be met by the
+game for it to pass the tests placed upon it by the European
+Quality Assurance Group, and are recommended for Net Yaroze
+Members. </a></p>
+
+<ul>
+    <li><a name="recom">The game must be playable with the
+        standard Controller. Controller Port 1 always takes
+        precedence over Port 2. So in the case of a single player
+        game, the game only responds to Controllers connected to
+        Port 1. </a></li>
+    <li><a name="recom">If a Controller is plugged in that is not
+        supported by the game it should be ignored. For example,
+        if a neGcon is plugged into a game which requires a
+        standard pad, the neGcon input should be ignored. </a></li>
+    <li><a name="recom">The game should recognise specific
+        Controllers from the Controller option screen and include
+        calibration options, if they are required. For example
+        the, analogue controls should be adjustable for
+        sensitivity. It should be possible to reconfigure a game
+        to any attached peripheral. </a></li>
+    <li><a name="recom">If a controller is removed during play
+        the game should go into a pause state, and maintain that
+        state while the Controller is reconnected or a different
+        Controller connected. If the newly connected Controller
+        needs configuring, this should be an option. </a></li>
+</ul>
+
+<p><a name="recom"><br>
+</a></p>
+
+<p><a name="recom">Most of the sample code supplied only supports
+a single Controller and does not detect the type of Controller
+connected - in a commercial title this would fail QA tests. </a></p>
+
+<p><a name="recom"><br>
+<br>
+</a></p>
+
+<hr>
+
+<h1 align="center"><a name="anjoy">Analog Joystick</a></h1>
+
+<p><a name="anjoy">Physically, the Analog Joystick consist of two
+standard joysticks, linked by a control panel with standard
+switches. The joystick can act in either digital or analogue
+mode. <br>
+Make sure you include a Calibration menu (0 position calibration,
+idle movement, sensitivity etc.) in your application. </a></p>
+
+<h2><a name="anjoy">Analog Joystickr Button Assignment</a></h2>
+
+<p><a name="anjoy">The 8 byte Controller packet (giving the
+status of the Controller) which can be returned at every vsynch
+call back consists of the following for the Analog Joystick. </a></p>
+
+<p align="center"><a name="anjoy"><br>
+</a></p>
+<div align="center"><center>
+
+<table border="2" bordercolor="#000000" cellpading="2">
+    <tr>
+        <td align="center"><a name="anjoy"><b>Byte No</b></a></td>
+        <td align="center"><a name="anjoy"><b>Type</b></a></td>
+        <td align="center"><a name="anjoy"><b>Bit No./Value</b></a></td>
+        <td align="center"><a name="anjoy"><b>Button Assignment</b></a></td>
+    </tr>
+    <tr>
+        <td><a name="anjoy">1</a></td>
+        <td><a name="anjoy">Buffer Status</a></td>
+        <td><a name="anjoy">8 bits</a></td>
+        <td><a name="anjoy">0x00: success;<br>
+        0xff: failure</a></td>
+    </tr>
+    <tr>
+        <td><a name="anjoy">2</a></td>
+        <td><a name="anjoy">Data length<br>
+        Controller type</a></td>
+        <td><a name="anjoy">bits 0 - 3<br>
+        bits 4 - 7<br>
+        (8 bits total)</a></td>
+        <td><a name="anjoy">data length/2 (= 0x03)<br>
+        Controller type (0x0<b>5</b>)<br>
+        (Analog Joystick is 5)<br>
+        </a></td>
+    </tr>
+    <tr>
+        <td><a name="anjoy">3, 4</a></td>
+        <td><a name="anjoy">Status of 14 digital buttons</a></td>
+        <td><a name="anjoy">16 bits</a></td>
+        <td><a name="anjoy">0x00: push ; <br>
+        0x01 : release<br>
+        (as per standard Controller - however L1/L2/R1/R2 are not
+        present on stick)</a></td>
+    </tr>
+    <tr>
+        <td><a name="anjoy">5 - 8</a></td>
+        <td><a name="anjoy">Analogue value (4 values)</a></td>
+        <td><a name="anjoy">4 x 8 bits</a></td>
+        <td><a name="anjoy">range 0x00 - 0xff.<br>
+        (x, y) , (x, y) </a></td>
+    </tr>
+</table>
+</center></div>
+
+<p align="center"><a name="anjoy"><br>
+<br>
+</a></p>
+
+<hr>
+
+<h1 align="center"><a name="negcon">neGcon</a></h1>
+
+<h2 align="center"><a name="negcon">NegCon Controller Button
+Assignment</a></h2>
+
+<p align="center"><a name="negcon">The input data is transmitted
+as 6-byte serial data and the contents are as follows. <br>
+Make sure you include a Calibration menu (0 position calibration,
+idle movement, sensitivity etc.) in your title. <br>
+The 8 byte Controller packet (giving the status of the
+Controller) which can be returned at every vsynch call back
+consists of the following for the neGcon. <br>
+<b><i>Note</i></b> The value varies by twisting NegCon not by
+pressing a button.</a></p>
+
+<p align="center"><a name="negcon"><br>
+</a></p>
+
+<p align="center"><a name="negcon">See the controller packet for
+an Analog Joystick, in the table, below.</a></p>
+
+<p align="center"><a name="negcon"><br>
+</a></p>
+<div align="center"><center>
+
+<table border="2" cellpadding="2">
+    <tr>
+        <td align="center" valign="top"><a name="negcon"><b>Byte
+        No</b></a></td>
+        <td align="center" valign="top"><a name="negcon"><b>Type</b></a></td>
+        <td align="center" valign="top"><a name="negcon"><b>Bit
+        No./Value</b></a></td>
+        <td align="center" valign="top"><a name="negcon"><b>Button
+        Assignment </b></a></td>
+    </tr>
+    <tr>
+        <td valign="top"><a name="negcon">1</a></td>
+        <td valign="top"><a name="negcon">Digital No. 1</a></td>
+        <td valign="top"><a name="negcon">bit 7<br>
+        bit 6<br>
+        bit 5<br>
+        bit 4<br>
+        bit 3<br>
+        bit 2<br>
+        bit 1<br>
+        bit 0<br>
+        (8 bits total) </a></td>
+        <td valign="top"><a name="negcon">Left (on cross button)<br>
+        Down (on cross button)<br>
+        Right (on cross button)<br>
+        Up (on cross button) <br>
+        S (Start)<br>
+        none<br>
+        none<br>
+        none<br>
+        </a></td>
+    </tr>
+    <tr>
+        <td valign="top"><a name="negcon">2 </a></td>
+        <td valign="top"><a name="negcon">Digital No. 2 </a></td>
+        <td valign="top"><a name="negcon">bit 7 <br>
+        bit 6<br>
+        bit 5<br>
+        bit 4<br>
+        bit 3<br>
+        bit 2<br>
+        bit 1<br>
+        bit 0<br>
+        (8 bits total)<br>
+        </a></td>
+        <td valign="top"><a name="negcon">none<br>
+        none<br>
+        A<br>
+        B<br>
+        R (side button)<br>
+        none<br>
+        none<br>
+        none<br>
+        </a></td>
+    </tr>
+    <tr>
+        <td valign="top"><a name="negcon">3 </a></td>
+        <td valign="top"><a name="negcon">Analog </a></td>
+        <td valign="top"><a name="negcon">0-255 </a></td>
+        <td valign="top"><a name="negcon">Centre (1) </a></td>
+    </tr>
+    <tr>
+        <td valign="top"><a name="negcon">4 </a></td>
+        <td><a name="negcon">Analog</a></td>
+        <td valign="top"><a name="negcon">0-255 </a></td>
+        <td valign="top"><a name="negcon">I </a></td>
+    </tr>
+    <tr>
+        <td valign="top"><a name="negcon">5 </a></td>
+        <td valign="top"><a name="negcon">Analog </a></td>
+        <td valign="top"><a name="negcon">0-255 </a></td>
+        <td valign="top"><a name="negcon">II</a></td>
+    </tr>
+    <tr>
+        <td valign="top"><a name="negcon">6</a></td>
+        <td valign="top"><a name="negcon">Analog </a></td>
+        <td valign="top"><a name="negcon">0-255 </a></td>
+        <td valign="top"><a name="negcon">L (side button)</a></td>
+    </tr>
+</table>
+</center></div>
+
+<p align="center"><a name="negcon"><br>
+<br>
+<br>
+</a></p>
+
+<h2 align="center"><a name="negcon">Data Format</a></h2>
+
+<p align="center"><a name="negcon"><i>1 - Switch Data</i> </a></p>
+
+<p align="center"><a name="negcon">0 is returned when the button
+is pressed otherwise 1 is returned. Unused bits return 1. The
+return values comply with the standard Controller specifications,
+however, they can be changed by BIOS if necessary. </a></p>
+
+<p align="center"><a name="negcon"><i>2 - Switch Data</i> </a></p>
+
+<p align="center"><a name="negcon">As above. </a></p>
+
+<p align="center"><a name="negcon"><i>3 - Twist Data</i> </a></p>
+
+<p align="center"><a name="negcon">The title needs to be designed
+so that neGcon's twist data value is around 128 when it is
+released. However, a variation of +/-8 should be allowed for to
+take account of variations that may occur between different
+neGcons and the different effect gravity may have on Controller
+buttons if the Controller is held in a different position. (The
+specified +/-8 allowance may be changed later if it proves
+unsuitable but this does not affect your current title.) </a></p>
+
+<p align="center"><a name="negcon">Remember that you are
+recommended to include a calibration option in any title which
+uses a neGcon Controller as individual neGcons may differ
+slightly. </a></p>
+
+<p align="center"><a name="negcon"><i>4 - I button Data</i> </a></p>
+
+<p align="center"><a name="negcon">The more this button is
+pressed, the bigger value is returned. The title should be
+designed so that a value of 16 or less is returned when it is
+released.. The software should consider 16 or less as the button
+not pressed. This error margin allows for variations between
+different neGcons, as described in <i>3 - Twist Data</i>, above -
+the specified value of 16 or less may be changed later if it
+proves unsuitable but this does not affect your current title.)
+The maximum value returned when pressed should be not less than
+192(C0H). </a></p>
+
+<p align="center"><a name="negcon"><i>5 - II button Data</i> </a></p>
+
+<p align="center"><a name="negcon">Same as I button, above. </a></p>
+
+<p align="center"><a name="negcon"><i>6 - L button Data</i> <br>
+<br>
+</a></p>
+
+<hr>
+
+<h1 align="center"><a name="memcard">Memory Cards</a></h1>
+
+<p align="center"><a name="memcard">Memory cards are the
+removable storage medium used by the PlayStation to save and
+recover game sessions (game save file). A Memory card contains
+120K of static non volatile RAM. This is divided conceptually
+into 15 slots, each of 8k. </a></p>
+
+<p align="center"><a name="memcard">Memory cards have the
+advantage of small size and ruggedness (there are no moving parts
+and no batteries) but they are relatively slow to access. </a></p>
+
+<p align="center"><a name="memcard"><b><i>General Features of
+Memory Cards</i></b> </a></p>
+
+<dir>
+    <li><a name="memcard"><i>Capacity: </i>120 Kilobytes </a></li>
+    <li><a name="memcard"><i>Access Speed: </i>10 Kilobytes per
+        second </a></li>
+    <li><a name="memcard"><i>Life span: </i>100,000 reads
+        guaranteed </a></li>
+    <li><p align="center"><a name="memcard">As well a being
+        accessed by the application that created the game save
+        file, each file will also need to be compatible with the
+        OSD memory card management program built into the ROM of
+        each PlayStation. </a></p>
+        <p align="center"><a name="memcard">Different versions of
+        the OSD are available for each PlayStation territory
+        (i.e. European, Japanese, American). </a></p>
+        <p align="center"><a name="memcard">The OSD program
+        displays each save game file as a number of icons plus a
+        textual title. Each icon displayed relates to a slot
+        used. This information is provided by a header that must
+        be included at the start of the save game file. </a></p>
+        <h2 align="center"><a name="memcard">Memory Card
+        Filenames </a></h2>
+        <p align="center"><a name="memcard">Filenames used for
+        memory card save games are based upon the product code
+        for professional games - you of course are free to choose
+        one that suits your purposes.</a></p>
+        <p align="center"><a name="memcard">The file name is in
+        the following format: </a></p>
+        <p align="center"><a name="memcard"><b><tt>B</tt></b><tt>E</tt><b><tt>SLES12435</tt></b><tt>plusthis</tt></a></p>
+        <ul>
+            <li><a name="memcard"><b><tt>B</tt></b>: Always B </a></li>
+            <li><a name="memcard"><tt>E</tt>:&nbsp;E - Europe A -
+                America I - Japan</a></li>
+            <li><a name="memcard"><b><tt>SLES12345</tt></b>:
+                Product Code (different for each territory) </a></li>
+            <li><a name="memcard"><tt>plusthis</tt>: 8 Characters
+                (used as required by the developer)</a></li>
+        </ul>
+        <p align="center"><a name="memcard"><b><i>Some Rules on
+        Title Names </i></b></a></p>
+    </li>
+    <li><a name="memcard">Choose either Shift-JIS or ASCII code.
+        Do not mix them. </a></li>
+    <li><a name="memcard">Use a maximum 32 ASCII letters (32
+        Byte). If less than 32 characters, please put null letter
+        (0x00) at the end or fulfil the vacant part with blank
+        letter. </a></li>
+    <li><h2 align="center"><a name="memcard">Save Game File
+        Header Format </a></h2>
+        <p align="center"><a name="memcard">The Save Game File
+        Header format is as follows. </a></p>
+        <div align="center"><center><table border="2"
+        cellpadding="2">
+            <tr>
+                <th><a name="memcard">Name</a></th>
+                <th><a name="memcard">Size (Byes)</a></th>
+            </tr>
+            <tr>
+                <td><a name="memcard">Magic Number</a></td>
+                <td><a name="memcard">2 (always 'SC')</a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">Type(see table 1) </a></td>
+                <td><a name="memcard">1 (always 0x11 for Europe) </a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">No. of Slots </a></td>
+                <td><a name="memcard">1 (1..15, each being 8k) </a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">Text Name</a></td>
+                <td><a name="memcard">64 (32 Shift JIS (Must be
+                Kanji, not ASCII) </a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">Pad</a></td>
+                <td><a name="memcard">28 (padding) </a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">CLUT</a></td>
+                <td><a name="memcard">32</a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">Icon Image (1)</a></td>
+                <td><a name="memcard">128 (16 x 16 x 4 bits) </a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">Icon Image (2)</a></td>
+                <td><a name="memcard">128 (Type:0x12, 0x13 only)</a></td>
+            </tr>
+            <tr>
+                <td><a name="memcard">Icon Image (3)</a></td>
+                <td><a name="memcard">128 (Type:0x13 only)</a></td>
+            </tr>
+        </table>
+        </center></div><p align="center"><a name="memcard">In the
+        header file there is provision for three icon images, as
+        below, which allows animation. </a></p>
+        <div align="center"><center><table border="2"
+        cellpadding="2">
+            <tr>
+                <th><a name="memcard">Type </a></th>
+                <th><a name="memcard">Number of Icon Images </a><p><a
+                name="memcard">(automatically replaced animation)
+                </a></p>
+                </th>
+            </tr>
+            <tr>
+                <td><a name="memcard">0x11</a></td>
+                <td><p align="center"><a name="memcard">1 </a></p>
+                </td>
+            </tr>
+            <tr>
+                <td><a name="memcard">0x12</a></td>
+                <td><p align="center"><a name="memcard">2 </a></p>
+                </td>
+            </tr>
+            <tr>
+                <td><a name="memcard">0x13</a></td>
+                <td><p align="center"><a name="memcard">3 </a></p>
+                </td>
+            </tr>
+        </table>
+        </center></div><h2 align="center"><a name="memcard">Use
+        of Kanji Fonts </a></h2>
+        <p align="center"><a name="memcard">The Memory card save
+        game file header <i>Text Name</i> must be stored in Kanji
+        (Japanese Shift-JIS) type character coding and not the
+        normal ASCII. (If ASCII were used the game header file,
+        the title would not be displayed correctly if it is
+        longer than 16 characters - 32 is the total possible. )</a></p>
+        <h2 align="center"><a name="memcard">Animated Icons</a></h2>
+        <p align="center"><a name="memcard">As can be seen from
+        the table above it is possible to have animated icons in
+        the save game. There are three frames available and they
+        are cycled automatically by the OSD. </a></p>
+        <p align="center"><a name="memcard">(If two slots are
+        used per save, a two frame animation is allowed; with
+        three slots, a three frame animation). </a></p>
+        <p align="center"><a name="memcard">The Icon is a 16 * 16
+        image with 4 bit colour depth. </a></p>
+        <p align="center"><a name="memcard"><i>Note:</i> do not
+        use animated icons for European titles (i.e. only use
+        type 0x11) if your save occupies a single slot. 3.2.3 </a></p>
+        <h2 align="center"><a name="memcard">Hints on Using
+        Memory Cards </a></h2>
+        <p align="center"><a name="memcard">Memory cards are slow
+        to recognise and access. Memory card accesses, therefore,
+        should be kept to a minimum and when they are made be as
+        efficient as possible. </a></p>
+        <p align="center"><a name="memcard">As a Memory card is
+        divided into 8k slots, the minimum possible number should
+        be used. Writes to the card system are always done as
+        multiples of 8K, so if the intended game save is 8K + 1
+        bytes, it will use two slots, taking twice as long to
+        save as one slot and take twice as much space as a save
+        that is only 1 byte smaller. </a></p>
+        <p align="center"><a name="memcard">In this example,
+        there is only 1 byte over so some compression/economising
+        of the data could probably be achieved. For over spill
+        which cannot be squeezed into 8k, the alternative is to
+        save more data in the in the file and use up the wasted
+        space. It costs nothing in terms of resources or
+        performance. </a></p>
+        <h2 align="center"><a name="memcard">Notes for Those
+        Writing RPGs and Strategy Games </a></h2>
+        <p align="center"><a name="memcard">Many games in these
+        genres benefit from allowing the user to save several
+        sessions concurrently. This allows the user to backup
+        before undertaking hazardous stages, or to approach a
+        complex problem from several angles simultaneously. </a></p>
+        <p align="center"><a name="memcard">This can be achieved
+        in two ways, firstly by having several saves within the
+        same file. For example if the data required by the save
+        game is only 2K, you can save 4 games within the same
+        slot. </a></p>
+        <p align="center"><a name="memcard">Alternatively, the
+        format of the save game filename allows for multiple
+        saves from the same game, because there are nine
+        characters in the memory card file name left available
+        for user allocation. This could be used to store a user
+        entered string that is a description of the game save at
+        that point in the game. </a></p>
+        <p align="center"><a name="memcard">Better still, add an
+        internal character field that allows for a textual
+        description of the current stage of the game and display
+        this when displaying a list of all the save games on the
+        memory card. BESLES-12345level2 In some games the memory
+        card facilities play a very important role. A classic
+        example of this is <i>XCOM: Enemy Unknown</i>, which
+        would be very hard, if not impossible to finish without
+        frequent memory card access. These unfortunately are slow
+        and so disrupt the flow of play. One solution would be to
+        save games into RAM as a quick save, with the option to
+        commit the game to the card at any time. This is only
+        feasible if the game never crashes out and there is room
+        in memory for the save game(s). </a></p>
+        <p align="center"><a name="memcard">It is not possible to
+        lengthen a file saved on a Memory card once it is
+        created, therefore when the file is created it should as
+        large as it will ever need to be. </a></p>
+        <h2 align="center"><a name="memcard">Advice on Testing
+        Memory Cards </a></h2>
+        <ol>
+            <li><a name="memcard">Is the Memory card operation
+                display working? (Display of icon, or file name,
+                etc.) </a></li>
+            <li><a name="memcard">Can Memory card be formatted?
+                (On-screen instructions and statements are
+                correct?)</a></li>
+            <li><a name="memcard">The &quot;formatting menu&quot;
+                options should include a dialogue such as
+                &quot;The Memory card ID is not formatted yet. Do
+                you want to format that? Yes? or No?&quot;. Then,
+                when &quot;Yes&quot; is chosen, saving should
+                start and when &quot;No&quot; is chosen, the menu
+                should exit from save mode.</a></li>
+            <li><a name="memcard">Check what happens when there
+                aren&#146;t enough empty blocks in the Memory
+                card for a game save.</a></li>
+            <li><a name="memcard">Check what happens when the
+                Memory. </a></li>
+        </ol>
+    </li>
+</dir>
+
+<p align="center">&nbsp;</p>
+</body>
+</html>
