@@ -22,7 +22,9 @@ Follow the [tutorials](https://github.com/gwald/netyaroze_demo/tree/main/tutor),
 The tuts add new features to the previous one. It builds and builds, so you have to understand the previous examples before continuing.
 Make sure you can build each tut, run them and change things ect.
 
+See the [FAQ](https://htmlpreview.github.io/?https://github.com/gwald/netyaroze_demo/blob/main/tutor/Net%20Yaroze%20Programming%20FAQ.htm).
 
 To create a PS1 executable (psx.exe), run [yarexe](https://github.com/gwald/yarexe) with the Siocons script text file (it contains a series of load commands, and commonly called auto or batch).
 
 After going through the User Guide, Tutorials and API Reference document, you should be familiar enough with the API that you can create your own programs. The [demos](https://github.com/gwald/netyaroze_demo/tree/main/demos ) folder contains more examples.
+
