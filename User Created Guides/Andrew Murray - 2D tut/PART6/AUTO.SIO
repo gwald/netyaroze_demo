@@ -1,0 +1,5 @@
+local dload gfx/SODIANIM.TIM 0x80090000
+local dload gfx/DESERT02.TIM 0x80093250
+#local dload gfx/HUT.TIM 80091388
+local load main.exe
+go

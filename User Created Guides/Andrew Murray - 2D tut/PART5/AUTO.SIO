@@ -1,0 +1,4 @@
+local dload gfx\sodianim.tim 80090000
+local dload gfx\desert02.tim 80093250
+local load main.exe
+go
