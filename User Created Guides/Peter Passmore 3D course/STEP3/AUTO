@@ -1,0 +1,4 @@
+local dload data\car\car01.tmd  80090000
+local load main.exe
+go
+

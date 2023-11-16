@@ -1,0 +1,40 @@
+__TMP__.PCK
+__TMP__.TMD
+        1 file(s) copied
+__TMP__.PCK
+D:\BIRD\CAR2\DATA\CAR\COM.TIM
+        1 file(s) copied
+__tmp__.pck  address:80100000-801027db size:0027dc  0027dc:    1sec.
+[36;1mdload -- PlayStation binary loader
+   for DTLH3000 1996/05/10 00:00:02
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x02F8, IRQ=3(vect=0x000B,8259=20)
+ BAUDRATE = 115200
+d:\psx\bin\rsdview [ .text] address:80090000-80090edf size:000ee0  000ee0:    1sec.
+d:\psx\bin\rsdview [ .data] address:80090ee0-8009102f size:000150  000150:    1sec.
+d:\psx\bin\rsdview [.sdata] address:80091030-800910af size:000080  000080:    2sec.
+  PC=80090d20, GP=80099030, SP=801ffff0
+[36;1mload -- PlayStation program loader
+   for DTLH3000 1996/05/10 00:00:02
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x02F8, IRQ=3(vect=0x000B,8259=20)
+ BAUDRATE = 115200
+[36;1mgo -- PlayStation program execute
+   for DTLH3000 1996/05/10 00:00:02
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x02F8, IRQ=3(vect=0x000B,8259=20)
+ BAUDRATE = 115200
+ResetGraph:jtb=8004829c,env=800482e4
+ResetGraph:jtb=8004829c,env=800482e4
+PS-X Control PAD Driver  Ver 3.0
+addr=8004d724
+
+Connected CIP ver2.0
+Communication baud rate 115200 bps
+OK
+                                                    >>[36;1msiocons -- PlayStation debug system console program
+   for DTLH3000 1996/05/10 00:00:03
+   type [7m F1 [0;36;1m  ----> display help
+   when hung up try type [7m ESC [0m
+ I/O addr = 0x02F8, IRQ=3(vect=0x000B,8259=20)
+ BAUDRATE = 115200
