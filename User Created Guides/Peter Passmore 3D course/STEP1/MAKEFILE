@@ -1,0 +1,29 @@
+CC=gcc
+CFLAGS	= -Wall
+LINKER  = -Xlinker -Ttext -Xlinker 80140000
+
+PROG	=	main.exe
+OBJS    =    main.o pad.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(LINKER) $(OBJS) -o $@
+	strip $@
+
+.c.o:
+	$(CC) $(CFLAGS) -funsigned-char -c $<
+
+run: $(PROG)	
+	del psx.exe 
+	yarexe auto	
+	nopsx psx.exe	
+	
+sio: $(PROG)	
+		call cmd /C wincmd minicons.exe auto
+		
+clean:
+	del $(PROG)
+	del *.o
+	del psx.exe 
+

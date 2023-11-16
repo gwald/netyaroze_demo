@@ -1,0 +1,5 @@
+local dload gfx/mananim.tim 80090000
+
+local load main
+
+go

@@ -1,0 +1,5 @@
+local dload gfx/redman.tim 80090000
+
+local load main
+
+go
