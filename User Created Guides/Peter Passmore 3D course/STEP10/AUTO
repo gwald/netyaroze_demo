@@ -1,0 +1,7 @@
+local dload data\car\car01.tmd       80090000
+local dload data\square1\square1.tmd 80093000
+local dload data\car\com.TIM         800A0000
+local dload data\square1\square1.TIM 800B0000
+local load main.exe
+go
+

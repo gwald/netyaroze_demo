@@ -1,0 +1,7 @@
+@RSD940102
+# created by Meditor on Mon May 06 21:42:21 1996
+PLY=TIRE.PLY
+MAT=TIRE.MAT
+GRP=TIRE.GRP
+# Number of TIM (Texture) Files
+NTEX=0

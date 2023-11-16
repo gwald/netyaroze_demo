@@ -1,0 +1,13 @@
+# Created by rsdform(v1.81) from "a.rsd" at 11:21 05/13/96
+# Created by rsdform(v1.81) -s 206 206 206 from "tire.rsd" at 11:20 05/13/96
+# Created by rsdform(v1.8) from "a.rsd" at 21:39 05/06/96
+# Created by rsdform(v1.8) -r 0 90 0 from "tire.rsd" at 21:39 05/06/96
+# Created by rsdform(v1.8) from "a.rsd" at 21:37 05/06/96
+# Created by rsdform(v1.8) -r 90 0 0 from "tire.rsd" at 21:37 05/06/96
+# Created from "C:\USR\MATERIAL\MODEL\CAR\PARTS\TIRE.DXF" by dxf2rsd(v2.8) -quad3 -r -nopl -Y+Z at 21:36 05/06/96
+@RSD940102
+PLY=tire.ply
+MAT=tire.mat
+GRP=tire.grp
+# Number of Texture Files
+NTEX=0

@@ -1,0 +1,8 @@
+# Created from "square1.dxf" by dxf2rsd(v2.81) -quad2 20.0000 -back at 10:09 09/05/97
+@RSD940102
+PLY=square1.ply
+MAT=square1.mat
+GRP=square1.grp
+# Number of Texture Files
+NTEX=1
+TEX[0]=square1.tim

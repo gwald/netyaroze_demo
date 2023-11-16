@@ -1,0 +1,13 @@
+# Created by rsdform(v1.8) from "car02.rsd" at 00:12 04/05/96
+# Created by rsdform(v1.8) -r 0 90 0 from "car01.rsd" at 00:11 04/05/96
+# Created by rsdform(v1.8) from "car02.rsd" at 00:10 04/05/96
+# Created by rsdform(v1.8) -r 90 0 0 from "car01.rsd" at 00:10 04/05/96
+# Created from "C:\USR\TEXTURE\MODEL\CAR01\CAR01.DXF" by dxf2rsd(v2.8) -quad3 -r -nopl -auto -Y+Z at 00:00 04/05/96
+@RSD940102
+PLY=car01.ply
+MAT=car01.mat
+GRP=car01.grp
+# Number of Texture Files
+NTEX=1
+TEX[0]=COM.TIM
+#TEX[1]=Walaa.tim

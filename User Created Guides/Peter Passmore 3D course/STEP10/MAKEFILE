@@ -1,0 +1,30 @@
+CC=mips-unknown-ecoff-gcc
+STRIP=mips-unknown-ecoff-strip
+CFLAGS	= -Wall  -g 
+LINKER  = $(CFLAGS) -Xlinker -Ttext -Xlinker 80140000 
+#-O3 -Werror -msoft-float
+
+PROG	=	main.exe
+OBJS    =    main.o pad.o
+
+all: $(PROG)
+
+$(PROG):  $(OBJS)
+	$(CC) $(OBJS) $(LINKER)  -o $@
+#	$(STRIP) $@
+
+.c.o:
+	$(CC) $(CFLAGS) -funsigned-char -c $<
+
+run: $(PROG)	
+	rm -f psx.exe 
+	yarexe AUTO	
+	nopsx psx.exe	
+
+sio: $(PROG)	
+		call cmd /C wincmd minicons AUTO
+
+clean:
+	rm -f $(PROG)
+	rm -f *.o
+	rm -f psx.exe 
