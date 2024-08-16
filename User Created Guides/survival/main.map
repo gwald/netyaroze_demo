@@ -1,0 +1,227 @@
+Archive member included       because of file (symbol)
+
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(video.o)
+                              main.o (SetVideoMode)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(symusr.o)
+                              main.o (GsInitGraph)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o)
+                              main.o (__main)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef1.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_ramsize)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef2.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_stacksize)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef3.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_sp)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef4.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_fp)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef5.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_gp)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef6.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_heapbase)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef7.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_heapsize)
+\psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef8.o)
+                              \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o) (_sys_init_bss_flag)
+
+Allocating common symbols
+Common symbol       size              file
+
+ViewPointAngle      0x8               main.o
+ViewRefOffsetZ      0x2               main.o
+ViewRefOffsetX      0x2               main.o
+Slab                0xc00             main.o
+ViewPoint           0x24              main.o
+ScreenScaling       0x8               main.o
+Ambient             0x8               main.o
+ViewPosOffsetZ      0x2               main.o
+ViewAngleOffsetZ    0x2               main.o
+Enmy                0x600             main.o
+WorldDB             0xc8028           main.o
+ViewRefOffsetY      0x2               main.o
+Cube                0x480             main.o
+Ball                0x1800            main.o
+Robo                0xc0              main.o
+ViewPosOffsetX      0x2               main.o
+FogParameters       0xc               main.o
+ViewAngleOffsetX    0x2               main.o
+Prop                0xc0              main.o
+CurrDB              0x4               main.o
+ViewPosOffsetY      0x2               main.o
+PadDataBuff         0x20              libpad.o
+LightingPoints      0x30              main.o
+ViewAngleOffsetY    0x2               main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .text set to 0x80100000
+LOAD main.o
+LOAD libobjc.o
+LOAD libsound.o
+LOAD libpad.o
+LOAD libmath.o
+LOAD libxplod.o
+LOAD \psx3\mips-unknown-ecoff\lib/libsngcc.a
+LOAD \psx3\mips-unknown-ecoff\lib/libps.a
+LOAD \psx3\mips-unknown-ecoff\lib/libsngcc.a
+                0xa8010000                .=0xa8010000
+
+.text           0x80100000    0x12260
+                0x80100000                _ftext=.
+ *(.init)
+                0x80100000                eprol=.
+ *(.text)
+ .text          0x80100000     0x8490 main.o
+                0x801026d0                main
+ .text          0x80108490     0x2790 libobjc.o
+                0x80108828                DrawObject(__object *, GsOT *)
+                0x8010a64c                HandleObjcDivision(__object *, __object *)
+                0x801088f0                HandlePosFIFO(__object *)
+                0x8010a8f4                HandleWallDivision(__object *, __object *)
+                0x801086f0                HandleSetCoordinate(__object *)
+                0x80108490                InitObjc(__object *, _GsCOORDINATE2 *, short, short, short)
+                0x80108cd4                HandleObjcCollision(__object *, __object *, short *, short *, short *)
+                0x801099b0                HandleWallCollision(__object *, __object *, short *, short *, short *)
+ .text          0x8010ac20      0x8d0 libsound.o
+                0x8010afd4                SoundStop(void)
+                0x8010af60                SoundPlayMusic(void)
+                0x8010b108                SoundVoiceQInit(void)
+                0x8010ac20                SoundInit(void)
+                0x8010b3c0                SoundVoiceQFlush(void)
+                0x8010b144                SoundVoiceQPlay(short)
+ .text          0x8010b4f0      0x3a0 libpad.o
+                0x8010b54c                PadRead(void)
+                0x8010b824                PadWait(void)
+                0x8010b620                PadDump(void)
+                0x8010b4f0                PadInit(void)
+ .text          0x8010b890      0x220 libmath.o
+                0x8010ba10                MyAbs(int)
+                0x8010b890                MySin(short)
+                0x8010b928                MyCos(short)
+                0x8010ba60                MyLabs(long)
+                0x8010b9c0                MySabs(short)
+ .text          0x8010bab0     0x65b0 libxplod.o
+                0x80111b94                ImplosionMakeData(unsigned long *, int, _GsCOORDINATE2 *, int, int, int)
+                0x80112014                ImplosionDoneData(void)
+                0x8010bae0                ExplosionInitData(int, int, int)
+                0x80111b44                ImplosionInitData(void)
+                0x8010bab0                ExplosionDebugData(void)
+                0x80111a88                ImplosionWaitData(short)
+                0x8010c050                ExplosionMakeData(unsigned long *, int, _GsCOORDINATE2 *, int, int, int)
+                0x8010bc40                ExplosionDrawData(GsOT *, long)
+ .text          0x80112060       0x40 \psx3\mips-unknown-ecoff\lib/libsngcc.a(video.o)
+                0x80112060                SetVideoMode
+ .text          0x801120a0      0x1c0 \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o)
+                0x8011224c                __main
+                0x801120a0                _start
+                0x8011223c                exit
+                0x80112260                PROVIDE (__runtime_reloc_start, .)
+ *(.rel.sdata)
+                0x80112260                PROVIDE (__runtime_reloc_stop, .)
+ *(.fini)
+                0x80112260                etext=.
+                0x80112260                _etext=.
+                0x80112260                .=.
+
+.rdata          0x80112260      0x440
+ *(.rdata)
+ .rdata         0x80112260      0x290 main.o
+ .rdata         0x801124f0       0x60 libsound.o
+ .rdata         0x80112550      0x120 libpad.o
+ .rdata         0x80112670       0x30 libxplod.o
+                0x801126a0                _fdata=ALIGN(0x10)
+
+.data           0x801126a0      0x710
+ *(.data)
+ .data          0x801126a0      0x160 main.o
+                0x801126a0                Models
+ .data          0x80112800       0x50 libsound.o
+ .data          0x80112850      0x410 libmath.o
+                0x80112a54                CosTable
+                0x80112850                SinTable
+ .data          0x80112c60      0x150 \psx3\mips-unknown-ecoff\lib/libsngcc.a(startup.o)
+                0x8011adb0                _gp=(ALIGN(0x10)+0x8000)
+
+.lit8
+ *(.lit8)
+
+.lit4
+ *(.lit4)
+
+.sdata          0x80112db0       0xd0
+ *(.sdata)
+ .sdata         0x80112db0       0x20 main.o
+                0x80112db4                IdleTime
+                0x80112db2                ShowDebug
+                0x80112db0                GameStatus
+                0x80112db8                CurrentScore
+                0x80112db6                EnmyKilled
+ .sdata         0x80112dd0       0x10 libsound.o
+ .sdata         0x80112de0       0x10 libpad.o
+                0x80112de4                PadData
+                0x80112de0                old_PadData
+ .sdata         0x80112df0       0x10 libxplod.o
+ .sdata         0x80112e00       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef1.o)
+                0x80112e00                _sys_ramsize
+ .sdata         0x80112e10       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef2.o)
+                0x80112e10                _sys_init_stacksize
+ .sdata         0x80112e20       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef3.o)
+                0x80112e20                _sys_init_sp
+ .sdata         0x80112e30       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef4.o)
+                0x80112e30                _sys_init_fp
+ .sdata         0x80112e40       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef5.o)
+                0x80112e40                _sys_init_gp
+ .sdata         0x80112e50       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef6.o)
+                0x80112e50                _sys_init_heapbase
+ .sdata         0x80112e60       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef7.o)
+                0x80112e60                _sys_init_heapsize
+ .sdata         0x80112e70       0x10 \psx3\mips-unknown-ecoff\lib/libsngcc.a(stdef8.o)
+                0x80112e70                _sys_init_bss_flag
+                0x80112e80                edata=.
+                0x80112e80                _edata=.
+                0x80112e80                _fbss=.
+
+.sbss           0x80112e80       0x60
+ *(.sbss)
+ .sbss          0x80112e80       0x20 libxplod.o
+ *(.scommon)
+ .scommon       0x80112ea0       0x34 main.o
+                0x80112ea0                ViewPointAngle
+                0x80112ea8                ViewRefOffsetZ
+                0x80112eaa                ViewRefOffsetX
+                0x80112eb0                ScreenScaling
+                0x80112eb8                Ambient
+                0x80112ec0                ViewPosOffsetZ
+                0x80112ec2                ViewAngleOffsetZ
+                0x80112ec4                ViewRefOffsetY
+                0x80112ec6                ViewPosOffsetX
+                0x80112ec8                ViewAngleOffsetX
+                0x80112ecc                CurrDB
+                0x80112ed0                ViewPosOffsetY
+                0x80112ed2                ViewAngleOffsetY
+
+.bss            0x80112ee0    0xdc110
+ *(.bss)
+ .bss           0x80112ee0       0x50 libsound.o
+ .bss           0x80112f30    0x11000 libxplod.o
+ *(COMMON)
+ COMMON         0x80123f30    0xcb0a0 main.o
+                0x80123f30                Slab
+                0x80124b30                ViewPoint
+                0x80124b60                Enmy
+                0x80125160                WorldDB
+                0x801ed190                Cube
+                0x801ed610                Ball
+                0x801eee10                Robo
+                0x801eeed0                FogParameters
+                0x801eeee0                Prop
+                0x801eefa0                LightingPoints
+ COMMON         0x801eefd0       0x20 libpad.o
+                0x801eefd0                PadDataBuff
+                0x801eeff0                end=.
+                0x801eeff0                _end=.
+OUTPUT(main.exe ecoff-littlemips)

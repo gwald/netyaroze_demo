@@ -1,0 +1,95 @@
+PROG = main.exe
+CC		= g++ # Make41 treats capital .C files as C++ files!
+MAPFILE = main.map
+OBJFILE = main.o libobjc.o libsound.o libpad.o libmath.o libxplod.o
+
+CFLAGS = -O2
+LINKER = -Xlinker -Map -Xlinker $(MAPFILE) -Xlinker -Ttext -Xlinker 80100000
+
+all			: $(PROG)
+
+$(PROG)	: $(OBJFILE) makefile
+			  $(CC) $(LINKER) -o main $(OBJFILE)
+			  $(info Note: )
+			  $(info Note: Make41 treats capital .C files as C++ files!)
+			  $(info Note: )
+
+main.o		: main.c     \
+			  libmain.h  \
+			  libdata.h  \
+			  libpad.h   \
+			  libmath.h  \
+			  libsound.h \
+			  libobjc.h
+
+libobjc.o	: libobjc.c  \
+			  libmain.h  \
+			  libobjc.h
+
+libsound.o	: libsound.c \
+			  libmain.h  \
+			  libsound.h \
+			  libdata.h
+
+libpad.o	: libpad.c   \
+			  libmain.h  \
+			  libpad.h
+
+libmath.o	: libmath.c  \
+			  libmain.h  \
+			  libmath.h
+
+libxplod.o  : libxplod.c  \
+			  libmain.h  \
+			  libmath.h  \
+			  libtmd.h   \
+			  libxplod.h
+
+clean:
+	rm -f $(EXEFILE)
+	rm -f $(MAPFILE)
+	rm -f $(PROG)	
+	rm -f *.o
+	rm -f *.bak
+	rm -f *.his
+	rm -f *.del
+	rm -f psx.exe
+	rm -f psx.iso
+	
+psx.exe: $(PROG)
+	del psx.exe
+	yarexe auto
+	upx --best psx.exe
+	
+run:	psx.exe		
+	nopsx psx.exe
+
+
+runiso:	psx.iso	
+	nopsx psx.iso
+	
+
+psx.iso: $(PROG)
+	del psx.exe	
+	yarexe auto	
+	@echo putting psx.exe into psx.iso
+# call cmd /C wincmd	 
+	yariso SCEA -
+	copy C:\psx3\sbin\yariso\psx.iso .
+	call nopsx psx.iso
+		
+
+minicons:	$(PROG)
+	call cmd /C wincmd minicons.exe auto
+                                                    
+noPS:	psx.exe	
+	echo sending psx.exe
+	dir psx.exe
+	#	call cmd /C wincmd mono C:\psx3\sbin\nops.exe /slow /exe psx.exe /m com1
+	call cmd /C wincmd nops.bat /slow /exe psx.exe /m
+	
+	
+Presentation:
+	echo launching browser, close broswer to return to eclipse
+	call "C:\Documents and Settings\NetYaroze\Desktop\NY-demos\survival\audfiles\Auditorium Presentation, August 28, 1997.html"	
+	
