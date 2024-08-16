@@ -1,0 +1,19 @@
+local dload cube.tmd  80090000
+local dload cube.tim  80090B00
+local dload slab.tmd  80094E00
+local dload slab.tim  80095000
+local dload robo.tmd  80099300
+local dload prop.tmd  8009A100
+local dload robo1.tim 8009A400
+local dload robo2.tim 8009A800
+local dload ship.tmd  8009BB00
+local dload ship.tim  8009C600
+local dload ball.tmd  800A8900
+local dload sfx.vh    800A8B00
+local dload sfx.vb    800AA400
+local dload sfx.seq   800EC100
+local load main.exe
+local echo sometimes the go command doesnt work
+local echo if so hit F4 enter the main.exe
+local echo and enter go again
+go 
