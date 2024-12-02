@@ -15,10 +15,6 @@ updated: 10th December, 1998.</a>
 Frederick Net Yaroze Member SCEA</a>
 <center>
 <h1>
-</h1></center>
-
-<center>
-<h1>
 NET YAROZE PROGRAMMING FAQ</h1></center>
 
 <hr width="40%">
@@ -1027,9 +1023,10 @@ internally and automatically by the libraries. The GPU has a queue of up
 to 64 linked lists (each of which can be any length). The commands <tt>ClearImage</tt>,
 <tt>LoadImage</tt>,
 <tt>StoreImage</tt>,
-and <tt>GsDrawOt</tt> each put
-<i>one</i> linked list on the queue. The
-length of the linked list is 1 for the <tt>Load</tt>/<tt>Store</tt>/<tt>Clear</tt>/<tt>MoveImage</tt>
+and
+<tt>GsDrawOt</tt> each put
+<i>one</i> linked list on the queue. The length
+of the linked list is 1 for the <tt>Load</tt>/<tt>Store</tt>/<tt>Clear</tt>/<tt>MoveImage</tt>
 functions, and is variable for <tt>GsDrawOT</tt>, depending on how many
 sprites or polygons you've put into the ordering table. The GPU constantly
 polls the queue and processes a linked list if one is available. This means
@@ -3938,6 +3935,75 @@ screen x,y
 <br>}
 <p>--SNIP-------------------------------------------------------------------
 <p>Contributed by Steve Hunt &lt;steve@itallnight.u-net.com>
+<p>Also
+<br>&nbsp;
+<br>&nbsp;
+<p>--SNIP-------------------------------------------------------------------
+<br>&nbsp;
+<p>s32 y3d_screen_pos(u32 node, u32 *x, u32 *y) // returns z
+<br>{
+<br>&nbsp;&nbsp;&nbsp; GsCOORDINATE2 *coordp;
+<br>&nbsp;&nbsp;&nbsp; MATRIX mat;
+<br>&nbsp;&nbsp;&nbsp; VECTOR v;
+<br>&nbsp;&nbsp;&nbsp; VECTOR pos;
+<br>&nbsp;&nbsp;&nbsp; s32 x,y,z;
+<p>&nbsp;&nbsp;&nbsp; s32 cartesianx1,cartesiany1,cartesianz1;
+<p>&nbsp;&nbsp;&nbsp; coordp = &amp;g_y3d_node_buff[node].coordinate;
+<p>&nbsp;&nbsp;&nbsp; // object coords
+<br>&nbsp;&nbsp;&nbsp; pos.vx =&nbsp; coordp->coord.t[0];
+<br>&nbsp;&nbsp;&nbsp; pos.vy =&nbsp; coordp->coord.t[1];
+<br>&nbsp;&nbsp;&nbsp; pos.vz =&nbsp; coordp->coord.t[2];
+<p>&nbsp;&nbsp;&nbsp; GsGetLs(coordp, &amp;mat); // traverses all coord's
+into one matrix
+<br>&nbsp;&nbsp;&nbsp; ApplyMatrixLV(&amp;mat, &amp;pos, &amp;v); // multiply
+mat the pos into v
+<p>#if 0 // debugging
+<br>&nbsp;&nbsp;&nbsp; cartesianx1 = (tmat.t[0]/SCREEN_PROJECT_NUMBER);
+<br>&nbsp;&nbsp;&nbsp; cartesiany1 = (tmat.t[1]/SCREEN_PROJECT_NUMBER);
+<br>&nbsp;&nbsp;&nbsp; cartesianz1 = (tmat.t[2]/SCREEN_PROJECT_NUMBER);
+<br>&nbsp;&nbsp;&nbsp; printf2("y3d_culled1 N:%d C %d,%d,%d \n",node, cartesianx1,cartesiany1,cartesianz1);
+<br>&nbsp;&nbsp;&nbsp; printf2("y3d_culled1 N:%d V %d,%d,%d \n",node, v.vx,
+v.vy, v.vz);
+<br>#endif
+<p>&nbsp;&nbsp;&nbsp; if(mat.t[2]) {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cartesianx1 = ( (SCREEN_PROJECT_NUMBER
+* v.vx) /&nbsp; mat.t[2] );
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cartesiany1 = ( (SCREEN_PROJECT_NUMBER
+* v.vy)&nbsp; / mat.t[2] );
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cartesianz1 = ( (SCREEN_PROJECT_NUMBER
+* v.vz)&nbsp; / mat.t[2] );
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //z = (mat.t[2]/SCREEN_PROJECT_NUMBER);
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //320X240 use half
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *x = cartesianx1 + 160;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *y = 120 + cartesiany1;
+// -Y is up so add
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp; printf2("y3d_culled2
+N:%d&nbsp; %d,%d,%d \n",node, cartesianx1,cartesiany1,cartesianz1);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp; printf2("y3d_culled3
+N:%d&nbsp; %d,%d,%d \n",node, x,y,z);
+<p>&nbsp;&nbsp;&nbsp; } else {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 2;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;
+<br>&nbsp;&nbsp;&nbsp; //320X240
+<br>&nbsp;&nbsp;&nbsp; if( x &lt; 320 &amp;&amp; y &lt; 240 &amp;&amp;&nbsp;
+x > 0 &amp;&amp; y > 0 &amp;&amp; cartesianz1 > -1)
+<br>&nbsp;&nbsp;&nbsp; {
+<br>&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp; printf2("======== N:%d&nbsp;
+%d,%d,%d \n",node, x,y,cartesianz1);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return cartesianz1;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp; else
+<br>&nbsp;&nbsp;&nbsp; {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // printf2("y3d_culled CULLED
+N:%d&nbsp; %d,%d,%d \n",node, x,y,z);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -1;
+<br>&nbsp;&nbsp;&nbsp; }
+<p>}
+<p>--SNIP-------------------------------------------------------------------
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
 <br>&nbsp;
 <br>&nbsp;
 <p>---------------------------------------------------------------------------
