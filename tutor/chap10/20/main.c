@@ -227,7 +227,7 @@ void InitAll( void )
 
 	 
 
-	 
+	 out_buf = 0;
 	 	
 
 	 ResetGraph(0);
@@ -337,7 +337,11 @@ void UpdateScreen( void )
     VSync(0);    
 
     GsSwapDispBuff();
-    
+
+	 // Note: Only the first OT is cleared!! 
+	 // As mentioned in Re: Split screen?   Date:  Mon, 15 Dec 1997 12:02:39 -0000
+	// A main loop something like this should do the trick. Remember to only add GsSortClear to the first ordering table.
+	 // Stuart
     GsSortClear(0x0, 0x0, 0x0, &wot[out_buf]);		
 	
 
