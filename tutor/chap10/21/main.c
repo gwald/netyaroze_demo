@@ -341,9 +341,7 @@ void UpdateScreen( void )
 
 	 
 	 // Note: Only the first OT is cleared!! 
-	 // As mentioned in Re: Split screen?   Date:  Mon, 15 Dec 1997 12:02:39 -0000
-	// A main loop something like this should do the trick. Remember to only add GsSortClear to the first ordering table.
-	 // Stuart
+	 // This clears the whole screen because it's called BEFORE the screen is "split".
     GsSortClear(0x0, 0x0, 0x0, &wot[out_buf]);		
 	
 
