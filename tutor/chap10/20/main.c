@@ -338,8 +338,9 @@ void UpdateScreen( void )
 
     GsSwapDispBuff();
 
-	 // Note: Only the first OT is cleared!! 
-	// This clears the whole screen because it's called BEFORE the screen is "split".
+	 // Note: Only called once by the first split screen.
+	 // GsSortClear clears the whole screen (actual VRAM) with no regards to Offsets or Ordering Table it's called in.
+	// So calling GsSortClear again for the 2nd screen would just clear the whole screen again, removing the 1st split screen draw calls.
     GsSortClear(0x0, 0x0, 0x0, &wot[out_buf]);		
 	
 
